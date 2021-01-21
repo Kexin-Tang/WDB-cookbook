@@ -38,10 +38,11 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 ## S3&4&5: HTML
 <a href="https://developer.mozilla.org/en-US/docs/Web/Reference">MDN</a> is a very useful website for searching HTML elements and their usages.
 
+###### Code for HTML
 - [header, paragraph, list, img, anchor](./HTML/HTML0.html)
 - [block vs inline](./HTML/HTML1.html)
 
-***Notice:***
+###### Notice:
 1. In documents and files, programmers are supposed to contain several elements even though these elements do not affect representations in the page.
 ```html
 <!DOCTYPE html>
