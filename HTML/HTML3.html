@@ -85,6 +85,22 @@
         <textarea name="story" id="story" cols="40" rows="10" placeholder="write something!"></textarea><br>
         <button>Record</button>
     </form>
+
+    <!--use "required" to avoid blank text-->
+    <!--also have some build-in validations, such as email and url-->
+    <!---can use regex to set validations-->
+    <h2>Validate the form</h2>
+    <form action="/donothing">
+        <p>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required>
+        </p>
+        <p>
+            <label for="url">URL</label>
+            <input type="url" name="url" id="url" required>
+        </p>
+        <button>Validate</button>
+    </form>
 </body>
 
 </html>
