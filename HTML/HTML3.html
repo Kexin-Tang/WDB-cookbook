@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+</head>
+
+<body>
+    <h1>Concepts</h1>
+    <h2>&lt;form&gt;</h2>
+    <p>
+        The <b>form</b> element represents a document section containing interactive controls for submitting
+        information.
+        <br>
+        The <i>action</i> attribute specifies WHERE the form data should be sent.<br>
+        The <i>method</i> attribute specifies WHICH http method should be used.
+    </p>
+    <h2>&lt;input&gt;</h2>
+    <p>
+        The input element is used to create a variety of different form controls.<br>
+        The <i>type</i> attribute is where the magic happens. Changing <i>type</i> alters the input's behavior and
+        appearance.
+    </p>
+    <h2>&lt;label&gt;</h2>
+    <p>
+        Use label to link some text with buttons.
+    </p>
+    <h2>&lt;button&gt;</h2>
+    <p>
+        Set buttton's <i>type</i> to achieve different functions through the &lt;form&gt;'s <i>action</i> attribute.
+    </p>
+
+    <h1>Practice</h1>
+    <h2>Submit a form</h2>
+    <form action="/donothing">
+        <p>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter ID">
+        </p>
+        <p>
+            <label for="pwd">Username</label>
+            <input type="password" id="pwd" name="pwd" placeholder="Enter password">
+        </p>
+        <p>
+            <!--for radio, you can just choose one of them-->
+            <!--they should have the same "name", different "id"-->
+            <!--http will transfer radio=(value is None)?"on": "value"-->
+            <label for="male">Male</label>
+            <input type="radio" name="sex" id="male" value="male">
+            <label for="female">Female</label>
+            <input type="radio" name="sex" id="female" value="female">
+            <label for="unknown">Unknown</label>
+            <input type="radio" name="sex" id="unknown" value="unknown">
+        </p>
+        <p>
+            <label for="size">Size</label>
+            <select name="sz" id="size">
+                <option value="">--Select your size--</option>
+                <option value="s">S</option>
+                <option value="m">M</option>
+                <option value="l">L</option>
+                <option value="other">Other</option>
+            </select>
+        </p>
+        <p>
+            <label for="volumn">Volumn</label>
+            <input type="range" name="vol" id="volumn" min="0" max="10" step="2">
+        </p>
+        <button type="submit">Submit!</button>
+    </form>
+    <h2>Search in Google</h2>
+    <!--the "action" in <form> should indicates the destination after clicking the button-->
+    <form action="http://www.google.com/search">
+        <label for="question">Click button for searching</label><br>
+        <!--the "name" should consist with the web's url-->
+        <!--for example, goole' search url is like "google.com/search?q=xxx"-->
+        <input type="text" name="q" id="question">
+        <button>Search</button>
+    </form>
+    <h2>Text area</h2>
+    <form action="/donothing">
+        <label for="story">Write your story</label><br>
+        <textarea name="story" id="story" cols="40" rows="10" placeholder="write something!"></textarea><br>
+        <button>Record</button>
+    </form>
+</body>
+
+</html>
