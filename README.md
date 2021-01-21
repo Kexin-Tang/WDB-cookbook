@@ -38,6 +38,8 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 ## S3&4&5: HTML
 <a href="https://developer.mozilla.org/en-US/docs/Web/Reference">MDN</a> is a very useful website for searching HTML elements and their usages.
 
+- [header, paragraph, list, img, anchor](./HTML/HTML0.html)
+
 ***Notice:***
 1. In documents and files, programmers are supposed to contain several elements even though these elements do not affect representations in the page.
 ```html
@@ -54,4 +56,13 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 ```
 2. In practice, please use <b>semantic elements</b>, such as &lt;header&gt;, &lt;footer&gt;, &lt;section&gt;, &lt;main&gt;, etc, rather than <b>&lt;div&gt;</b>.
 3. <a href="https://docs.emmet.io/cheat-sheet/">Emmet</a> contains lots of shortcut key commands.
+```html
+<!--For example, when enter "h1>p"-->
+<h1>
+    <p>
+    </p>
+</h1>
+<!--"p+a"-->
+<p><a></a></p>
+```
 4. 
