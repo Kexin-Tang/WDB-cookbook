@@ -35,14 +35,14 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 
 7. Internet can olny transfer the box which contains HTML, CSS, JS and other codes. The web page presented to you is attributed to the browser (Chrome, Firefox, IE, ...) processing the code accordingly.
 ---
-## S3&4&5: HTML
+## S3-5: HTML
 <a href="https://developer.mozilla.org/en-US/docs/Web/Reference">MDN</a> is a very useful website for searching HTML elements and their usages.
 
 ###### Code for HTML
 - [header, paragraph, list, img, anchor](./HTML/HTML0.html)
 - [block vs inline](./HTML/HTML1.html)
 - [table](./HTML/HTML2.html)
-- [form](./HTML/HTML3.html)
+- [form](HTML/HTML3.html)
 
 ###### Notice:
 1. In documents and files, programmers are supposed to contain several elements even though these elements do not affect representations in the page.
@@ -69,4 +69,7 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 <!--"p+a"-->
 <p><a></a></p>
 ```
-
+---
+## S6-13 CSS
+###### Code for CSS
+- [Selector](./CSS/Selector.css)
