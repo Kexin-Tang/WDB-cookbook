@@ -1,0 +1,33 @@
+/*Universal Selector*/
+
+
+/*Element Selector*/
+body {
+    background-color: #f1faee;
+}
+
+p {
+    color: #457b9d;
+}
+
+h1, h2 {
+    color: #b5179e;
+}
+
+span {
+    background-color: #e63946;
+}
+
+/*ID Selector*/
+#p2 {
+    color: #e76f51;
+}
+
+/*Class Selector*/
+.funny {
+    color: #fffffc;
+}
+
+.sad {
+    color: #b5838d;
+}
