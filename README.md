@@ -73,3 +73,19 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 ## S6-13 CSS
 ###### Code for CSS
 - [Selector](./CSS/Selector.css)
+- [Box](./CSS/Box.css)
+
+###### Notice:
+1. CSS is a cascade language, which means the order in .css file will affect the page.
+```css
+/* final color is blue */
+p {
+    color: red;
+}
+
+p {
+    color: blue;
+}
+```
+2. Specificity is how the browser decides which rules to apply when multiple rules could apply to the same element.
+> !import >> ID > Class > Element

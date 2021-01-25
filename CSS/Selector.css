@@ -10,6 +10,10 @@ p {
     color: #457b9d;
 }
 
+a {
+    text-decoration: none;
+}
+
 h1, h2 {
     color: #b5179e;
 }
@@ -28,6 +32,35 @@ span {
     color: #fffffc;
 }
 
-.sad {
-    color: #b5838d;
+/*Descendent Selector*/
+/*Adjacent Descendent Selector*/
+h2 + p {
+    font-weight: bold;
+}
+/*Direct-Descendent Selector*/
+p > a {
+    font-weight: normal;
+}
+
+/*Attribute Selector*/
+span[class="sad"] {
+    color: #457b9d;
+}
+
+/*Pseudo Class*/
+p:nth-of-type(2n) {
+    background-color: #eddcd2;
+}
+
+li:nth-of-type(2) {
+    font-weight: 800;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/*Pseudo Element*/
+p::first-letter {
+    font-size: 40px;
 }
