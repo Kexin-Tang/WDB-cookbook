@@ -1,0 +1,23 @@
+.s1 {
+    font-size: 20px;
+}
+
+.s1 h2 {
+    font-size: 2em;
+}
+
+.s1 ul {
+    font-size: 1.5em;
+}
+
+.s2 {
+    font-size: 20px;
+}
+
+.s2 h2 {
+    font-size: 2rem;
+}
+
+.s2 ul {
+    font-size: 1.5rem;
+}

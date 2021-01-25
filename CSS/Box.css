@@ -1,0 +1,40 @@
+/*Block*/
+#h1 {
+    width: 200px;
+    height: 50px;
+    border: 5px solid #2f3e46;
+    background-color: #84a98c;
+    margin: 100px;
+    padding: 50px;
+    border-radius: 50px;
+}
+
+/*Inline*/
+#inline {
+    width: 200px;   /*"Inline" does not have 'width' or 'height'*/
+    height: 50px;
+
+    background-color: #ef476f;
+    color: #fffffc;
+
+    margin: 20px;   /*"Inline" only has horizontal margin*/
+    padding: 20px;
+}
+
+#inline2block {
+    width: 200px;
+    height: 40px;
+    display:block;
+    background-color: #caffbf;
+}
+
+h3 {
+    display: inline;
+}
+
+div {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    background-color: #84a98c;
+}

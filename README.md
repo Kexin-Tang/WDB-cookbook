@@ -74,9 +74,10 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 ###### Code for CSS
 - [Selector](./CSS/Selector.css)
 - [Box](./CSS/Box.css)
+- [em & rem](./CSS/em_rem.css)
 
 ###### Notice:
-1. CSS is a cascade language, which means the order in .css file will affect the page.
+1. CSS is a **cascade** language, which means the order in .css file will affect the page.
 ```css
 /* final color is blue */
 p {
@@ -87,5 +88,19 @@ p {
     color: blue;
 }
 ```
-2. Specificity is how the browser decides which rules to apply when multiple rules could apply to the same element.
+2. **Specificity** is how the browser decides which rules to apply when multiple rules could apply to the same element.
 > !import >> ID > Class > Element
+3. In CSS, box is an import concept! Box has three concepts which are **Margin**, **Padding** and **Border**.<br>
+![CSS.png](https://i.loli.net/2021/01/25/4w8DIOdP1pTLHhg.png)
+4. Inline, Block and Inline-Block
+> * inline -- *only has horizontal margin, can not set width and height*
+> * block -- *has horizontal and vertical margins, can set width and height*
+> * inline-block -- *combine inline and block, which means it displaying like inline elements, but every element is a block*
+5. px Vs em Vs rem
+> * px -- ***Absolute scale**. It will not change with other parts' changes*
+> * em & rem -- ***Relative scale**.*
+>   * em: 
+>       * With font-size, 1em equals the font-size of the parent. 2em is twice the font-size of parent. 
+>       * With other properties, 1em is equal to the computed font-size of the element itself.
+>   * rem:
+>       * Relative to the root html element's font-size. If the root font-size is 20px, 1 rem is always 20px, 2rem is always 40px.

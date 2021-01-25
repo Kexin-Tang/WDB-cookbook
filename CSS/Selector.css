@@ -33,6 +33,10 @@ span {
 }
 
 /*Descendent Selector*/
+form button {
+    background-color: teal;
+}
+
 /*Adjacent Descendent Selector*/
 h2 + p {
     font-weight: bold;
