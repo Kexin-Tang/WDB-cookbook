@@ -75,6 +75,12 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 - [Selector](./CSS/Selector.css)
 - [Box](./CSS/Box.css)
 - [em & rem](./CSS/em_rem.css)
+- [opacity & alpha](CSS/opacity_rgba.css)
+- [position](./CSS/position.css)
+- [transition](./CSS/transitions.css)
+- [transform](./CSS/transform.css)
+- [fancy button](./CSS/fancy_button.css)
+- [background img](./CSS/img_background.css)
 
 ###### Notice:
 1. CSS is a **cascade** language, which means the order in .css file will affect the page.
@@ -104,3 +110,7 @@ p {
 >       * With other properties, 1em is equal to the computed font-size of the element itself.
 >   * rem:
 >       * Relative to the root html element's font-size. If the root font-size is 20px, 1 rem is always 20px, 2rem is always 40px.
+6. Transition: [property name, duration, timing function, delay], [ ... ]
+
+
+---

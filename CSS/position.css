@@ -1,0 +1,60 @@
+div {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    background-color: #3e1f47;
+    border: 2px solid black;
+    border-radius: 30%;
+    margin: 10px;
+}
+
+span {
+    color: #fffff0;
+}
+
+#middle {
+    background-color: #006466;
+}
+
+/*Static position can not change the position*/
+#static #middle {
+    position: static;
+    /*any other position controllors will be disable*/
+    top: 100px;
+    left: 200px;
+}
+
+/*Relative position will set position relative to other elements*/
+#relative #middle {
+    position: relative;
+    top:50px;
+    left:50px;
+}
+
+/*Absolute position will remove the element from the flow, 
+  and set position relative to the whole page or relative to parent position*/
+#absolute #middle {
+    position: absolute;
+    top: 700px;
+    left: 300px;
+}
+
+/*
+#absolute {
+    position: relative;
+}
+#absolute #middle {
+    position: absolute;
+    left:100px;
+    top:100px;
+}
+*/
+
+/*Fixed position will set position relative to current view page
+  which means it will move with the page in a fixed position*/
+#fixed #middle {
+    position: fixed;
+    top: 500px;
+    left: 400px;
+}
+

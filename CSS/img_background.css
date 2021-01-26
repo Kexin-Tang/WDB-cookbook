@@ -1,0 +1,20 @@
+h1 {
+    text-align: center;
+    padding-top: 150px;
+    font-size: 80px;
+    color: #fffffc;
+}
+
+body {
+    background-image: url("../imgs/greenland.jpg");
+    background-size: cover;
+}
+
+input {
+    border-radius: 15px / 15px;
+    width: 500px;
+    height: 30px;
+    border-color: #fffffc;
+    display: block;
+    margin: auto;
+}
