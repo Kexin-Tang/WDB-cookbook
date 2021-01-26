@@ -81,6 +81,8 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 - [transform](./CSS/transform.css)
 - [fancy button](./CSS/fancy_button.css)
 - [background img](./CSS/img_background.css)
+- [flexbox](./CSS/flexbox.css)
+
 
 ###### Notice:
 1. CSS is a **cascade** language, which means the order in .css file will affect the page.
@@ -111,6 +113,7 @@ p {
 >   * rem:
 >       * Relative to the root html element's font-size. If the root font-size is 20px, 1 rem is always 20px, 2rem is always 40px.
 6. Transition: [property name, duration, timing function, delay], [ ... ]
-
+7. Flexbox is a one-dimensional layout method for laying out items in rows or columns. Flexbox allows us to distribute space dynamically across elements of an unknown size.
+8. Flex has two axis called *main axis* & *cross axis*, set property 'flex-direction' to set the main axis.
 
 ---

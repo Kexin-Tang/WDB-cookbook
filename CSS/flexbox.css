@@ -1,0 +1,46 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+
+#container {
+    width: 90%;
+    height: 500px;
+    margin: 0 auto;
+    background-color: #f1faee;
+    border: 3px dashed black;
+    display: flex;
+
+    flex-direction: row;
+    /*flex-direction: row-reverse;*/
+    /*flex-direction: column;*/
+    /*flex-direction: column-reverse;*/
+
+    /*
+        justify-content is focus on main axis(can be horizontal or vertical)
+    */
+    /*justify-content: center;*/
+    justify-content: space-around;
+    /*justify-content: space-between;*/
+
+    flex-wrap: wrap;
+
+    /*
+        align-items is focus on cross axis
+    */
+    /*align-items: flex-start;*/
+    /*align-items: center;*/
+    align-items: baseline;  /*will align the text*/
+}
+
+#container div {
+    width: 150px;
+    height: 150px;
+    color: #ffffcc;
+    font-size: 4em;
+    text-align: center;
+}
