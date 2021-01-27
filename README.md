@@ -84,7 +84,7 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 - [flexbox](./CSS/flexbox.css)
 
 ###### Proj
-- [PriceTable](./Proj/)
+- [PriceTable](./Proj/PriceTable)
 
 
 ###### Notice:
