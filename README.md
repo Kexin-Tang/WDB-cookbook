@@ -113,7 +113,16 @@ p {
 >   * rem:
 >       * Relative to the root html element's font-size. If the root font-size is 20px, 1 rem is always 20px, 2rem is always 40px.
 6. Transition: [property name, duration, timing function, delay], [ ... ]
-7. Flexbox is a one-dimensional layout method for laying out items in rows or columns. Flexbox allows us to distribute space dynamically across elements of an unknown size.
-8. Flex has two axis called *main axis* & *cross axis*, set property 'flex-direction' to set the main axis.
+7. [Flexbox](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html) 
+> * is a one-dimensional layout method for laying out items in rows or columns. Flexbox allows us to distribute space dynamically across elements of an unknown size.
+> * Flex has two axis called *main axis* & *cross axis*, set property 'flex-direction' to set the main axis.
+> ![flex-direction](https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071004.png)
+> * Difference between *align-content* and *align-items* -- *align-items* focus on **one-row** situation while *align-content* focus on **multi-row** situation.
+> ![align-items](https://www.w3.org/TR/css-flexbox-1/images/flex-align.svg)
+> ![align-content](https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071012.png)
+> * Setting *flex-basis* rather than *width* or *height* will ignore the parameters (width/ height) in the main axis direction, so that when changing the main axis direction, there is no need to adjust the corresponding width or height.
+8. Responsive Design -- show different pages according to different devices.<br>
+9. Media Query -- allow us to modify our styles depending on particular parameters like screen width or device type.
+10. 
 
 ---
