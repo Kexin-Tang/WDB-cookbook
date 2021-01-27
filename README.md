@@ -70,7 +70,7 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 <p><a></a></p>
 ```
 ---
-## S6-13 CSS
+## S6-13: CSS
 ###### Code for CSS
 - [Selector](./CSS/Selector.css)
 - [Box](./CSS/Box.css)
@@ -82,6 +82,9 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 - [fancy button](./CSS/fancy_button.css)
 - [background img](./CSS/img_background.css)
 - [flexbox](./CSS/flexbox.css)
+
+###### Proj
+- [PriceTable](./Proj/)
 
 
 ###### Notice:
@@ -123,6 +126,12 @@ p {
 > * Setting *flex-basis* rather than *width* or *height* will ignore the parameters (width/ height) in the main axis direction, so that when changing the main axis direction, there is no need to adjust the corresponding width or height.
 8. Responsive Design -- show different pages according to different devices.<br>
 9. Media Query -- allow us to modify our styles depending on particular parameters like screen width or device type.
-10. 
+```css
+@media (case) {
+    selector {
+        ...
+    }
+}
+```
 
 ---
