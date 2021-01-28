@@ -11,6 +11,56 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
+        <button class="btn btn-outline-light" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                height="1em" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                <path
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+            </svg> HOME</button>
+        <!-- data-target -> show what content, should link to navbar-collapse -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <!--This is the icon-->
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li>
+                    <a href="#news" class="nav-item nav-link">News</a>
+                </li>
+                <li>
+                    <a href="#academic" class="nav-item nav-link">Academic</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#department" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Department
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#engineer">Engineer</a>
+                        <a class="dropdown-item" href="#science">Science</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#more">Learn More...</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#research" class="nav-item nav-link">Research</a>
+                </li>
+                <li>
+                    <a href="#contace" class="nav-item nav-link">Contact</a>
+                </li>
+            </ul>
+
+            <form class="form-inline ml-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-warning" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                        height="1em" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg> Search</button>
+            </form>
+        </div>
+    </nav>
     <div class="container">
         <h1 class="display-2">There are Components!</h1>
         <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt voluptatum repudiandae neque
@@ -107,6 +157,82 @@
                 eligendi id sint magnam alias velit ea maiores?
             </p>
         </div>
+        <h2 class="display-4">Align Property</h2>
+        <div class="row align-items-center">
+            <p class="col bg-danger">Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto
+                voluptas
+                laudantium
+                voluptatum consequatur quo eveniet expedita soluta porro maiores quam nihil dolore, voluptatem corrupti
+                sapiente quisquam accusantium in. Dicta, veritatis!
+            </p>
+            <p class="col bg-warning">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed hic
+                eligendi,
+                aliquam ipsa
+                reprehenderit vero dicta natus, aspernatur error quia nobis consequuntur rem porro sunt excepturi
+                nostrum nulla veniam a.
+            </p>
+            <p class="col bg-success">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab repellat
+                commodi
+                provident doloribus accusamus vero ullam, quos nulla, similique dolorum dignissimos nisi, unde nostrum
+                nobis? Ipsa hic maiores nam. Velit.
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quo ipsam in suscipit, quibusdam repudiandae
+                molestias nostrum tempore. Consequuntur alias dolores magnam excepturi, autem distinctio nemo inventore,
+                odio repellendus deserunt doloribus?
+            </p>
+            <p class="col bg-primary">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem,
+                quidem aliquid eaque magnam sed iste voluptatibus nihil similique. Soluta porro hic reprehenderit
+                eligendi id sint magnam alias velit ea maiores?
+            </p>
+        </div>
+        <h2 class="display-4">Form</h2>
+        <form action="#none">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email address">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city" placeholder="Enter the city">
+                </div>
+                <div class="form-group col-md-3 col-6">
+                    <label for="state">State</label>
+                    <input type="text" class="form-control" id="state" placeholder="Enter the state">
+                </div>
+                <div class="form-group col-md-3 col-6">
+                    <label for="zip">Zip</label>
+                    <input type="text" class="form-control" id="zip" placeholder="Enter the zip">
+                </div>
+            </div>
+            <button class="btn btn-outline-primary">Submit</button>
+        </form>
+
+        <h2 class="display-4">Input Group</h2>
+        <div class="row">
+            <div class="input-group mb-3 col-md-6">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                    aria-describedby="basic-addon1">
+            </div>
+
+            <div class="input-group mb-3 col-md-6">
+                <input type="text" class="form-control" placeholder="Recipient's username"
+                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2">@example.com</span>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

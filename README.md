@@ -82,7 +82,7 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 - [fancy button](./CSS/fancy_button.css)
 - [background img](./CSS/img_background.css)
 - [flexbox](./CSS/flexbox.css)
-- [BootStrap](./CSS/bootstrap.css)
+- [BootStrap](./HTML/bootstrap.html)
 
 ###### Proj
 - [PriceTable](./Proj/PriceTable)
@@ -134,7 +134,7 @@ p {
     }
 }
 ```
-10. [BootStrap](https://getbootstrap.com/docs/4.5/getting-started/introduction/) is a package which help programmer to save their time by providing various templates.
+10. [BootStrap](https://getbootstrap.com/docs/4.5/getting-started/introduction/) is a package which help programmer to save their time by providing various templates. For video instructions, you can click [here](https://www.udemy.com/course/the-web-developer-bootcamp/learn/lecture/21917862#overview)!
 
 ---
 
