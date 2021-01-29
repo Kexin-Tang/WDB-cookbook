@@ -86,6 +86,7 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 
 ###### Proj
 - [PriceTable](./Proj/PriceTable)
+- [Museum of Candy](./Proj/Museum_of_Candy)
 
 
 ###### Notice:
