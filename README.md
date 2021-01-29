@@ -44,7 +44,7 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 - [table](./HTML/HTML2.html)
 - [form](HTML/HTML3.html)
 
-###### Notice:
+###### Notes:
 1. In documents and files, programmers are supposed to contain several elements even though these elements do not affect representations in the page.
 ```html
 <!DOCTYPE html>
@@ -89,7 +89,7 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 - [Museum of Candy](./Proj/Museum_of_Candy)
 
 
-###### Notice:
+###### Notes:
 1. CSS is a **cascade** language, which means the order in .css file will affect the page.
 ```css
 /* final color is blue */
@@ -140,5 +140,72 @@ p {
 ---
 
 ## S14-23: JavaScript
+
+###### Code for JS
+
+###### Proj
+
+###### Notes:
+1. JS has several primative types: **bigint**, **string**, **boolean**, **null**, **number**, **undefined** and **symbol**
+2. NaN is a numeric value that represents something that is not a number
+```js
+0/0 // NaN
+1+NaN
+```
+3. Value setting
+```js
+let Name = Value;       // normal
+const Name = Unchanged; // cannot be changed
+var Name = Value;       // old version, not recommend!
+```
+4. String
+```js
+let name = "Ke-Hsin";
+name[1]         // "e"
+name+"Tang"     // Ke-HsinTang
+
+// Property
+name.length     // 7
+
+// Method
+let userInput = '  Hello woRld ';
+
+userInput.toUpperCase()     // '  HELLO WORLD '
+
+userInput.trim()            // 'Hello woRld'
+
+userInput.indexof('Hel')    // the first fit -- 3
+userInput.indexof('abc')    // not found -- -1
+
+userInput.slice(2, 7)       // 'Hello'
+userInput.slice(10)         // 'Rld '
+userInput.slice(-4, -1)     // 'Rld'
+
+userInput.replace('Rld', 'rld').trim()  // 'Hello world'
+
+// Template Literals
+`My name is ${firstName} ${lastName} ! I have $${3+4}.`
+```
+5. Null & Undefined
+> * null -- Intentional absence of some value
+> * undefined -- do not have an assigned value
+> ```js
+> let userName = null;  // null
+> let a;                // undefined
+> ```
+6. double equals Vs triple equals
+> * ==
+>   * Checks for equality of value, but not equality of type. This can lead to some unexpected results!
+> * ===
+>   * Checks for equality of value and equality of type.
+> ```js
+> 0 == false;           // true
+> null == undefined;    // true
+> 1 == '1';             // true
+> 
+> 0 === false;          // false
+> 1 === '1';            // false
+> ```
+7. 
 
 ---
