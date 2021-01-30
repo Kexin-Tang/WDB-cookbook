@@ -206,6 +206,87 @@ userInput.replace('Rld', 'rld').trim()  // 'Hello world'
 > 0 === false;          // false
 > 1 === '1';            // false
 > ```
-7. 
+7. Console, Alert & Prompt
+```js
+console.log("I am a log")   // I am a log
+console.error('Error!')
+console.warn('Warning!')
+
+alert('Alert in the web page')
+
+let num = prompt("Enter a number")
+```
+8. False values
+> * false
+> * 0
+> * ""
+> * null
+> * undefined
+> * NaN
+9. Array *(Notice the difference between the **in-place** methods and other methods!)*
+> * push/pop & shift/unshift
+> ```js
+> let num = [1,2]
+> num.push(3,4);  // [1,2,3,4], in-place
+> num.pop();      // [1,2,3], in-place
+> num.shift();    // [2,3], in-place
+> num.unshift(1); // [1,2,3], in-place
+> ```
+> * concat & includes & indexOf & reverse
+> ```js
+> let num1 = [1,2]
+> let num2 = [3,4]
+> let num = num1.concat(num2);   // num = [1,2,3,4], not in-place 
+> // not in-place
+> num.includes(100);  // false
+> num.includes(1);    // true
+> 
+> // not in-place
+> num.indexOf(2);     // 1
+> num.indexOf(100);   // -1
+> 
+> num.reverse();      // [4,3,2,1], in-place
+> ```
+> * slice & splice
+> ```js
+> let colors = ['red', 'blue', 'purple', 'white']
+> 
+> // not in-place
+> let part1 = colors.slice(2);      // ['purple', 'white']
+> let part2 = colors.slice(0,2);    // ['red', 'blue']
+> 
+> // in-place
+> // splice(index, ?deleteNum, ...item)
+> let deleteTwo = colors.splice(-1,2);              // colors=['red','blue']            & deleteTwo=['purple', 'white']
+> let deleteZero = colors.splice(1,0,'green');      // colors=['red','green','blue']    & deleteZero=[] 
+> let deleteOne = colors.splice(0, 1, 'black');     // colors=['black','green','blue']  & deleteOne=['red']
+> ```
+> * sort
+> ```js
+> let num = [100,5,23,7,0];
+> num.sort();   // [0,5,7,23,100], in-place
+> ```
+10. Due to ***Reference*** and ***Address***, you should pay attention to the equality between two arrays.
+```js
+let num1 = [1,2,3]
+let num2 = [1,2,3]
+
+// Although they look the same, num1 and num2 store in different places (addresses).
+// And === or == will compare their addresses
+num1 === num2;  // false
+num1 == num2;   // false
+
+// In this case, numCopy is a reference of num1, they share the same address.
+let numCopy = num1
+numCopy === num1;   // true
+num1.pop();     // num1 & numCopy = [1,2]
+```
+11. **Const Array** is an array that cannot be re-assigned, but it can be changed.
+```js
+const num = [1,2,3];
+num.push(4);    // it's ok, num=[1,2,3,4], no address is changed.
+num = [5,6];    // error! [5,6] has a different address, you cannot assign an new address to a const.
+```
+
 
 ---
