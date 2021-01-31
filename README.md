@@ -146,8 +146,8 @@ p {
 ###### Proj
 
 ###### Notes:
-1. JS has several primative types: **bigint**, **string**, **boolean**, **null**, **number**, **undefined** and **symbol**
-2. NaN is a numeric value that represents something that is not a number
+1. JS has several primative types: `bigint`, `string`, `boolean`, `null`, `number`, `undefined` and `symbol`.
+2. `NaN` is a numeric value that represents something that is not a number
 ```js
 0/0 // NaN
 1+NaN
@@ -266,7 +266,7 @@ let num = prompt("Enter a number")
 > let num = [100,5,23,7,0];
 > num.sort();   // [0,5,7,23,100], in-place
 > ```
-10. Due to ***Reference*** and ***Address***, you should pay attention to the equality between two arrays.
+1.  Due to `Reference` and `Address`, you should pay attention to the equality between two arrays.
 ```js
 let num1 = [1,2,3]
 let num2 = [1,2,3]
@@ -281,12 +281,47 @@ let numCopy = num1
 numCopy === num1;   // true
 num1.pop();     // num1 & numCopy = [1,2]
 ```
-11. **Const Array** is an array that cannot be re-assigned, but it can be changed.
+11. `Const Array` is an array that cannot be re-assigned, but it can be changed.
 ```js
 const num = [1,2,3];
 num.push(4);    // it's ok, num=[1,2,3,4], no address is changed.
 num = [5,6];    // error! [5,6] has a different address, you cannot assign an new address to a const.
 ```
+12. Object -- consist with key-value pairs, just like *dict* in Python.
+```js
+// let obj = { key: value }
+let stu = {name:"tom", age:18, motto:"my work is in my heart", favorate:['bike', 'game']}
 
+let name = stu["name"]; // "tom"
+let motto = stu[motto]; // error
+let age = stu.age       // 18
+```
+```js
+let years = {2000:'good', 2020:'bad'};
+let birth = 2000;
+
+let y1 = years["2000"]; // good
+let y2 = years[2020];   // bad
+let y3 = years.2000;    // error
+let y4 = years."2020";  // error
+let y5 = years[birth];  // good
+let y6 = years.birth;   // error
+```
+> All keys will be converted into *string* except symbol keys.
+13. `for(value of iterable)` can be used to iterate arrays, maps or other type **except objects** (Notice: IE doesn't support)
+14. `for(key in objects)` can be used to iterate an object, and get the keys.
+```js
+let stu = {'tom':100, 'jack':85};
+for(let name in stu)
+{
+    console.log(`${name} has score: ${stu.name}`);
+}
+
+console.log(Object.keys(stu));      // ['tom','jack']
+console.log(Object.values(stu));    // [100,85]
+console.log(Object.entries(stu));   // [['tom',100], 
+                                    //  ['jack',85]]
+```
+15. 
 
 ---
