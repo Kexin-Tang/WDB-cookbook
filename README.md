@@ -142,8 +142,8 @@ p {
 ## S14-23: JavaScript
 
 ###### Code for JS
-
-###### Proj
+- [Basic syntax](./JavaScript/todo.js)
+- [Callbacks & Array Methods](./JavaScript/callbacks.js)
 
 ###### Notes:
 1. JS has several primative types: `bigint`, `string`, `boolean`, `null`, `number`, `undefined` and `symbol`.
@@ -322,6 +322,86 @@ console.log(Object.values(stu));    // [100,85]
 console.log(Object.entries(stu));   // [['tom',100], 
                                     //  ['jack',85]]
 ```
-15. 
+15. Function
+```js
+// function defination
+function add(x, y){
+    return x+y;
+}
+// function expression
+const mul = function (x,y){
+    return x*y;
+}
+```
+16. Scope -- `Function`, `Block` & `Lexical`
+> * `function` & `block` scopes are the same as other languages like Python and C++
+> * `lexical` scope is very different. It can access its outter variables.
+> ```js
+> // the `print` function can run successfully due to lexical property.
+> function print(){
+>   let heros = ['spiderman', 'ironman']
+>   function lexical(){
+>       for(let hero of heros){
+>           console.log(hero)
+>       }
+>   }
+>   lexical()
+> }
+> ```
+17. Higher order functions -- functions can accept other functions as arguments, or return functions
+```js
+function executeFunc(func, times){
+    for(let i=0; i<times; i++){
+        func();
+    }
+}
+
+function hello(){
+    console.log("hello world")
+}
+
+executeFunc(hello(), 2);
+```
+```js
+function isBetweenFunc(min, max){
+    return function(num){
+        return num>=min && num<=max;
+    }
+}
+const isBetween1 = isBetweenFunc(10, 50);
+isBetween1(30);  // true
+
+const isBetween2 = isBetweenFunc(1, 5);
+isBetween1(30);  // false
+```
+18. **Method** -- we can add functions as properties on objects.
+```js
+const math = {
+    mul: function(x,y){return x*y},
+    div: function(x,y){return x/y},
+    add: function(x,y){return x+y},
+    min: function(x,y){return x-y}
+}
+
+math.add(1,1);  // 2
+```
+19. **this** -- key word for accessing object's other key-value pairs
+```js
+let cat = {
+    name: 'bobo',
+    sex: 'female',
+    info: function (){console.log(`${this.name} says meow`)}
+}
+```
+20. **try-catch**
+```js
+try{
+    // something may be wrong
+} catch(e) {
+    console.log(e);
+    // other warnings or logs
+}
+```
+21. For other advanced function methods, you can refer [html](./HTML/callbacks.html).
 
 ---
