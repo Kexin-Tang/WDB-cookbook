@@ -332,6 +332,10 @@ function add(x, y){
 const mul = function (x,y){
     return x*y;
 }
+// arrow function
+const square = (x) => {
+    return x*x;
+}
 ```
 16. Scope -- `Function`, `Block` & `Lexical`
 > * `function` & `block` scopes are the same as other languages like Python and C++
@@ -385,15 +389,43 @@ const math = {
 
 math.add(1,1);  // 2
 ```
-19. **this** -- key word for accessing object's other key-value pairs
+19. **this** -- key word for accessing object's other nested values.
+> Notice: It is important that ***this*** in ***arrow functions*** can only access *function scope* variables. In other words, it cannot access other nested values. 
 ```js
 let cat = {
     name: 'bobo',
     sex: 'female',
-    info: function (){console.log(`${this.name} says meow`)}
+    info1: function (){console.log(`${this.name} says meow`)},
+    info2: () => {console.log(`${this.name} says meow`)}
 }
+cat.info1();    // bobo says meow
+cat.info2();    // undefined says meow
 ```
-20. **try-catch**
+```js
+let person = {
+    firstName: 'Ke-Hsin',
+    lastName: 'Tang',
+    fullName: function (){
+        return this.firstName+' '+this.lastName;
+    },
+    shoutName1: function() {
+        return setTimeout(function (){
+            console.log(this);
+            console.log(this.fullName())
+        }, 100)
+    },
+    shoutName2: function() {
+        return setTimeout(() => {
+            console.log(this);
+            console.log(this.fullName())
+        }, 100)
+    }
+}
+
+person.shoutName1();    // window \n undefined undefined
+person.shoutName2();    // person \n Ke-Hsin Tang
+```
+1.  **try-catch**
 ```js
 try{
     // something may be wrong
@@ -403,5 +435,32 @@ try{
 }
 ```
 21. For other advanced function methods, you can refer [html](./HTML/callbacks.html).
+22. Default params
+```js
+// old version
+function func1(a){
+    if(a===undefined)   a=1;
+    return a;
+}
+// new version
+function func2(b=1){
+    return b;
+}
+```
+23. `Spread` allows an iterable such as an array to be **expanded** in places where zero or more arguments (function calls) or elements (array literals) are expected, or an object expression to be expanded in places where zero or more key-value pairs are expected.
+```js
+let numbers = [1,56,203,42];
+Math.max(...numbers);   // 203
+console.log(...'cat');  // 'c', 'a', 't'
+
+let arr1 = ['CHN', 'USA'];
+let arr2 = ['UK'];
+let arr = [...arr1, ...arr2];   // ['CHN', 'USA', 'UK']
+
+let info1 = {name:'tom', dep:'cs'};
+let info2 = {age:18, dep:'ece'};
+let stu1 = {...info1, ...info2, sex:'man'}; // {name:'tom', age:18, dep:'ece', sex:'man'}
+let stu2 = {...info2, ...info1, sex:'man'}; // {name:'tom', age:18, dep:'cs', sex:'man'}
+```
 
 ---
