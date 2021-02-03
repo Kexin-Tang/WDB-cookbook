@@ -266,7 +266,7 @@ let num = prompt("Enter a number")
 > let num = [100,5,23,7,0];
 > num.sort();   // [0,5,7,23,100], in-place
 > ```
-1.  Due to `Reference` and `Address`, you should pay attention to the equality between two arrays.
+10.  Due to `Reference` and `Address`, you should pay attention to the equality between two arrays.
 ```js
 let num1 = [1,2,3]
 let num2 = [1,2,3]
@@ -462,5 +462,90 @@ let info2 = {age:18, dep:'ece'};
 let stu1 = {...info1, ...info2, sex:'man'}; // {name:'tom', age:18, dep:'ece', sex:'man'}
 let stu2 = {...info2, ...info1, sex:'man'}; // {name:'tom', age:18, dep:'cs', sex:'man'}
 ```
+24. `REST` is the opposite concept of `spread`. It combine scattered parameters to single **array-like** parameter, which has a length property but does not have array method like push/pop. *(It is not available inside of arrow functions!)*
+```js
+function sum(...num){
+    return num.reduce((sum, curr) => sum+=curr);
+}
+
+sum(1,1);       // 2
+sum(1,2,3,4,5); // 15
+```
+25. `Destructuring` is used to seperate some elements from array or object.
+```js
+// gold = 1024
+// silver = 524
+// brozen = 10
+// else = [2, 0]
+let raceScores = [1024, 524, 10, 2, 0];
+const [gold, silver, brozen, ...else] = raceScores;
+
+// name = 'tom'
+// age = 18
+// birthYear = 2000
+// country = 'CHN'
+let person = {
+    name: 'tom',
+    age: 18,
+    sex: 'm',
+    born: 2000
+}
+const {name, age, born: birthYear = 1999, country = 'CHN'} = person;
+
+function show({name, age}){
+    console.log(`${name} is ${age} years old!`)
+}
+```
 
 ---
+
+## S24: Document Object Model (DOM)
+
+###### Code for DOM
+- [DOM](./JavaScript/DOM.js)
+
+###### Proj
+- [Pokemon](./Proj/Pokemon/)
+
+###### Notes:
+1. DOM is a JS representation of a webpage. It is just a bunch of objects that you can interact with via JS.
+2. DOM will transfer HTML and CSS to objects in JS, you can use `console.dir(document)` in console to access the objects. 
+3. `getElementById` will return a object which contains lots of properties, `getElementsByClassName` and `getElementsByTagName` will return a **array-like** HTMLCollection.
+4. `querySelectorAll` can select all elements which satisfy the argument. `querySelector` can select the first element which satisfy the argument.
+```js
+let para = document.querySelector('p'); // return the first paragraph
+let checkbox = document.querySelector("input[type='checkbox']");    // return the first checkbox input
+let doneTodo = decument.querySelectorAll(".todo");  // select all elements whose class are 'todo'
+```
+5. * `InnerText` -- pure text, is the same as what shows in the page.
+   * `InnerHTML` -- HTML file contents, contain text and tags. You can set HTML syntax to change the content.
+   * `textContent` -- HTML file contents without any HTML syntax.
+```js
+// <p>There are some content <span style="display:none;">!</span></p>
+let content = document.querySelector('p');
+console.log(content.innerText);     // There are some content
+console.log(content.textContent);   // There are some content!
+console.log(content.innerHTML);     // <p>There are some content <span style="display:none;">!</span></p>
+```
+6. `getAttribute` will get the attribute of the element; `setAttribute` will set a different value for the attribute.
+```js
+let anch = document.querySelector('a');
+let link1 = anch.getAttribute('href');  // /CSS/file.css
+let link2 = anch.href;                  // file:///CSS/file.css
+anch.setAttribute('href', './CSS/newFile.css');
+link1 = './CSS/newFile.css';
+```
+7. Using `style` can access some element's inline style, which means that it cannot show you what the style in .css file looks like.
+8. You can use `window.getComputedStyle()` to get the final page's style.
+9. `classList` is designed for manipulate the *class* attribute in elements.
+```js
+// origin class -- border
+let h2 = document.querySelector('h2');
+h2.classList.add('color');      // class -- border color
+h2.classList.remove('border');  // class -- color
+h2.classList.toggle('color');   // class -- color(closed)
+h2.classList.toggle('color');   // class -- color(on)
+```
+10. `parentElement`, `children`, `previousSibling`, `previousElementSibling`, `nextSibling` and `nextElementSibling`
+11. Firstly use `createElement` to create a new element, then use `append`, `appendChild` or `insertAdjacentElement` to set the position.
+12. You can use `remove()` to remove element, or use `removeChild()` to remove its child element.
