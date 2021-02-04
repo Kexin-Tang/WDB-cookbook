@@ -507,6 +507,8 @@ function show({name, age}){
 
 ###### Proj
 - [Pokemon](./Proj/Pokemon/)
+- [ProductNum](./Proj/ProductNum/)
+- [Score Keeper](./Proj/ScoreKeeper/)
 
 ###### Notes:
 1. DOM is a JS representation of a webpage. It is just a bunch of objects that you can interact with via JS.
@@ -574,3 +576,13 @@ form.addEventListener('submit', function(e){
     e.preventDefault();
 })
 ```
+15. **Event Bubbling** -- nested event will trigger its parent event.
+> You can use `e.stopPropagation()` to stop the bubbling.
+```html
+<!-- if click the button -->
+<!-- button click & div click -->
+<div onclick="alert('div click')">
+    <button onclick="alert('button click')">Click Me</button>
+</div>
+```
+16. **Event Delegation** -- you may add some new elements by `createElement()`, however, new elements do not have listeners. In this case, you can add listener for the parent, and use `e.target` to indicate the elements.

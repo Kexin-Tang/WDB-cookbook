@@ -31,9 +31,31 @@ const changeColor = function () {
 btn.addEventListener('click', changeColor);
 
 // ------------------------------------------
-
 let form = document.querySelector('form')
 form.addEventListener('submit', function (e) {
     e.preventDefault();
     console.log("Submit successfully!");
+})
+
+// -------------------------------------------
+let userName = document.querySelector("#username");
+let heading = document.querySelector('p');
+userName.addEventListener('input', function (e) {
+    if (userName.value === '') {
+        heading.innerText = "Enter Your Username";
+    }
+    else {
+        heading.innerText = `Welcome, ${userName.value}`;
+    }
+});
+
+let change = document.querySelector("#change");
+change.addEventListener('change', function (e) {
+    console.log(`Change: ${change.value}`)
+});
+
+// --------------------------------------------
+let delegation = document.querySelector("#delegation");
+delegation.addEventListener('click', function (e) {
+    e.target.nodeName === "LI" && e.target.remove();
 })

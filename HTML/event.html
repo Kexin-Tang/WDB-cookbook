@@ -9,14 +9,20 @@
 
 <body>
     <h1>DOM Event</h1>
-    <h2>Version 1</h2>
-    <button onclick="alert('U clicked me!')">Click me(version 1)</button>
-
-    <h2>Version 2</h2>
-    <button id="v2">Click me(version 2)</button>
-
-    <h2>Version 3</h2>
-    <button id="v3">Click me(version 3)</button>
+    <div>
+        <div style="display: inline-block;">
+            <h2>Version 1</h2>
+            <button onclick="alert('U clicked me!')">Click me(version 1)</button>
+        </div>
+        <div style="display: inline-block;">
+            <h2>Version 2</h2>
+            <button id="v2">Click me(version 2)</button>
+        </div>
+        <div style="display: inline-block;">
+            <h2>Version 3</h2>
+            <button id="v3">Click me(version 3)</button>
+        </div>
+    </div>
 
     <hr>
 
@@ -30,6 +36,25 @@
         <input type="text" placeholder="message" name="msg">
         <button>Submit</button>
     </form>
+
+    <hr>
+
+    <h2>Input & Change Event</h2>
+    <input type="text" id="change" placeholder="Change Event">
+
+    <p>Enter Your Username</p>
+    <input type="text" id="username" placeholder="Input Event">
+
+    <hr>
+
+    <h2>Event Delegation</h2>
+    <ul id='delegation'>
+        <p>click items to delete</p>
+        <li>1 Click Me to Delete!</li>
+        <li>2 Click Me to Delete!</li>
+        <li>3 Click Me to Delete!</li>
+        <li>4 Click Me to Delete!</li>
+    </ul>
 
     <script src="../JavaScript/event.js"></script>
 </body>
