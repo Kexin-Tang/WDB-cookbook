@@ -503,6 +503,7 @@ function show({name, age}){
 
 ###### Code for DOM
 - [DOM](./JavaScript/DOM.js)
+- [Event](./JavaScript/event.js)
 
 ###### Proj
 - [Pokemon](./Proj/Pokemon/)
@@ -549,3 +550,27 @@ h2.classList.toggle('color');   // class -- color(on)
 10. `parentElement`, `children`, `previousSibling`, `previousElementSibling`, `nextSibling` and `nextElementSibling`
 11. Firstly use `createElement` to create a new element, then use `append`, `appendChild` or `insertAdjacentElement` to set the position.
 12. You can use `remove()` to remove element, or use `removeChild()` to remove its child element.
+13. **Event** -- responding to user inputs and actions.
+* inline event *(not recommended)*
+```html
+<!-- `on[event]="js command"` -->
+<button onclick="alter('click me')">Click</button>
+```
+* set property
+> It will set the property like `onclick=function()`, which means the property may be overwritten.
+```js
+btn.onclick = function () { ... }
+```
+* addEventListener *(recommended)*
+> 1. It does not set the property, which means you can get multi-results by one operation.
+> 2. There are other optional arguments that you can control. For example, `addEventListener('click', function, {once: true})` may only operate the function once.
+```js
+btn.addEventListener('click', function(){ ... });
+```
+14. `e.preventDefault` can turn off the default operation.
+```js
+// After submitting the form, the page will not change.
+form.addEventListener('submit', function(e){
+    e.preventDefault();
+})
+```
