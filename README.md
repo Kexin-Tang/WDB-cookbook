@@ -499,7 +499,7 @@ function show({name, age}){
 
 ---
 
-## S24: Document Object Model (DOM)
+## S24-26: Document Object Model (DOM)
 
 ###### Code for DOM
 - [DOM](./JavaScript/DOM.js)
@@ -586,3 +586,48 @@ form.addEventListener('submit', function(e){
 </div>
 ```
 16. **Event Delegation** -- you may add some new elements by `createElement()`, however, new elements do not have listeners. In this case, you can add listener for the parent, and use `e.target` to indicate the elements.
+
+---
+
+## S27: Async JavaScript
+
+###### Code for Async
+- [Promise](./JavaScript/promise.js)
+
+###### Notes:
+1. **Call Stack**
+> The mechanism the JS interpreter uses to keep track of its place in a script that calls mulitple functions.<br>
+> How Js knows what function is currently being run and what functions are called from within that function, etc.
+2. **Single Thread** -- JS can only handle one thing in any time.
+> However, async will occur due to browser. Browsers come with **Web APIs** that are able to handle certain tasks in the background. The JS call stack recognizes these APIs and passes them off to the broswer to take care of. Once the browser finishes those tasks, they return and are pushed onto the stack as a callback.
+3. **Promise** -- is an object representing the evnetual completion or failure of an asynchronous operation. You can use **promise** as a returned object to which you attach callbacks, instead of passing callbacks into a function.
+> **.then()** indicates the success operation.<br> 
+> **.catch()** indicates the failure operation.
+```js
+// In promise, there are three status: pending, fulfilled & rejected
+new Promise((resolve, reject) => {
+    ...
+});
+``` 
+4. `async` keyword
+> * Async function always return a promise;
+> * If the function returns a value, the promise will be resolved with that value;
+> * If the function throws an exception, the promise will be rejected.
+> ```js
+> async function hello() {
+>     return 'Hey guy!';
+> }
+> hello();  // Promise {<resolved>: 'Hey guy!'}
+> 
+> async function uhOh() {
+>     throw 'oh no!';
+> }
+> uhOh();   // Promise {<rejected>: 'oh no!'}
+> ```
+5. `await` keyword
+> * We can only use the `await` keyword inside of functions declared with `async`;
+> * `await` will pause the execution of the function, waiting for a promise to be resolved.
+
+---
+
+## S28: AJAX
