@@ -13,7 +13,7 @@ This file is the notebook about [The Web Developer Bootcamp 2021](https://www.ud
 2. Some concepts.
 
 >WWW -- <i>World Wide Web</i><br>
->HTTP -- <i>Hyper Text Transfer Protocol</i>
+>HTTP -- <i>[Hyper Text Transfer Protocol](https://dev.opera.com/articles/http-basic-introduction/)</i>
 
 3. What are Front-end & Back-end?
 
@@ -626,8 +626,89 @@ new Promise((resolve, reject) => {
 > ```
 5. `await` keyword
 > * We can only use the `await` keyword inside of functions declared with `async`;
-> * `await` will pause the execution of the function, waiting for a promise to be resolved.
+> * `await` will pause the execution of the function, **waiting for a promise to be resolved**.
+> ```js
+> async function func () {
+>     await someFuncWhichReturnPromise();
+> }
+> ```
+6. Using `try-catch` to display error message in `reject()`.
+```js
+function requestURL(url) {
+    return new Promise((resolve, reject) => {
+        let delay = Math.round(Math.random()*1000)+3000;
+        setTimeout(()=>{
+            if(delay<3500){
+                resolve(`${url} finished...`);
+            }
+            else{
+                reject("Timeout!");
+            }
+        }, delay);
+    })
+}
+
+async function func(){
+    try{
+        let data1 = await requestURL("/page1");
+        console.log(data1);
+
+        let data2 = await requestURL("/page2");
+        console.log(data2);
+    } catch(e) {
+        console.log(e);
+    }
+}
+
+// if delay>=3500, console will show "Timeout!", which means `e` == "Timeout!"(content in `reject()`)
+```
 
 ---
 
 ## S28: AJAX
+
+###### Code for AJAX
+- [XML HTTP Request](./JavaScript/XMLHttpRequest.js)
+- [fetch](./JavaScript/fetch.js)
+- [axios](./JavaScript/axios.js)
+
+###### Notes:
+1. Some concepts:
+> * AJAX -- Asynchronous Javascript And XML
+> * API -- Application Programming Interface
+> * JSON -- JavaScript Object Notation
+
+2. JSON is based on JS, but not equal to JS. For example, in JSON, `undefine` is not valid, and the keyName should use `""` to indicate.
+```json
+{
+    "name": "tom",
+    "age" : 18,
+    "act" : null,
+    "stu" : true
+}
+```
+```js
+const parseData = JSON.parse(json);     // JSON -> JS
+const jsonData = JSON.stringify(js);    // JS -> JSON
+```
+
+3. **HTTP** is an application layer protocol supported by **TCP/IP** protocol for Web data transfering.
+> * **Status code** -- HTTP response status codes indicate whether a specific HTTP request has been successfully completed. Responses are grouped in five classes:
+>   * Informational responses (100–199)
+>   * Successful responses (200–299)
+>   * Redirects (300–399)
+>   * Client errors (400–499)
+>   * Server errors (500–599)
+> * **Body** -- HTTP body is the main content of the information.
+> * **Header** -- HTTP headers let the client and the server pass additional information with an HTTP request or response. It may contain *body type*, *time*, etc.
+
+4. `XMLHttpRequest()` is the original way of sending requests via JS, but it is not good.
+> 1. Does not support `promise`
+> 2. Weird capitalization
+> 3. Clunky syntax that hard to remeber
+
+5. `fetch()` is a new way of sending requests via JS which will return a `promise`!
+> It has a problem -- fetch will return *resolve* when it has received the **header**, which means the **body** may occur error.
+
+6. `axios` is an update of `fetch` which will return a `promise` after both header and body being ready. 
+
