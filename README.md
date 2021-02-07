@@ -1,15 +1,18 @@
 # The Web Developer Bootcamp 2021 cookbook
 This file is the notebook about [The Web Developer Bootcamp 2021](https://www.udemy.com/course/the-web-developer-bootcamp/) in [Udemy](www.udemy.com/). The content mainly include **HTML**, **CSS** and **Javascript**. Also, there are lots of **coding practice** to help us to remember the syntax and concepts.
 
-- Content
-  - [S1: Course Orientation](#-s1-course-orientation)
-  - [S2: An Intro to Web Development](#s2-an-intro-to-web-development)
-  - [S3-5: HTML](#s3-5-html)
-  - [S6-13: CSS](#s6-13-css)
-  - [S14-23: JavaScript](#s14-23-javascript)
-  - [S24-26: Document Object Model (DOM)](#s24-26-document-object-model-dom)
-  - [S27: Async JavaScript](#s27-async-javascript)
-  - [S28: AJAX](#s28-ajax)
+Content |
+:---:
+[S1: Course Orientation](#-s1-course-orientation)
+[S2: An Intro to Web Development](#s2-an-intro-to-web-development)
+[S3-5: HTML](#s3-5-html)
+[S6-13: CSS](#s6-13-css)
+[S14-23: JavaScript](#s14-23-javascript)
+[S24-26: Document Object Model (DOM)](#s24-26-document-object-model-dom)
+[S27: Async JavaScript](#s27-async-javascript)
+[S28: AJAX](#s28-ajax)
+[S29: OOP](#s29-oop)
+
 
 ## S1: Course Orientation
 ---
@@ -682,6 +685,9 @@ async function func(){
 - [fetch](./JavaScript/fetch.js)
 - [axios](./JavaScript/axios.js)
 
+###### Proj
+- [TV Show Search APP]()
+
 ###### Notes:
 1. Some concepts:
 > * AJAX -- Asynchronous Javascript And XML
@@ -722,3 +728,134 @@ const jsonData = JSON.stringify(js);    // JS -> JSON
 
 6. `axios` is an update of `fetch` which will return a `promise` after both header and body being ready. 
 
+---
+
+## S29: OOP
+
+###### Code for OOP
+- [create OOP](./JavaScript/createOOP.js)
+- [super & extends](./JavaScript/super_extends.js)
+
+###### Notes:
+1. **Prototype** is a list of functions and properties that can be accessed by every objects. For example, every String has property called `length`, every Array has function called `concat()`. Users can define their own functions and properties, but these things can only be accessed by certain objects.
+
+2. **Factory Function**
+> **Problem**: In this case, every object will have a copy of method. For example, `colorMaker(0,0,0).rgb()` &NotEqual; `colorMaker(255,255,255).rgb()`. In other words, the method is unique rather than storing in `__proto__`.
+> ```js
+> let first = colorMaker(0,0,0).rgb;
+> let second = colorMaker(1,1,1).rgb;
+> console.log(first === second);    // false
+> ```
+```js
+function colorMaker(r, g, b) {
+    const color = {};
+    color.r = r;
+    color.g = g;
+    color.b = b;
+    color.rgb = function () {
+        let { r, g, b } = this;
+        return `rgb(${r}, ${g}, ${b})`;
+    };
+    color.hex = function () {
+        let { r, g, b } = this;
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    };
+
+    return color;
+}
+```
+
+3. **Constructor Function**
+> In this case, every object will share the same method. In other words, the method stores in `__proto__`.
+> ```js
+> let first = colorMaker(0,0,0).rgb;
+> let second = colorMaker(1,1,1).rgb;
+> console.log(first === second);    // true
+> ```
+> **Problem**: It needs to define properties and functions seperately.
+> > **Step**:
+> > 1. Creates a blank, plain JS object;
+> > 2. Links (sets the constructor of) this object to another object;
+> > 3. Passes the newly created object from Step1 as the this context;
+> > 4. Returns this if the function doexn't return its own object.
+```js
+function colorMaker(r, g, b) {
+    this.r = r;
+    this.g = g;
+    this.b = b;
+}
+
+colorMaker.prototype.rgb = function () {
+    let { r, g, b } = this;
+    return `rgb(${r}, ${g}, ${b})`;
+}
+colorMaker.prototype.hex = function () {
+    let { r, g, b } = this;
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+// when you use `colorMaker`, remeber to use key word -- `new`.
+```
+
+4. **Class**
+> It will warp properties and methods together!
+> > `constructor()` will run automatically when `new` an object.
+```js
+class colorMaker {
+    constructor(r, g, b) {
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        // this.hsl();  // You can run this function immediately after new an object. 
+                        // And you can access `this.h` in following functions.
+    }
+    rgb() {
+        let { r, g, b } = this;
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+    hex() {
+        let { r, g, b } = this;
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+    hsl() {
+        this.h = 100;
+    }
+}
+```
+5. **Extends & Super**
+> extends -- Inherit common propeties and functions from its parent class.<br>
+> super -- Inherit some properties from parent class and add some new properties.
+```js
+class Pet {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    eat() {
+        return `${this.name} is eating!`;
+    }
+}
+
+class Cat extends Pet {
+    constructor(name, age, liveLeft = 9) {
+        // use `super` to inherit original properties and add some new properties.
+        super(name, age);
+        this.liveLeft = liveLeft;
+    }
+    meow() {
+        return `MeoWWWWWWW!`
+    }
+}
+
+class Dog extends Pet {
+    bark() {
+        return `WOOOOOOF!!`
+    }
+    // this new function will overwrite the old version `eat()`
+    eat() {
+        return 'Dog is eating!';
+    }
+}
+```
+
+---
