@@ -859,3 +859,23 @@ class Dog extends Pet {
 ```
 
 ---
+
+## S30: Terminal
+
+| Command |                  Function                   |
+| :-----: | :-----------------------------------------: |
+|  `ls`   |    List the content of your current dir     |
+|  `pwd`  |           Print working directory           |
+| `mkdir` |               Make directory                |
+|  `cd`   |             Changing directory              |
+| `touch` |                 Make a file                 |
+|  `rm`   | Delete files (`-r`: recursive; `-f`: force) |
+|  `man`  |         Manuscript certain command          |
+
+
+
+###### Notes:
+1. **Terminal** -- A text-based interface to computer. Originally a physical object, but now we use software terminals.
+2. **Shell** -- The program running on the terminal.
+3. **Bash** -- One of the most popular shells.
+> Windows: MS DOS   |   Mac/Linux: Bash
