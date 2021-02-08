@@ -12,6 +12,7 @@ Content |
 [S27: Async JavaScript](#s27-async-javascript)
 [S28: AJAX](#s28-ajax)
 [S29: OOP](#s29-oop)
+[S30: Terminal](#s30-terminal)
 
 
 ## S1: Course Orientation
@@ -57,7 +58,7 @@ Content |
 - [table](./HTML/HTML2.html)
 - [form](HTML/HTML3.html)
 
-###### Notes:
+###### Notes
 1. In documents and files, programmers are supposed to contain several elements even though these elements do not affect representations in the page.
 ```html
 <!DOCTYPE html>
@@ -102,7 +103,7 @@ Content |
 - [Museum of Candy](./Proj/Museum_of_Candy)
 
 
-###### Notes:
+###### Notes
 1. CSS is a **cascade** language, which means the order in .css file will affect the page.
 ```css
 /* final color is blue */
@@ -158,7 +159,7 @@ p {
 - [Basic syntax](./JavaScript/todo.js)
 - [Callbacks & Array Methods](./JavaScript/callbacks.js)
 
-###### Notes:
+###### Notes
 1. JS has several primative types: `bigint`, `string`, `boolean`, `null`, `number`, `undefined` and `symbol`.
 2. `NaN` is a numeric value that represents something that is not a number
 ```js
@@ -523,7 +524,7 @@ function show({name, age}){
 - [ProductNum](./Proj/ProductNum/)
 - [Score Keeper](./Proj/ScoreKeeper/)
 
-###### Notes:
+###### Notes
 1. DOM is a JS representation of a webpage. It is just a bunch of objects that you can interact with via JS.
 2. DOM will transfer HTML and CSS to objects in JS, you can use `console.dir(document)` in console to access the objects. 
 3. `getElementById` will return a object which contains lots of properties, `getElementsByClassName` and `getElementsByTagName` will return a **array-like** HTMLCollection.
@@ -607,7 +608,7 @@ form.addEventListener('submit', function(e){
 ###### Code for Async
 - [Promise](./JavaScript/promise.js)
 
-###### Notes:
+###### Notes
 1. **Call Stack**
 > The mechanism the JS interpreter uses to keep track of its place in a script that calls mulitple functions.<br>
 > How Js knows what function is currently being run and what functions are called from within that function, etc.
@@ -688,7 +689,7 @@ async function func(){
 ###### Proj
 - [TV Show Search APP]()
 
-###### Notes:
+###### Notes
 1. Some concepts:
 > * AJAX -- Asynchronous Javascript And XML
 > * API -- Application Programming Interface
@@ -736,7 +737,7 @@ const jsonData = JSON.stringify(js);    // JS -> JSON
 - [create OOP](./JavaScript/createOOP.js)
 - [super & extends](./JavaScript/super_extends.js)
 
-###### Notes:
+###### Notes
 1. **Prototype** is a list of functions and properties that can be accessed by every objects. For example, every String has property called `length`, every Array has function called `concat()`. Users can define their own functions and properties, but these things can only be accessed by certain objects.
 
 2. **Factory Function**
@@ -874,8 +875,67 @@ class Dog extends Pet {
 
 
 
-###### Notes:
+###### Notes
 1. **Terminal** -- A text-based interface to computer. Originally a physical object, but now we use software terminals.
 2. **Shell** -- The program running on the terminal.
 3. **Bash** -- One of the most popular shells.
 > Windows: MS DOS   |   Mac/Linux: Bash
+
+---
+
+## Node.js
+
+###### Code for Node.js
+- [exports](./NodeJS/exports/)
+
+###### Proj
+- [Language Detector](./Proj/LanguageDetector/)
+
+###### Notes
+1. **Node** -- a JS runtime that executes code outside of browsers.
+> * (&cross;)**Node** does not have access to all the browse stuff, like window, document, DOM, etc.
+> * (&check;)**Node** comes with a bunch of built-in modules that don't exist in the browser. These modules help us do things like interact with the operating system and files/folders.
+
+2. **NPM** -- Node Package Manager.
+> * Use `npm install` will install packages locally, which can only be accessed in certain directory;
+> * Use `npm install -g` will install package globally, which can be accessed in any files.
+
+3. **process.argv** -- returns an array containing the command line arguments passed when the Node.js process was launched.
+> The first element is `process.execPath`. The second element is the path to the JS file being executed. The remaining elements will be any additional command line arguments. 
+> ```js
+> // app.js file
+> const args = process.argv.slice(2);   // get the arguments from the third params
+> for(let arg of args){
+>   console.log("Hello, "+arg);
+> };
+> ```
+> ```bash
+> # bash file
+> node app.js tom jerry
+> # Hello, tom
+> # Hello, jerry
+> ```
+
+4. **fs** -- is the short of File System, which controls the creating, deleting, accessing files. Some operations will have two versions: ***Sync*** version (will block process until they complete, halting all connections) and ***Async*** version.
+> fs is not built-in class, so you need to `const fs = require('fs');`
+```js
+const fs = require('fs');
+const dirName = process.argv[2] || 'Project';
+
+try {
+    fs.mkdirSync(dirName);
+    fs.writeFileSync(`${dirName}/index.css`);
+} catch(e) {
+    console.log(e);
+}
+```
+
+5. **exports** -- share some properties and functions to other files by `module.exports = xxx`. In other files, should use syntax `require(path)`. [More details](./NodeJS/exports/).
+
+6. `package.json` is an important file that records the version of dependencies and other informations about the pacakage, such as author, version, etc.
+> ```bash
+> node init
+> ```
+
+7. You can use `npm install` to install all dependencies.
+8. 
