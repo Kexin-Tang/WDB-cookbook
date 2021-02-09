@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('partial/head.ejs') %>
+
+    <body>
+        <h1>Your random num is: <%= randNum %>
+        </h1>
+        <%if(randNum%2===0){%>
+            <h2>This is an even number!</h2>
+            <%} else {%>
+                <h2>This is an odd number!</h2>
+                <%}%>
+
+    </body>
+
+</html>

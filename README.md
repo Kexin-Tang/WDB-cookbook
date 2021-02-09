@@ -883,10 +883,11 @@ class Dog extends Pet {
 
 ---
 
-## Node.js
+## S31-33: Node.js
 
 ###### Code for Node.js
 - [exports](./NodeJS/exports/)
+- [express](./NodeJS/firstApp/)
 
 ###### Proj
 - [Language Detector](./Proj/LanguageDetector/)
@@ -938,4 +939,29 @@ try {
 > ```
 
 7. You can use `npm install` to install all dependencies.
-8. 
+8. **Express** -- a server framework. [More Details](./NodeJS/firstApp/index.js).
+> Library Vs Framework
+> * **Library**: When you use a library, you are in charge. You control the flow of the application code, and you decide when to use the library.
+> * **Framework**: With framework, that chontrol is inverted. The framework is in charge, and you are merely a participant. The framework tells you where to plug in the code.
+> 
+> Some Common Functions
+> * `listen(port, callback)` -- listen requests from port
+> * `use((req, res)=>{})` -- if there are `req`, send `res` back as responses. **It will response to every request**
+> * route <u>(`req` is an *object* transferred from *http*)</u>
+>   * `get(path, (req, res)=>{})` -- if `path` send requests, it will response `res` via `res.send()`. **It will only response to certain request**<br><u>(*path can be `/cats/:sub` to match any url that start with /cats/*)</u>
+>   * `post(path, (req, res)=>{})` is different with `get()`, which means the methods will recognize http request type (get / post). 
+> * `nodemon file` in command line will automatically restart server.
+
+---
+
+## S34: EJS for Dynamic HTML
+
+###### Notes
+* **EJS** is short of Embedded JavaScript, it's a templating that help us to build JS easier. [More details](./EJS/Templating/).
+> * Use `<%= js expression %>` to show the content;
+> * Use `<% js command %>` to execute js logic without showing that, such as *loop* and *case*;
+> * Use `app.use(express.static(path))` to access static files, such as *.css*, *.js*, *imgs*, etc;
+> * Use `<%- include(path) %>` to load *.ejs templates*;
+
+* **MVC** -- Model-View-Controller
+> ![MVC.jpg](https://i.loli.net/2021/02/09/djXFC1oQpmAc7hN.jpg)
