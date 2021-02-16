@@ -1,7 +1,7 @@
 # The Web Developer Bootcamp 2021 cookbook
-This file is the notebook about [The Web Developer Bootcamp 2021](https://www.udemy.com/course/the-web-developer-bootcamp/) in [Udemy](www.udemy.com/). The content mainly include **HTML**, **CSS** and **Javascript**. Also, there are lots of **coding practice** to help us to remember the syntax and concepts.
+该文章主要作为 [The Web Developer Bootcamp 2021](https://www.udemy.com/course/the-web-developer-bootcamp/) 的笔记. 该课程主要包括了 **HTML**, **CSS**, **Javascript**等. 同样,该课程包含了许多编程项目供巩固基础知识.
 
-Content |
+目录 |
 :---:
 [S1: Course Orientation](#-s1-course-orientation)
 [S2: An Intro to Web Development](#s2-an-intro-to-web-development)
@@ -18,39 +18,30 @@ Content |
 ## S1: Course Orientation
 ---
 ## S2: An Intro to Web Development
-1. What is HTML, CSS and JavaScript?
+1. 什么是HTML, CSS 以及 Javascript?
 
-> HTML -- <i>Like the nouns in a sentence, it just describes the content on the page.</i><br>
-> CSS -- <i>Like the adj. in a sentence, it makes the page more beautiful.</i><br>
-> JS -- <i>Like the verbs in a sentence, it achieves some actions, windows pop, calculations, etc.</i>
+> HTML -- <i>就像句子中的名词,主要描述了一个网页中的主要内容.</i><br>
+> CSS -- <i>就像句子中的形容词,用于将内容呈现的更加美观.</i><br>
+> JS -- <i>类似句子中的动词,用于控制各种逻辑的实现.</i>
 
-2. Some concepts.
+2. 前端和后端是什么?
 
->WWW -- <i>World Wide Web</i><br>
->HTTP -- <i>[Hyper Text Transfer Protocol](https://dev.opera.com/articles/http-basic-introduction/)</i>
+> 前端主要关注于 <i><b>客户端</b></i>, 实现网页内容的呈现<br>
+> 后端主要关注于 <i><b>服务器</b></i>, 实现浏览器与服务器之间的通信
 
-3. What are Front-end & Back-end?
+3. 什么是客户端和服务器?
+> * 客户端: 请求服务器服务的终端, 一般设备如个人电脑.
+> * 服务器: 响应客户端请求的终端.
 
->the front-end mainly focus on <i><b>Clinet</b></i><br>
->the back-end mainly focus on <i><b>Server</b></i>
+4. Internet和Web?
+> * Internet是一种通过**TCP/IP**协议实现全球网络互连的网络结构, 可以视为是网络的网络.
+> * Web是一种信息系统, 用于文档和其他资源在Internet中传递. 与Internet基于TCP/IP不同, Web基于**HTTP**协议实现通信.
 
-4. What are Clinet and Server?
-> * Clinet: The computer that accesses the server.
-> * Server: The computer that satisfy requests on the Internet.
+5. Internet只能传递HTML, CSS, JS和其他代码. 而浏览器能够帮助翻译这些代码并渲染出好看的网页.
 
-5. What are Request & Response?
-
->"request": Clinet &rarr; Server<br>
->"response": Server &rarr; Clinet
-
-6. What are Internet and Web?
-> * The Internet is a global network of interconnected computers via TCP/IP. It is a network of networks.
-> * The Web is an information system where documents and others resources are available over the Internet. Doucments are transferred via HTTP.
-
-7. Internet can olny transfer the box which contains HTML, CSS, JS and other codes. The web page presented to you is attributed to the browser (Chrome, Firefox, IE, ...) processing the code accordingly.
 ---
 ## S3-5: HTML
-<a href="https://developer.mozilla.org/en-US/docs/Web/Reference">MDN</a> is a very useful website for searching HTML elements and their usages.
+<a href="https://developer.mozilla.org/en-US/docs/Web/Reference">MDN</a> 是一个非常有用的网站, 包含了各种常见的HTML元素和使用方法.
 
 ###### Code for HTML
 - [header, paragraph, list, img, anchor](./HTML/HTML0.html)
@@ -59,7 +50,7 @@ Content |
 - [form](HTML/HTML3.html)
 
 ###### Notes
-1. In documents and files, programmers are supposed to contain several elements even though these elements do not affect representations in the page.
+1. 在编写HTML时,需要包含下列的元素, 虽然这些内容不会显示在网页中, 但是却有非常重要的作用.
 ```html
 <!DOCTYPE html>
 <html>
@@ -72,8 +63,8 @@ Content |
     </body>
 </html>
 ```
-2. In practice, please use <b>semantic elements</b>, such as &lt;header&gt;, &lt;footer&gt;, &lt;section&gt;, &lt;main&gt;, etc, rather than <b>&lt;div&gt;</b>.
-3. <a href="https://docs.emmet.io/cheat-sheet/">Emmet</a> contains lots of shortcut key commands.
+2. 请多使用 <b>semantic elements</b>, 比如 &lt;header&gt;, &lt;footer&gt;, &lt;section&gt;, &lt;main&gt;, etc, 而不是单纯堆叠 &lt;div&gt;.
+3. <a href="https://docs.emmet.io/cheat-sheet/">Emmet</a> 包含了许多HTML语法的缩写和快捷方式.
 ```html
 <!--For example, when enter "h1>p"-->
 <h1>
@@ -104,7 +95,7 @@ Content |
 
 
 ###### Notes
-1. CSS is a **cascade** language, which means the order in .css file will affect the page.
+1. CSS 是一种 **级联** 语言, 也就是说.css文件中对同一个元素的定义顺序不同, 则呈现的结果也可能不同. 一般而言, 后定义的会覆盖前定义的.
 ```css
 /* final color is blue */
 p {
@@ -115,33 +106,39 @@ p {
     color: blue;
 }
 ```
-2. **Specificity** is how the browser decides which rules to apply when multiple rules could apply to the same element.
+2. **Specificity** 是浏览器决定出现定义冲突时, 先执行哪个的标准. 按照如下的重要性排序, 可以解决冲突.
 > !import >> ID > Class > Element
-3. In CSS, box is an import concept! Box has three concepts which are **Margin**, **Padding** and **Border**.<br>
+
+3. 在 CSS 中, box 非常重要! Box 有三个属性: **Margin**, **Padding** 和 **Border**.<br>
 ![CSS.png](https://i.loli.net/2021/01/25/4w8DIOdP1pTLHhg.png)
-4. Inline, Block and Inline-Block
-> * inline -- *only has horizontal margin, can not set width and height*
-> * block -- *has horizontal and vertical margins, can set width and height*
-> * inline-block -- *combine inline and block, which means it displaying like inline elements, but every element is a block*
+
+4. Inline, Block 和 Inline-Block
+> * inline -- 只有垂直方向的margin, 不能设置高度和宽度, 具体表现为: 嵌入在一行内, 不会换行
+> * block -- 有垂直和水平方向的margin, 可以设置高度和宽度, 具体表现为: 与之前的内容断开, 另起一行
+> * inline-block -- 是inline和block的结合, 即将block的内容不换行, 嵌入到同一行中
+
 5. px Vs em Vs rem
-> * px -- ***Absolute scale**. It will not change with other parts' changes*
-> * em & rem -- ***Relative scale**.*
+> * px -- ***绝对尺度**. 不会随着别的尺度变化而变化*
+> * em & rem -- ***相对尺度**.*
 >   * em: 
->       * With font-size, 1em equals the font-size of the parent. 2em is twice the font-size of parent. 
->       * With other properties, 1em is equal to the computed font-size of the element itself.
+>       * 1em即和父元素的大小相同; 2em即为父元素大小的一倍. 
 >   * rem:
->       * Relative to the root html element's font-size. If the root font-size is 20px, 1 rem is always 20px, 2rem is always 40px.
-6. Transition: [property name, duration, timing function, delay], [ ... ]
-7. [Flexbox](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html) 
-> * is a one-dimensional layout method for laying out items in rows or columns. Flexbox allows us to distribute space dynamically across elements of an unknown size.
-> * Flex has two axis called *main axis* & *cross axis*, set property 'flex-direction' to set the main axis.
+>       * 和html元素的大小有关, 与父元素大小无关. 如果设定的html中字体大小为20px, 那么不论父元素大小为多少, 1rem都是20px.
+
+6. [Transition](./CSS/transitions.css): 定义了某个元素进行变化的时候的策略(如渐变), 有如下的各种属性, [property name, duration, timing function, delay], [ ... ]
+
+7. [Flexbox](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html) -- 是一种定义页面布局的方式, 让程序员更好的控制页面表现形式[[More Details]](./CSS/flexbox.css)
+> * 是一种一维的布局方式. Flexbox让我们能够在不知道具体的尺寸时, 动态的分配元素到指定位置, 比如在不知道页面大小尺寸的时候, 分配元素到"居中"
+> * Flex有两个轴 -- *main axis* & *cross axis*, 通过设置 'flex-direction' 去设置主轴, 那么另一个轴自然成为*cross axis*.
 > ![flex-direction](https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071004.png)
-> * Difference between *align-content* and *align-items* -- *align-items* focus on **one-row** situation while *align-content* focus on **multi-row** situation.
+> * *align-content* 与 *align-items* 的不同 -- *align-items* 关注于 **只有一行** 的情况, 而 *align-content* 关注于 **多行**.
 > ![align-items](https://www.w3.org/TR/css-flexbox-1/images/flex-align.svg)
 > ![align-content](https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071012.png)
-> * Setting *flex-basis* rather than *width* or *height* will ignore the parameters (width/ height) in the main axis direction, so that when changing the main axis direction, there is no need to adjust the corresponding width or height.
-8. Responsive Design -- show different pages according to different devices.<br>
-9. Media Query -- allow us to modify our styles depending on particular parameters like screen width or device type.
+> * 设置 *flex-basis* 而不是 *width* 或 *height* 将会忽略主轴上类似宽度和高度这样的参数, 因此当我们改变主轴的时候, 也不需要更改对应的宽和高.
+
+8. Responsive Design -- 在不同大小的窗口/设备上显示对应的网页布局.
+
+9. Media Query -- 让程序员能够根据不同的窗口/设备大小去设计不同的代码.
 ```css
 @media (case) {
     selector {
@@ -149,7 +146,7 @@ p {
     }
 }
 ```
-10. [BootStrap](https://getbootstrap.com/docs/4.5/getting-started/introduction/) is a package which help programmer to save their time by providing various templates. For video instructions, you can click [here](https://www.udemy.com/course/the-web-developer-bootcamp/learn/lecture/21917862#overview)!
+10.  [BootStrap](https://getbootstrap.com/docs/4.5/getting-started/introduction/) 是一个非常有用的库, 通过提供许多已有的模板, 能够让我们节省时间.[[More Details]](./HTML/bootstrap.html)
 
 ---
 
@@ -525,18 +522,23 @@ function show({name, age}){
 - [Score Keeper](./Proj/ScoreKeeper/)
 
 ###### Notes
-1. DOM is a JS representation of a webpage. It is just a bunch of objects that you can interact with via JS.
-2. DOM will transfer HTML and CSS to objects in JS, you can use `console.dir(document)` in console to access the objects. 
-3. `getElementById` will return a object which contains lots of properties, `getElementsByClassName` and `getElementsByTagName` will return a **array-like** HTMLCollection.
-4. `querySelectorAll` can select all elements which satisfy the argument. `querySelector` can select the first element which satisfy the argument.
+1. DOM 是文档对象模型, 定义了访问和操作HTML文档的标准方法. 程序员可以使用JS等通过DOM操作HTML的方法和属性, 以实现JS控制HTML.
+
+2. DOM 会将HTML和CSS内容转换为JS的objects, 你可以使用 `console.dir(document)` 去查看这些objects. 
+
+3. `getElementById`, `getElementsByClassName` 和  `getElementsByTagName` 能够根据输入的 id, class 和 tag 返回对应的元素.
+> 注: 后两个方法会返回一个HTMLCollection(可以视为多个元素的list), 因为 class 和 tag 会包含多个元素, 而 id 只会包含一个元素
+
+4. `document.querySelectorAll` 能够选择所有满足参数的元素. `querySelector` 能够选择满足条件的第一个元素.
 ```js
 let para = document.querySelector('p'); // return the first paragraph
 let checkbox = document.querySelector("input[type='checkbox']");    // return the first checkbox input
 let doneTodo = decument.querySelectorAll(".todo");  // select all elements whose class are 'todo'
 ```
-5. * `InnerText` -- pure text, is the same as what shows in the page.
-   * `InnerHTML` -- HTML file contents, contain text and tags. You can set HTML syntax to change the content.
-   * `textContent` -- HTML file contents without any HTML syntax.
+
+5. * `InnerText` -- 纯文本, 和网页中显示的内容一致. 如果设置了 `display=none` 则该部分内容不会出现.
+   * `InnerHTML` -- HTML文件的内容, 包含文本和标签, 能通过设置HTML语法来改变网页内容.
+   * `textContent` -- HTML文件中的文本, 即使有 `display=none`, 也会显示其中的文本.
 ```js
 // <p>There are some content <span style="display:none;">!</span></p>
 let content = document.querySelector('p');
@@ -544,7 +546,8 @@ console.log(content.innerText);     // There are some content
 console.log(content.textContent);   // There are some content!
 console.log(content.innerHTML);     // <p>There are some content <span style="display:none;">!</span></p>
 ```
-6. `getAttribute` will get the attribute of the element; `setAttribute` will set a different value for the attribute.
+
+6. `getAttribute` 可以得到元素的属性; `setAttribute` 可以设置元素的属性. *(注: 直接通过`.attribute`的方式访问的结果可能和`getAttribute`的结果不同)*
 ```js
 let anch = document.querySelector('a');
 let link1 = anch.getAttribute('href');  // /CSS/file.css
