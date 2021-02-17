@@ -555,9 +555,11 @@ let link2 = anch.href;                  // file:///CSS/file.css
 anch.setAttribute('href', './CSS/newFile.css');
 link1 = './CSS/newFile.css';
 ```
-7. Using `style` can access some element's inline style, which means that it cannot show you what the style in .css file looks like.
-8. You can use `window.getComputedStyle()` to get the final page's style.
-9. `classList` is designed for manipulate the *class* attribute in elements.
+7. 使用 `style` 能够获取许多inline元素的style, 而这些内容不会显示在.css文件中.
+
+8. 由于很多style相互冲突, 会互相覆盖, 而程序员可以使用 `window.getComputedStyle()` 去得到最后将显示的style.
+
+9. `classList` 被设计用于添加.css文件中设置的关于 *class* 的属性.
 ```js
 // origin class -- border
 let h2 = document.querySelector('h2');
@@ -566,35 +568,35 @@ h2.classList.remove('border');  // class -- color
 h2.classList.toggle('color');   // class -- color(closed)
 h2.classList.toggle('color');   // class -- color(on)
 ```
-10. `parentElement`, `children`, `previousSibling`, `previousElementSibling`, `nextSibling` and `nextElementSibling`
-11. Firstly use `createElement` to create a new element, then use `append`, `appendChild` or `insertAdjacentElement` to set the position.
-12. You can use `remove()` to remove element, or use `removeChild()` to remove its child element.
-13. **Event** -- responding to user inputs and actions.
-* inline event *(not recommended)*
+10. `parentElement`, `children`, `previousSibling`, `previousElementSibling`, `nextSibling` 和 `nextElementSibling` 都是页面中访问各种元素的方式
+11. 首先可以使用 `createElement` 创建新元素, 然后使用 `append`, `appendChild` 或 `insertAdjacentElement` 去将新元素放到指定的位置.
+12. 使用 `remove()` 去删除元素, 或者在父元素中使用 `removeChild()` 去移除其子元素.
+13. **Event** -- 用来响应用户的操作, 比如"单击", "键盘按键"等.
+* inline 事件 *(不建议使用)*
 ```html
 <!-- `on[event]="js command"` -->
 <button onclick="alter('click me')">Click</button>
 ```
-* set property
-> It will set the property like `onclick=function()`, which means the property may be overwritten.
+* 设置属性
+> 将会将类似于 `onclick=function()` 中函数定义的功能赋给某个元素作为其响应, 但是这样的方法可能会覆盖之前定义的响应方法.
 ```js
 btn.onclick = function () { ... }
 ```
-* addEventListener *(recommended)*
-> 1. It does not set the property, which means you can get multi-results by one operation.
-> 2. There are other optional arguments that you can control. For example, `addEventListener('click', function, {once: true})` may only operate the function once.
+* addEventListener(事件监听) *(建议使用)*
+> 1. 并不是设置属性, 所以某一个元素可能可以对应多种响应事件, 比如一个按钮在"鼠标悬浮"和"点击"的时候分别有不同的表现.
+> 2. 有其他可选的参数, 比如 `addEventListener('click', function, {once: true})` 只会使得该方法只会在第一次点击的时候响应, 之后便失效.
 ```js
 btn.addEventListener('click', function(){ ... });
 ```
-14. `e.preventDefault` can turn off the default operation.
+14. `e.preventDefault` 能够终止默认的响应方法, 比如 form 会自动提交, 导致页面跳转.
 ```js
 // After submitting the form, the page will not change.
 form.addEventListener('submit', function(e){
     e.preventDefault();
 })
 ```
-15. **Event Bubbling** -- nested event will trigger its parent event.
-> You can use `e.stopPropagation()` to stop the bubbling.
+15. **Event Bubbling** -- 嵌套的响应事件会传递给其父元素, 比如父元素和子元素都定义了`click`, 那么点击子元素的时候也相当于点击了父元素, 那么就会调用两次响应.
+> 使用 `e.stopPropagation()` 去制止该行为的发生.
 ```html
 <!-- if click the button -->
 <!-- button click & div click -->
@@ -602,7 +604,7 @@ form.addEventListener('submit', function(e){
     <button onclick="alert('button click')">Click Me</button>
 </div>
 ```
-16. **Event Delegation** -- you may add some new elements by `createElement()`, however, new elements do not have listeners. In this case, you can add listener for the parent, and use `e.target` to indicate the elements.
+16. **Event Delegation** -- 可以通过 `createElement()` 去添加新的元素, 但是新的元素并没有加上事件监听. 在这种情况下, 可以使用 `e.target` 去给新加的元素加上相同的事件监听.
 
 ---
 
@@ -612,24 +614,52 @@ form.addEventListener('submit', function(e){
 - [Promise](./JavaScript/promise.js)
 
 ###### Notes
-1. **Call Stack**
-> The mechanism the JS interpreter uses to keep track of its place in a script that calls mulitple functions.<br>
-> How Js knows what function is currently being run and what functions are called from within that function, etc.
-2. **Single Thread** -- JS can only handle one thing in any time.
-> However, async will occur due to browser. Browsers come with **Web APIs** that are able to handle certain tasks in the background. The JS call stack recognizes these APIs and passes them off to the broswer to take care of. Once the browser finishes those tasks, they return and are pushed onto the stack as a callback.
-3. **Promise** -- is an object representing the evnetual completion or failure of an asynchronous operation. You can use **promise** as a returned object to which you attach callbacks, instead of passing callbacks into a function.
-> **.then()** indicates the success operation.<br> 
-> **.catch()** indicates the failure operation.
+1. **Call Stack** -- JS的一个非常重要的机制, 用于追踪调用过的多个函数如何按顺序执行.
+
+2. **Single Thread** -- JS每次都只能处理一行代码, 不能并行处理.
+> 但是, 异步是通过浏览器实现的. 浏览器能够使用 **Web APIs** 去让函数在后台执行, 而不用JS来干涉. JS的call stack将会识别这些API, 然后将异步函数或操作交由浏览器负责. 一旦浏览器完成了某个异步操作, 会重新以 **callback(回调函数)** 放入call stack, 等待JS调用. 从用户的角度来看, 好像JS一次性在做多个事情.
+
+3. **Promise** -- 代表了未来将要发生的事件，用来传递异步操作的消息. 只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态. 其有三种状态: (1) pending(等待); (2) fulfilled(完成); (3) rejected(失败). Promise 对象的状态改变，只有两种可能：从 Pending 变为 Resolved 和从 Pending 变为 Rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果。就算改变已经发生了，你再对 Promise 对象添加回调函数，也会立即得到这个结果。这与事件（Event）完全不同，事件的特点是，如果你错过了它，再去监听，是得不到结果的.
+> 缺点: 
+> 1. 无法取消 Promise，一旦新建它就会立即执行，无法中途取消.
+> 2. 如果不设置回调函数，Promise 内部抛出的错误，不会反应到外部.
+> 3. 当处于 Pending 状态时，无法得知目前进展到哪一个阶段.
 ```js
-// In promise, there are three status: pending, fulfilled & rejected
-new Promise((resolve, reject) => {
+// 构造函数包含一个参数和一个带有 resolve（解析）和 reject（拒绝）两个参数的回调。
+// 在回调中执行一些操作（例如异步），如果一切都正常，则调用 resolve，否则调用 reject
+let res = new Promise((resolve, reject) => {
     ...
 });
 ``` 
-4. `async` keyword
-> * Async function always return a promise;
-> * If the function returns a value, the promise will be resolved with that value;
-> * If the function throws an exception, the promise will be rejected.
+4. 对于已经实例化过的 promise 对象可以调用 promise.then() 方法，传递 resolve 方法作为回调; 调用 promise.catch() 方法, 传递 rejected 方法作为回调.
+```js
+res
+.then(function(info){
+    // info 是 res 的 resolve 中的参数
+})
+.catch(function(info){
+    // info 是 res 的 rejected 中的参数
+})
+```
+
+6. Promise中可以使用多个`.then`来按照逻辑顺序处理多个异步程序
+```js
+res
+.then(() => {
+    // 如果res resolved, 则执行
+})
+.then(() => {
+    // 等待上一个then中的promise返回resolved, 则执行
+})
+.catch(() => {
+    // 上述then中任意一个出问题都会被捕捉到
+})
+```
+
+7. `async` 关键字
+> * 异步函数的返回为一个记录 Promise 状态的字典: {status: value}
+> * 如果异步函数返回一个可用数据, 那么会被设置为调用后 resolved 的结果;
+> * 如果异步函数抛出一个错误, 那么该数据会被设置为调用后 rejected 的结果.
 > ```js
 > async function hello() {
 >     return 'Hey guy!';
@@ -641,15 +671,17 @@ new Promise((resolve, reject) => {
 > }
 > uhOh();   // Promise {<rejected>: 'oh no!'}
 > ```
-5. `await` keyword
-> * We can only use the `await` keyword inside of functions declared with `async`;
-> * `await` will pause the execution of the function, **waiting for a promise to be resolved**.
+
+8. `await` 关键字
+> * 只能在异步函数中使用 `await`;
+> * `await` 会暂停整个函数的执行, 直到该函数正常执行完.
 > ```js
 > async function func () {
 >     await someFuncWhichReturnPromise();
 > }
 > ```
-6. Using `try-catch` to display error message in `reject()`.
+
+9. 由于在异步函数中使用`await`并不带有错误输出, 如果等待的函数执行失败, 则会直接退出函数. 为了捕获错误, 可以使用 `try-catch`.
 ```js
 function requestURL(url) {
     return new Promise((resolve, reject) => {
