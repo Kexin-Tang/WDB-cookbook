@@ -725,12 +725,12 @@ async function func(){
 - [TV Show Search APP]()
 
 ###### Notes
-1. Some concepts:
-> * AJAX -- Asynchronous Javascript And XML
-> * API -- Application Programming Interface
-> * JSON -- JavaScript Object Notation
+1. 基础概念和名词解释:
+> * AJAX -- Asynchronous Javascript And XML, 异步JS和XML文件
+> * API -- Application Programming Interface, 编程接口
+> * JSON -- JavaScript Object Notation, 一种数据格式
 
-2. JSON is based on JS, but not equal to JS. For example, in JSON, `undefine` is not valid, and the keyName should use `""` to indicate.
+2. JSON 基于 JS, 但是两者有很大不同. 比如在JSON中, 没有JS中的`undefine`, 只有`null`, 并且所有的键都需要使用双引号括起来.
 ```json
 {
     "name": "tom",
@@ -744,25 +744,24 @@ const parseData = JSON.parse(json);     // JSON -> JS
 const jsonData = JSON.stringify(js);    // JS -> JSON
 ```
 
-3. **HTTP** is an application layer protocol supported by **TCP/IP** protocol for Web data transfering.
-> * **Status code** -- HTTP response status codes indicate whether a specific HTTP request has been successfully completed. Responses are grouped in five classes:
+3. **HTTP** 是应用层协议, 基于 **TCP/IP协议**, 用于Web上的数据传输.
+> * **Status code** -- 状态码用于反映HTTP发出请求的响应情况, 可以分为下面五种类型:
 >   * Informational responses (100–199)
 >   * Successful responses (200–299)
 >   * Redirects (300–399)
 >   * Client errors (400–499)
 >   * Server errors (500–599)
-> * **Body** -- HTTP body is the main content of the information.
-> * **Header** -- HTTP headers let the client and the server pass additional information with an HTTP request or response. It may contain *body type*, *time*, etc.
+> * **Body** -- HTTP body 是HTTP传输的主要信息内容.
+> * **Header** -- HTTP headers 是客户端和服务器传输额外信息的部分. 主要包括各种与内容无关的信息, 比如"状态码", "请求时间"等.
 
-4. `XMLHttpRequest()` is the original way of sending requests via JS, but it is not good.
-> 1. Does not support `promise`
-> 2. Weird capitalization
-> 3. Clunky syntax that hard to remeber
+4. `XMLHttpRequest()` (XHR) 是最普通的一种通过JS发起请求和得到响应的方法, 但是存在许多问题:
+> 1. 不支持 `promise`, 多个请求之间如果有先后关系的话，就会出现回调地狱
+> 2. 语法复杂
 
-5. `fetch()` is a new way of sending requests via JS which will return a `promise`!
-> It has a problem -- fetch will return *resolve* when it has received the **header**, which means the **body** may occur error.
+5. `fetch()` 是JS种新定义的一种发起请求和得到响应的方式, 基于promise进行异步控制!
+> 缺点: 在收到 header 后就会判断传输成功, promise就会返回 resolve, 但是此时 body 还没有传递完成, 可能会出错.
 
-6. `axios` is an update of `fetch` which will return a `promise` after both header and body being ready. 
+6. `axios` 是 `fetch` 的升级版, 更加优秀.
 
 ---
 
@@ -773,15 +772,10 @@ const jsonData = JSON.stringify(js);    // JS -> JSON
 - [super & extends](./JavaScript/super_extends.js)
 
 ###### Notes
-1. **Prototype** is a list of functions and properties that can be accessed by every objects. For example, every String has property called `length`, every Array has function called `concat()`. Users can define their own functions and properties, but these things can only be accessed by certain objects.
+1. **Prototype** 原型是一系列能够被所有类对象访问的属性和方法. 比如所有 String 类的实例对象都有 `length` 的属性. 用户也能定义新的方法和属性, 但是这些一般都只能被特定的对象访问.
+> 在每个类中, 有个叫做`__proto__`的属性, 里面保存的是该类所有实例共用的方法和属性.
 
 2. **Factory Function**
-> **Problem**: In this case, every object will have a copy of method. For example, `colorMaker(0,0,0).rgb()` &NotEqual; `colorMaker(255,255,255).rgb()`. In other words, the method is unique rather than storing in `__proto__`.
-> ```js
-> let first = colorMaker(0,0,0).rgb;
-> let second = colorMaker(1,1,1).rgb;
-> console.log(first === second);    // false
-> ```
 ```js
 function colorMaker(r, g, b) {
     const color = {};
@@ -800,20 +794,14 @@ function colorMaker(r, g, b) {
     return color;
 }
 ```
-
-3. **Constructor Function**
-> In this case, every object will share the same method. In other words, the method stores in `__proto__`.
 > ```js
 > let first = colorMaker(0,0,0).rgb;
 > let second = colorMaker(1,1,1).rgb;
-> console.log(first === second);    // true
+> console.log(first === second);    // false
 > ```
-> **Problem**: It needs to define properties and functions seperately.
-> > **Step**:
-> > 1. Creates a blank, plain JS object;
-> > 2. Links (sets the constructor of) this object to another object;
-> > 3. Passes the newly created object from Step1 as the this context;
-> > 4. Returns this if the function doexn't return its own object.
+> > **问题**: 每个对象都会拥有该定义中方法和属性的一个拷贝, 比如 `colorMaker(0,0,0).rgb()` &NotEqual; `colorMaker(255,255,255).rgb()`. 换句话说, 这些方法和属性都不是定义在类的 `__proto__` 中.
+
+3. **Constructor Function**
 ```js
 function colorMaker(r, g, b) {
     this.r = r;
@@ -832,10 +820,18 @@ colorMaker.prototype.hex = function () {
 
 // when you use `colorMaker`, remeber to use key word -- `new`.
 ```
+> 在这种定义下, 所有对象会共享相同的方法. 换言之, 方法存储在 `__proto__` 中.
+> ```js
+> let first = colorMaker(0,0,0).rgb;
+> let second = colorMaker(1,1,1).rgb;
+> console.log(first === second);    // true
+> ```
+> **问题**: 需要分开定义属性和方法.
+
 
 4. **Class**
-> It will warp properties and methods together!
-> > `constructor()` will run automatically when `new` an object.
+> 将包装属性和方法到同一个类内!
+> > `constructor()` 将会在执行`new`操作后自动运行, 类似 Python 中的 `__init__(self)`.
 ```js
 class colorMaker {
     constructor(r, g, b) {
@@ -859,8 +855,8 @@ class colorMaker {
 }
 ```
 5. **Extends & Super**
-> extends -- Inherit common propeties and functions from its parent class.<br>
-> super -- Inherit some properties from parent class and add some new properties.
+> extends -- 会从父类中继承公共的属性和方法.<br>
+> super -- 继承父类中的某一些属性, 然后可以增加自己独特的属性.
 ```js
 class Pet {
     constructor(name, age) {
@@ -911,9 +907,9 @@ class Dog extends Pet {
 
 
 ###### Notes
-1. **Terminal** -- A text-based interface to computer. Originally a physical object, but now we use software terminals.
-2. **Shell** -- The program running on the terminal.
-3. **Bash** -- One of the most popular shells.
+1. **Terminal** -- 使用文本输入输出操控计算机的接口.
+2. **Shell** -- 运行在终端上的程序.
+3. **Bash** -- 一种常见的Shell.
 > Windows: MS DOS   |   Mac/Linux: Bash
 
 ---
@@ -928,16 +924,16 @@ class Dog extends Pet {
 - [Language Detector](./Proj/LanguageDetector/)
 
 ###### Notes
-1. **Node** -- a JS runtime that executes code outside of browsers.
-> * (&cross;)**Node** does not have access to all the browse stuff, like window, document, DOM, etc.
-> * (&check;)**Node** comes with a bunch of built-in modules that don't exist in the browser. These modules help us do things like interact with the operating system and files/folders.
+1. **Node.js** -- 是一种在服务器执行JS的运行环境.
+> * (&cross;)**Node** 不能直接访问客户端的内容, 如窗口, 文档, DOM等.
+> * (&check;)**Node** 有许多内置的模块, 这些模块是浏览器没有拥有的. 这些模块帮助我们操控操作系统, 读写文件等.
 
-2. **NPM** -- Node Package Manager.
-> * Use `npm install` will install packages locally, which can only be accessed in certain directory;
-> * Use `npm install -g` will install package globally, which can be accessed in any files.
+2. **NPM** -- Node Package Manager的缩写.
+> * 使用 `npm install` 将会把模块安装到局部, 只能通过设置完备的路径才能访问;
+> * 使用 `npm install -g` 将会把模块安装到全局, 可以在任何文件中访问.
 
-3. **process.argv** -- returns an array containing the command line arguments passed when the Node.js process was launched.
-> The first element is `process.execPath`. The second element is the path to the JS file being executed. The remaining elements will be any additional command line arguments. 
+3. **process.argv** -- 返回命令行中的各种参数.
+> 第0个参数是 `process.execPath`, 其指明了 Node.js 的相关路径. 第1个参数是被执行的文件路径. 剩下的元素是其他附加的参数. 
 > ```js
 > // app.js file
 > const args = process.argv.slice(2);   // get the arguments from the third params
@@ -952,8 +948,8 @@ class Dog extends Pet {
 > # Hello, jerry
 > ```
 
-4. **fs** -- is the short of File System, which controls the creating, deleting, accessing files. Some operations will have two versions: ***Sync*** version (will block process until they complete, halting all connections) and ***Async*** version.
-> fs is not built-in class, so you need to `const fs = require('fs');`
+4. **fs** -- Node.js中文件系统模块, 能帮助我们创建, 删除, 读写文件. 许多操作有两种模式: 同步(会阻塞进程); 异步(不会阻塞进程).
+> 使用`require`来达到引入模块的作用, 就像 Python 中的 `import`.
 ```js
 const fs = require('fs');
 const dirName = process.argv[2] || 'Project';
@@ -966,37 +962,55 @@ try {
 }
 ```
 
-5. **exports** -- share some properties and functions to other files by `module.exports = xxx`. In other files, should use syntax `require(path)`. [More details](./NodeJS/exports/).
+5. **exports** -- 将某个文件中定义好的各种方法, 类, 属性设置为可以由别的文件访问. [[More details]](./NodeJS/exports/).
 
-6. `package.json` is an important file that records the version of dependencies and other informations about the pacakage, such as author, version, etc.
+6. `package.json` 是非常重要的一个文件, 它记录了该环境下各种模块, 库和依赖等的版本信息, 还有各种类似于作者, 创建时间, 版本等的信息.
 > ```bash
+> # 使用init就可以初始化一个无依赖的基础环境
 > node init
 > ```
 
-7. You can use `npm install` to install all dependencies.
-8. **Express** -- a server framework. [More Details](./NodeJS/firstApp/index.js).
-> Library Vs Framework
-> * **Library**: When you use a library, you are in charge. You control the flow of the application code, and you decide when to use the library.
-> * **Framework**: With framework, that chontrol is inverted. The framework is in charge, and you are merely a participant. The framework tells you where to plug in the code.
-> 
-> Some Common Functions
-> * `listen(port, callback)` -- listen requests from port
-> * `use((req, res)=>{})` -- if there are `req`, send `res` back as responses. **It will response to every request**
-> * route <u>(`req` is an *object* transferred from *http*)</u>
->   * `get(path, (req, res)=>{})` -- if `path` send requests, it will response `res` via `res.send()`. **It will only response to certain request**<br><u>(*path can be `/cats/:sub` to match any url that start with /cats/*)</u>
->   * `post(path, (req, res)=>{})` is different with `get()`, which means the methods will recognize http request type (get / post). 
-> * `nodemon file` in command line will automatically restart server.
+7. 可以使用 `npm install` 去安装需要的库和依赖.
+8. **Express** -- 一个非常优秀的服务器框架. [[More Details]](./NodeJS/firstApp/index.js).
+> 库 Vs 框架
+> * **库**: 库的主管方是程序员. 库只会提供各种函数, 而何时使用, 需要用户自己决定.
+> * **框架**: 框架的主管方是框架. 框架可以包含各种库, 然后框架通过调用多种函数, 实现特定的功能, 而程序员只需要在合适的位置和时机插入相应的代码即可.
+> > 库相当于CPU, 显卡, 存储条等部件, 用户不用知道这些部件内部的原理, 但是仍然需要把他们拼起来成为电脑才能使用; 框架相当于一台整机, CPU, 显卡, 内存条都安装在合适的位置, 用户可以直接使用.
+
+9. 常见的 Express 函数
+* `listen(port, callback)` -- 给某个端口添加监听, 当该端口传来请求时, 可以捕获.
+* `use()` -- 类似于 C++ 中的`#define`, 可以给整个项目宏定义一些参数, 可以被所有的内容访问到.
+* route 路由 <u>(`req` 是经过 http 翻译成的数据对象 object)</u>
+  * `get(path, (req, res)=>{})` -- 如果 `path` 发来请求, 将会通过 `res.send()` 来发送 `res`. <u>(*可以使用`:xxx`来指明任意的目录, 如 `/cat/:sub` 可以匹配以 `/cat/name`, `/cat/age/` 等, 但不能匹配 `/cat/name/meow`*)</u>
+  * `post(path, (req, res)=>{})` 与 `get()` 不同, 这表明 Express 中对于HTTP的请求方式是有区分的, 如 GET / POST
+
+10.  `nodemon file` 可以在更改代码的时候, 动态的自动重启服务器.
 
 ---
 
 ## S34: EJS for Dynamic HTML
 
 ###### Notes
-* **EJS** is short of Embedded JavaScript, it's a templating that help us to build JS easier. [More details](./EJS/Templating/).
-> * Use `<%= js expression %>` to show the content;
-> * Use `<% js command %>` to execute js logic without showing that, such as *loop* and *case*;
-> * Use `app.use(express.static(path))` to access static files, such as *.css*, *.js*, *imgs*, etc;
-> * Use `<%- include(path) %>` to load *.ejs templates*;
+* **EJS** 是 Embedded JavaScript 的简称, 是一套简单的模板语言，利用普通的 JavaScript 代码生成 HTML 页面. [[More details]](./EJS/Templating/).
 
-* **MVC** -- Model-View-Controller
-> ![MVC.jpg](https://i.loli.net/2021/02/09/djXFC1oQpmAc7hN.jpg)
+* 基本语法
+> * `<%= js expression %>` -- 显示JS代码的运行结果;
+> * `<% js command %>` 执行JS的代码, 但是并不会显示结果, 一般用于执行循环和条件语句;
+
+
+* 几种模型结构的介绍
+> * MVC
+>   * Model -- 用于操控数据部分, 比如数据库
+>   * View -- 用于实现显示的界面, 如web page
+>   * Controller -- 用于实现逻辑控制
+>   * 各个模块通信是单向的
+> <img src="https://upload-images.jianshu.io/upload_images/15226743-86c2d4be3b5833c3.png?imageMogr2/auto-orient/strip|imageView2/2/w/601/format/webp">
+> * MVP
+>   * 各部分之间的通信，都是双向的。
+>   * View 与 Model 不发生联系，都通过 Presenter 传递。
+>   * View 非常薄，不部署任何业务逻辑，称为"被动视图"（Passive View），即没有任何主动性，而 Presenter非常厚，所有逻辑都部署在那里。
+> <img src="https://upload-images.jianshu.io/upload_images/15226743-947a7c01f8199148.png?imageMogr2/auto-orient/strip|imageView2/2/w/537/format/webp">
+> * MVVM
+>   * 采用双向绑定(data-binding): View的变动，自动反映在View Model，反之亦然. 这样开发者就不用处理接收事件和View更新的工作，框架已经帮你做好了.
+> <img src="https://upload-images.jianshu.io/upload_images/15226743-1b2adc4a66e12c6e.png?imageMogr2/auto-orient/strip|imageView2/2/w/715/format/webp">
+
