@@ -157,58 +157,207 @@ p {
 - [Callbacks & Array Methods](./JavaScript/callbacks.js)
 
 ###### Notes
-1. JS has several primative types: `bigint`, `string`, `boolean`, `null`, `number`, `undefined` and `symbol`.
-2. `NaN` is a numeric value that represents something that is not a number
-```js
-0/0 // NaN
-1+NaN
-```
-3. Value setting
-```js
-let Name = Value;       // normal
-const Name = Unchanged; // cannot be changed
-var Name = Value;       // old version, not recommend!
-```
-4. String
-```js
-let name = "Ke-Hsin";
-name[1]         // "e"
-name+"Tang"     // Ke-HsinTang
+1. 基础内容
+   1. JS 的数据类型如下: `bigint`, `string`, `boolean`, `null`, `number`, `undefined` 和 `symbol`.
 
-// Property
-name.length     // 7
+   2. JS 的代码在 HTML 中可标记在 `<script></script>` 中, 而该标签可以放在 head 或者 body 中, 既可以直接在内部写入 JS 代码, 也可以设置 `src` 属性, 索引到某个文件
+   
+   3. Console, Alert & Prompt
+    > * windows.alert() -- 用于在网页中弹出一个警告框
+    > * document.write() -- 将内容写到HTML文件中, 并覆盖原有的HTML
+    > * console.log()   -- 在控制台显示
+    > * windows.prompt() -- 弹出一个提示框, 可以让用户输入内容
+    ```js
+    console.log("I am a log")   // I am a log
+    console.error('Error!')
+    console.warn('Warning!')
 
-// Method
-let userInput = '  Hello woRld ';
+    alert('Alert in the web page')
 
-userInput.toUpperCase()     // '  HELLO WORLD '
+    let num = prompt("Enter a number")
+    ```
 
-userInput.trim()            // 'Hello woRld'
+2. 数据类型
+   1. `NaN` 是一个数值, 代表了一个无法计算得到的数字. 
+    > NaN 与任何值都不相等, 包括其自己. 唯一能判断一个数是不是 NaN 的方法是使用 `isNaN()`.
+    ```js
+    0/0 // NaN
+    1+NaN
+    ```
+   2. Null & Undefined
+    > * null -- 缺省值
+    > * undefined -- 未赋值
+    > ```js
+    > let userName = null;  // null
+    > let a;                // undefined
+    > ```
 
-userInput.indexof('Hel')    // the first fit -- 3
-userInput.indexof('abc')    // not found -- -1
+   3. 变量赋值
+    ```js
+    let Name = Value;       // normal
+    const Name = Unchanged; // cannot be changed
+    var Name = Value;       // old version, not recommend!
+    ```
 
-userInput.slice(2, 7)       // 'Hello'
-userInput.slice(10)         // 'Rld '
-userInput.slice(-4, -1)     // 'Rld'
+3. String 
+   1. ***字符串是不可变的,如果对字符串的某个索引赋值，不会有任何错误，但是，也没有任何效果***
+   2. 常见操作
+    ```js
+    let name = "Ke-Hsin";
+    name[1]         // "e"
+    name+"Tang"     // Ke-HsinTang
+    name[1] = 'a'   // name: "Ke-Hsin"
 
-userInput.replace('Rld', 'rld').trim()  // 'Hello world'
+    // Property
+    name.length     // 7
 
-// Template Literals
-`My name is ${firstName} ${lastName} ! I have $${3+4}.`
-```
-5. Null & Undefined
-> * null -- Intentional absence of some value
-> * undefined -- do not have an assigned value
-> ```js
-> let userName = null;  // null
-> let a;                // undefined
-> ```
-6. double equals Vs triple equals
+    // Method
+    let userInput = '  Hello woRld ';
+
+    userInput.toUpperCase()     // '  HELLO WORLD '
+
+    userInput.trim()            // 'Hello woRld'
+
+    userInput.indexof('Hel')    // the first fit -- 3
+    userInput.indexof('abc')    // not found -- -1
+
+    userInput.slice(2, 7)       // 'Hello'
+    userInput.slice(10)         // 'Rld '
+    userInput.slice(-4, -1)     // 'Rld'
+
+    userInput.replace('Rld', 'rld').trim()  // 'Hello world'
+
+    // Template Literals
+    `My name is ${firstName} ${lastName} ! I have $${3+4}.`
+    ```
+
+4. Array 
+   1. *注意 **in-place** 方法会直接改变原数据*
+   
+   2. 考虑到 `引用` 和 `地址` 的区别, 在对两个 Array 进行判断的时候, 需要注意. **一般不建议直接判断两个 Array 是否相同**.
+    ```js
+    let num1 = [1,2,3]
+    let num2 = [1,2,3]
+
+    // Although they look the same, num1 and num2 store in different places (addresses).
+    // And === or == will compare their addresses
+    num1 === num2;  // false
+    num1 == num2;   // false
+
+    // In this case, numCopy is a reference of num1, they share the same address.
+    let numCopy = num1
+    numCopy === num1;   // true
+    num1.pop();     // num1 & numCopy = [1,2]
+    ```
+
+   3. `Const Array` 代表该数组指向某一个地址, 可以在该地址上做任意操作(如增删数据), 但是不允许更改指向(即指向另一个数组).
+    ```js
+    const num = [1,2,3];
+    num.push(4);    // it's ok, num=[1,2,3,4], no address is changed.
+    num = [5,6];    // error! [5,6] has a different address, you cannot assign an new address to a const.
+    ```
+
+   4. 常用操作
+    > * 尾部操作: push/pop & 头部操作: shift/unshift
+    > ```js
+    > let num = [1,2]
+    > num.push(3,4);  // [1,2,3,4], in-place
+    > num.pop();      // [1,2,3], in-place
+    > num.shift();    // [2,3], in-place
+    > num.unshift(1); // [1,2,3], in-place
+    > ```
+    > * 连接: concat & 判断: includes & 搜索: indexOf & 逆序: reverse
+    > ```js
+    > let num1 = [1,2]
+    > let num2 = [3,4]
+    > let num = num1.concat(num2);   // num = [1,2,3,4], not in-place 
+    > // not in-place
+    > num.includes(100);  // false
+    > num.includes(1);    // true
+    > 
+    > // not in-place
+    > num.indexOf(2);     // 1
+    > num.indexOf(100);   // -1
+    > 
+    > num.reverse();      // [4,3,2,1], in-place
+    > ```
+    > * 切片: slice & 删除/替换: splice
+    > ```js
+    > let colors = ['red', 'blue', 'purple', 'white']
+    > 
+    > // not in-place
+    > let part1 = colors.slice(2);      // ['purple', 'white']
+    > let part2 = colors.slice(0,2);    // ['red', 'blue']
+    > 
+    > // in-place
+    > // splice(index, ?deleteNum, ...item)
+    > let deleteTwo = colors.splice(-1,2);              // colors=['red','blue']            & deleteTwo=['purple', 'white']
+    > let deleteZero = colors.splice(1,0,'green');      // colors=['red','green','blue']    & deleteZero=[] 
+    > let deleteOne = colors.splice(0, 1, 'black');     // colors=['black','green','blue']  & deleteOne=['red']
+    > ```
+    > * 排序
+    > ```js
+    > let num = [100,5,23,7,0];
+    > num.sort();   // [0,5,7,23,100], in-place
+    > ```
+    > * 按指定方式合并输出: join
+    > ```js
+    > let data = [1,2,3]
+    > data.join('-')        // '1-2-3'
+    > ```
+
+5. Object
+   1. 存储 `键-值` 对, 类似Python中的字典. 
+   2. ***除了 symbol 外, 键都会被以 string 的形式存储***
+    ```js
+    // let obj = { key: value }
+    let stu = {name:"tom", age:18, motto:"my work is in my heart", favorate:['bike', 'game']}
+
+    let name = stu["name"]; // "tom"
+    let motto = stu[motto]; // error
+    let age = stu.age       // 18
+    delete stu.age
+    ```
+    ```js
+    let years = {2000:'good', 2020:'bad'};
+    let birth = 2000;
+
+    let y1 = years["2000"]; // good
+    let y2 = years[2020];   // bad
+    let y3 = years.2000;    // error
+    let y4 = years."2020";  // error
+    let y5 = years[birth];  // good
+    let y6 = years.birth;   // error
+    ```
+
+6. Map 和 Set
+   1. Map 
+      1. 是一组键值对的结构，具有极快的查找速度, 类似于 C++ 中的哈希表.
+      2. 常见操作
+        ```js
+        let m = new Map([['tom', 89], ['jack', 95]])
+        m.set('mary', 100)
+        m.get('tom')    // 89
+        m.has('Adam')   // false
+        m.delete('jack')
+        m.get('jack')   // undefined
+        ``` 
+      3. 当对某一个键不断赋值, 则后面的值会覆盖前面的值
+        
+   2. Set
+      1. 类似数学中的集合, 可以存储各种类型元素, 但是不能重复, 而且集合中元素是**无序**的, 不能直接用下标访问
+      2. 常见操作
+        ```js
+        let s = new Set([1, 2, 2, "2"])     // s = [1,2,"2"]
+        s.add(3)                            // s = [1,2,"2",3]
+        s.delete("2")                       // s = [1,2,3]
+        ```
+
+7. 双等号 Vs 三等号
 > * ==
->   * Checks for equality of value, but not equality of type. This can lead to some unexpected results!
+>   * 检查值是否相同, 但是并不检查种类是否相同. 相当于先进行类型转换, 再比较.
 > * ===
->   * Checks for equality of value and equality of type.
+>   * 检查值和种类.
 > ```js
 > 0 == false;           // true
 > null == undefined;    // true
@@ -216,250 +365,132 @@ userInput.replace('Rld', 'rld').trim()  // 'Hello world'
 > 
 > 0 === false;          // false
 > 1 === '1';            // false
+> NaN === NaN;          // false
 > ```
-7. Console, Alert & Prompt
-```js
-console.log("I am a log")   // I am a log
-console.error('Error!')
-console.warn('Warning!')
 
-alert('Alert in the web page')
+8. 被认为是 False 的数值 -- false, 0, "", null, undefined, NaN
 
-let num = prompt("Enter a number")
-```
-8. False values
-> * false
-> * 0
-> * ""
-> * null
-> * undefined
-> * NaN
-9. Array *(Notice the difference between the **in-place** methods and other methods!)*
-> * push/pop & shift/unshift
-> ```js
-> let num = [1,2]
-> num.push(3,4);  // [1,2,3,4], in-place
-> num.pop();      // [1,2,3], in-place
-> num.shift();    // [2,3], in-place
-> num.unshift(1); // [1,2,3], in-place
-> ```
-> * concat & includes & indexOf & reverse
-> ```js
-> let num1 = [1,2]
-> let num2 = [3,4]
-> let num = num1.concat(num2);   // num = [1,2,3,4], not in-place 
-> // not in-place
-> num.includes(100);  // false
-> num.includes(1);    // true
-> 
-> // not in-place
-> num.indexOf(2);     // 1
-> num.indexOf(100);   // -1
-> 
-> num.reverse();      // [4,3,2,1], in-place
-> ```
-> * slice & splice
-> ```js
-> let colors = ['red', 'blue', 'purple', 'white']
-> 
-> // not in-place
-> let part1 = colors.slice(2);      // ['purple', 'white']
-> let part2 = colors.slice(0,2);    // ['red', 'blue']
-> 
-> // in-place
-> // splice(index, ?deleteNum, ...item)
-> let deleteTwo = colors.splice(-1,2);              // colors=['red','blue']            & deleteTwo=['purple', 'white']
-> let deleteZero = colors.splice(1,0,'green');      // colors=['red','green','blue']    & deleteZero=[] 
-> let deleteOne = colors.splice(0, 1, 'black');     // colors=['black','green','blue']  & deleteOne=['red']
-> ```
-> * sort
-> ```js
-> let num = [100,5,23,7,0];
-> num.sort();   // [0,5,7,23,100], in-place
-> ```
-10.  Due to `Reference` and `Address`, you should pay attention to the equality between two arrays.
-```js
-let num1 = [1,2,3]
-let num2 = [1,2,3]
-
-// Although they look the same, num1 and num2 store in different places (addresses).
-// And === or == will compare their addresses
-num1 === num2;  // false
-num1 == num2;   // false
-
-// In this case, numCopy is a reference of num1, they share the same address.
-let numCopy = num1
-numCopy === num1;   // true
-num1.pop();     // num1 & numCopy = [1,2]
-```
-11. `Const Array` is an array that cannot be re-assigned, but it can be changed.
-```js
-const num = [1,2,3];
-num.push(4);    // it's ok, num=[1,2,3,4], no address is changed.
-num = [5,6];    // error! [5,6] has a different address, you cannot assign an new address to a const.
-```
-12. Object -- consist with key-value pairs, just like *dict* in Python.
-```js
-// let obj = { key: value }
-let stu = {name:"tom", age:18, motto:"my work is in my heart", favorate:['bike', 'game']}
-
-let name = stu["name"]; // "tom"
-let motto = stu[motto]; // error
-let age = stu.age       // 18
-```
-```js
-let years = {2000:'good', 2020:'bad'};
-let birth = 2000;
-
-let y1 = years["2000"]; // good
-let y2 = years[2020];   // bad
-let y3 = years.2000;    // error
-let y4 = years."2020";  // error
-let y5 = years[birth];  // good
-let y6 = years.birth;   // error
-```
-> All keys will be converted into *string* except symbol keys.
-13. `for(value of iterable)` can be used to iterate arrays, maps or other type **except objects** (Notice: IE doesn't support)
-14. `for(key in objects)` can be used to iterate an object, and get the keys.
-```js
-let stu = {'tom':100, 'jack':85};
-for(let name in stu)
-{
-    console.log(`${name} has score: ${stu.name}`);
-}
-
-console.log(Object.keys(stu));      // ['tom','jack']
-console.log(Object.values(stu));    // [100,85]
-console.log(Object.entries(stu));   // [['tom',100], 
-                                    //  ['jack',85]]
-```
-15. Function
-```js
-// function defination
-function add(x, y){
-    return x+y;
-}
-// function expression
-const mul = function (x,y){
-    return x*y;
-}
-// arrow function
-const square = (x) => {
-    return x*x;
-}
-```
-16. Scope -- `Function`, `Block` & `Lexical`
-> * `function` & `block` scopes are the same as other languages like Python and C++
-> * `lexical` scope is very different. It can access its outter variables.
-> ```js
-> // the `print` function can run successfully due to lexical property.
-> function print(){
->   let heros = ['spiderman', 'ironman']
->   function lexical(){
->       for(let hero of heros){
->           console.log(hero)
->       }
->   }
->   lexical()
-> }
-> ```
-17. Higher order functions -- functions can accept other functions as arguments, or return functions
-```js
-function executeFunc(func, times){
-    for(let i=0; i<times; i++){
-        func();
+9. 遍历
+    1. `for(value of iterable)` 用于遍历 Array, map 和 set, 除了对象 Object.
+    2. `for(key in objects)` 用于遍历对象, 获得的是每个pair的键.
+    ```js
+    let stu = {'tom':100, 'jack':85};
+    for(let name in stu)
+    {
+        console.log(`${name} has score: ${stu.name}`);
     }
-}
 
-function hello(){
-    console.log("hello world")
-}
+    console.log(Object.keys(stu));      // ['tom','jack']
+    console.log(Object.values(stu));    // [100,85]
+    console.log(Object.entries(stu));   // [['tom',100], 
+                                        //  ['jack',85]]
+    ```
+    3. `forEach(callback)` 可以类似于 Python 中 enumerate, 得到索引和值(或键和值)
+    ```js
+    let a = ['A', 'B', 'C']
+    let m = new Map([['tom', 89], ['jack', 95]])
+    let s = new Set([1,2])
 
-executeFunc(hello(), 2);
-```
-```js
-function isBetweenFunc(min, max){
-    return function(num){
-        return num>=min && num<=max;
+    a.forEach(function(ele, idx, arr) {
+        console.log(`${ele}, index=${idx}.`)
+    })
+
+    m.forEach(function(val, key, map){
+        console.log(`${key}-${val}`)
+    })
+
+    s.forEach(function(ele, sameEle, set) {
+        console.log(ele)
+    })
+    ```
+
+10. 函数
+    1. 定义函数的三种方法
+        * 赋予函数名, 与其他编程语言保持一致
+        * 将匿名函数赋值给某个引用
+        * 箭头函数
+    ```js
+    // function defination
+    function add(x, y){
+        return x+y;
     }
-}
-const isBetween1 = isBetweenFunc(10, 50);
-isBetween1(30);  // true
-
-const isBetween2 = isBetweenFunc(1, 5);
-isBetween1(30);  // false
-```
-18. **Method** -- we can add functions as properties on objects.
-```js
-const math = {
-    mul: function(x,y){return x*y},
-    div: function(x,y){return x/y},
-    add: function(x,y){return x+y},
-    min: function(x,y){return x-y}
-}
-
-math.add(1,1);  // 2
-```
-19. **this** -- key word for accessing object's other nested values.
-> Notice: It is important that ***this*** in ***arrow functions*** can only access *function scope* variables. In other words, it cannot access other nested values. 
-```js
-let cat = {
-    name: 'bobo',
-    sex: 'female',
-    info1: function (){console.log(`${this.name} says meow`)},
-    info2: () => {console.log(`${this.name} says meow`)}
-}
-cat.info1();    // bobo says meow
-cat.info2();    // undefined says meow
-```
-```js
-let person = {
-    firstName: 'Ke-Hsin',
-    lastName: 'Tang',
-    fullName: function (){
-        return this.firstName+' '+this.lastName;
-    },
-    shoutName1: function() {
-        return setTimeout(function (){
-            console.log(this);
-            console.log(this.fullName())
-        }, 100)
-    },
-    shoutName2: function() {
-        return setTimeout(() => {
-            console.log(this);
-            console.log(this.fullName())
-        }, 100)
+    // function expression
+    const mul = function (x,y){
+        return x*y;
     }
-}
+    // arrow function
+    const square = (x) => {
+        return x*x;
+    }
+    ```
+    2. `arguments` 关键字可以帮助在函数内部访问所有传入的参数
+    ```js
+    function a(x){
+        for(let i=0; i<arguments.length; i++)
+            console.log(arguments[i])
+    }
 
-person.shoutName1();    // window \n undefined undefined
-person.shoutName2();    // person \n Ke-Hsin Tang
-```
-1.  **try-catch**
+    a(1,2,3)    // 1, 2, 3
+    a(5)        // 5
+    ```
+    3. 默认参数
+    ```js
+    function f(a, b=1){
+        console.log(b)
+    }
+    f(1, 2) // 2
+    f(1)    // 1
+    ```
+    4. 变量提升 -- JS会自动把用`var`定义的变量声明提前(但是不会提升变量赋值, 如果一个变量先使用再赋值, 那么提升时赋值为`undefined`)
+    ```js
+    // 下面文件执行时, 输出结果为 undefined, 10, 99
+    var a = 99
+    f()
+    console.log(a)  // 会在f()执行完成后执行, 打印全局变量99
+    function f(){
+        console.log(a)  // 会将局部变量a的声明提前, 此时a=undefined
+        var a = 10
+        console.log(a)  // 打印局部变量a=10
+    }
+    ```
+    5. `let` 和 `var`
+        * `let`赋予了JS块级作用域
+        ```js
+        {
+            let a = 10
+        }
+        console.log(a)  // error
+        {
+            var b = 10
+        }
+        console.log(b)  // 10
+        ```
+        * `let`没有变量提升, 所以必须先定义, 再使用
+        * `let`不能重复赋值, 如`let a=10`之后不能再`let a=xxx`
+    6. 作用域
+        * 全局作用域 -- 不在任何函数内定义的变量就具有全局作用域. 在JS中的全局指的是全局对象`window`, 所有定义的变量和函数都是定义在`window`作用域下.
+        > 在自定义的库中, 为了防止`window`中出现同名冲突, 常常会自己在文件开头设定一个空对象, 然后所有变量和方法都加上自己定义的对象名
+        * 局部作用域
+    7. 上下文语义 -- 在嵌套函数中, 内层函数可以不需要外层函数传递参数, 就可以直接访问参数
+    ```js
+    function f1(){
+        let a = 10
+        function f2(){
+            console.log(a)
+        }
+    }
+    f1()    // 10, 因为f2可以通过上下文语义访问到未传递的参数
+    ```
+11. 传播
 ```js
-try{
-    // something may be wrong
-} catch(e) {
-    console.log(e);
-    // other warnings or logs
+function show(a, b, ...res){
+    console.log(a)
+    console.log(b)
+    console.log(res)
 }
-```
-21. For other advanced function methods, you can refer [html](./HTML/callbacks.html).
-22. Default params
-```js
-// old version
-function func1(a){
-    if(a===undefined)   a=1;
-    return a;
-}
-// new version
-function func2(b=1){
-    return b;
-}
-```
-23. `Spread` allows an iterable such as an array to be **expanded** in places where zero or more arguments (function calls) or elements (array literals) are expected, or an object expression to be expanded in places where zero or more key-value pairs are expected.
-```js
+show(1,2,3,4,5) // 1, 2, [3,4,5]
+show(6)         // 6, undefined, []
+
 let numbers = [1,56,203,42];
 Math.max(...numbers);   // 203
 console.log(...'cat');  // 'c', 'a', 't'
@@ -470,19 +501,16 @@ let arr = [...arr1, ...arr2];   // ['CHN', 'USA', 'UK']
 
 let info1 = {name:'tom', dep:'cs'};
 let info2 = {age:18, dep:'ece'};
+// 有相同属性时, 后定义的会覆盖前者
 let stu1 = {...info1, ...info2, sex:'man'}; // {name:'tom', age:18, dep:'ece', sex:'man'}
 let stu2 = {...info2, ...info1, sex:'man'}; // {name:'tom', age:18, dep:'cs', sex:'man'}
 ```
-24. `REST` is the opposite concept of `spread`. It combine scattered parameters to single **array-like** parameter, which has a length property but does not have array method like push/pop. *(It is not available inside of arrow functions!)*
-```js
-function sum(...num){
-    return num.reduce((sum, curr) => sum+=curr);
-}
-
-sum(1,1);       // 2
-sum(1,2,3,4,5); // 15
-```
-25. `Destructuring` is used to seperate some elements from array or object.
+12. 解构赋值
+* 使用`[]`获取Array, 使用`{}`获取Object
+* 可以使用`[,,c]`去跳过前两个元素
+* 可以使用 **传播** 去获取剩余元素
+* 可以使用`originName: newName`去用新的变量名保存元素
+* 在函数形参中可以使用该方法设置传入的参数
 ```js
 // gold = 1024
 // silver = 524
@@ -503,8 +531,129 @@ let person = {
 }
 const {name, age, born: birthYear = 1999, country = 'CHN'} = person;
 
+// tom is 18 years old!
 function show({name, age}){
     console.log(`${name} is ${age} years old!`)
+}
+show(person)
+
+// ['A', ['B', 'C']]
+let alpha = ['A', ['B', 'C']]
+const [a, [b, c]] = alpha
+```
+
+13. 方法
+    * 在对象中, 除了可以定义属性, 还可以定义一些函数, 而这些函数就成为对象的方法.
+    * **`this`指针**
+      1. 在调用的时候一定要使用`object.method()`, 因为方法中的`this`会指向调用它的对象
+        ```js
+        function getAge(){
+            let now = new Data().getFullYear()
+            return now - this.birth
+        }
+
+        let person = {
+            name: 'tom',
+            birth: 2000,
+            getAge: getAge  // 注意, 此处不能写成getAge()!!
+        }
+
+        person.getAge()     // 21, 因为this指向了调用对象, 即person
+        getAge()            // NaN, 因为this指向了调用对象, 即window
+        ```
+        2. 在函数中套一个函数, 那么嵌套函数的`this`仍然是指向`window`, 只有最外层的是指向object
+        ```js
+        let xiaoming = {
+            name: '小明',
+            birth: 1990,
+            age: function () {
+                function getAgeFromBirth() {
+                    var y = new Date().getFullYear();
+                    return y - this.birth;
+                }
+                return getAgeFromBirth();
+            }
+        };
+        xiaoming.age()  // NaN
+        ```
+        3. 解决嵌套问题的方法就是在每个嵌套函数里都事先捕获`this`
+        ```js
+        let xiaoming = {
+            name: '小明',
+            birth: 1990,
+            age: function () {
+                let that = this
+                function getAgeFromBirth() {
+                    var y = new Date().getFullYear();
+                    return y - that.birth;
+                }
+                return getAgeFromBirth();
+            }
+        };
+        ```
+    * `apple`和`call`
+      * 通过调用`apply`和`call`, 可以指定函数中`this`的指向, 两者的区别在于: `apply`的参数以Array形式传入, `call`的要顺序传入
+      ```js
+        function show(a, b, c){
+            return `${this.name} has ${a}, ${b}, ${c}`
+        }
+
+        let person = {
+            name: 'tom',
+            birth: 2000,
+            show: show
+        }
+
+        getAge.apply(person, [1,2,3])
+        getAge.call(person,1,2,3)
+      ```
+
+14. 高级函数
+    1. 函数的参数能够接收别的函数, 也能够返回函数
+    2. `map()`和`reduce()`
+       1. `map(function)`用于将某一个函数作用于调用映射的Array上, 使得每个元素都经过映射成为新的值
+       ```js
+       function square(x) {
+           return x*x;
+       }
+       let data = [1,2,3]
+       data.map(square)     // [1,4,9]
+       ```
+       2. `reduce(function)`用于将结果继续和序列的下一个元素做累积计算, 最终将一个序列变为一个值, 具体的逻辑: `[x1, x2, x3, x4].reduce(f) = f(f(f(x1, x2), x3), x4)`
+       ```js
+       let data = [1,2,3,4]
+       data.reduce((x, y) => {
+           return x*y
+       })   // (((1*2)*3)*4)
+       ```
+    3. `filter(function)` 用于根据 function 返回的 boolean, 保留 true 的, 删去 false 的
+    > filter的回调函数可以有三个参数, 代表(value, index, self)
+    ```js
+    function selectEven(num){ return num%2==0 }
+    let nums = [1,2,3,4]
+    nums.filter(selectEven) // 挑出偶数
+    ```
+    4. `sort(function)`完成对元素的排列, 默认情况下将元素都转为**String**再进行比较(**如果要排列数字, 请自行设计回调函数**). 如果要设计回调函数, 那么有两个参数(x, y)分别代表从左至右任意两个相邻的元素, 返回值为负数则x < y; 返回值为0则x == y; 返回值为正数则x > y.
+    ```js
+    let nums = [1,20,10,5]
+    nums.sort((x, y)=>{
+        if(x<y)         return -1;
+        else if(x==y)   return 0;
+        else            return 1;
+    })  // [1,5,10,20]
+
+    // nums.sort((x, y) => x-y) 即可实现升序排列
+    ```
+
+
+
+15. **try-catch**
+```js
+try{
+    // something may be wrong
+} catch(e) {
+    console.log(e);
+    // other warnings or logs
 }
 ```
 
