@@ -644,6 +644,78 @@ const [a, [b, c]] = alpha
 
     // nums.sort((x, y) => x-y) 即可实现升序排列
     ```
+    5. 闭包 -- 通过返回函数, 实现特定功能
+        * 返回闭包时牢记的一点就是：**返回函数不要引用任何循环变量，或者后续会发生变化的变量**
+        ```js
+        // 最后返回的都是16, 因为返回函数时并没有立刻执行
+        // 相当于arr中存的函数都是返回`i*i`而非`1*1`或`2*2`
+        // 当调用的时候, 去内存中查找, i=4, 所以都返回16
+        function count() {
+            var arr = [];
+            for (var i=1; i<=3; i++) {
+                arr.push(function () {
+                    return i * i;
+                });
+            }
+            return arr;
+        }
+
+        var results = count();
+        // 并未执行
+        var f1 = results[0];
+        var f2 = results[1];
+        var f3 = results[2];
+
+        f1();   // 16
+        f2();   // 16
+        f3();   // 16
+        ```
+        * 闭包可以帮助实现在没有`private`关键字的情况下保护私有变量
+        ```js
+        // x类似于private变量, 受到了保护
+        function create_counter(initial) {
+            var x = initial || 0;
+            return {
+                inc: function () {
+                    x += 1;
+                    return x;
+                }
+            }
+        }
+        let cnt = create_counter(10)
+        cnt.inc()   // 11
+        cnt.inc()   // 12
+        ```
+    6. 箭头函数
+       * 箭头函数的定义方式有多种, 如只传入一个参数时可以省去参数列表的括号, 又如只有一句执行语句时可以不写return, 也不用大括号
+       ```js
+       let f1 = x => x*x
+       let f2 = (x, y) => x+y
+       let f3 = (x) => {
+           if(x>0)  return x
+           else     return -x
+       }
+       ```
+       * 箭头函数的 `this` 是根据上下文语义决定的, 即指向永远是上一层的调用者
+    7. generator 生成器
+        * 生成器由 `function*` 定义, 使用 `yield` 搭配生成器输出, 并可以搭配 `return` 去终止生成器.
+        * 生成器每次都会在`yield`处停止, 等待下一次调用. 而调用的方法是使用`.next()`.
+        * 使用`next`会返回一个对象, 包含值和状态, 如果不想判断其状态, 可以使用`for...of...`来迭代其值.
+        ```js
+        function* nextId(end){
+            let i = 1;
+            while(i<end){
+                yield i;
+                i+=1;
+            }
+            return;
+        }
+        cnt = nextId(2)
+        cnt.next();  // {value: 1, done: false}
+        cnt.next();  // {value: 2, done: false}
+        cnt.next();  // {value: undefined, done: true}
+        ```
+       
 
 
 
@@ -879,19 +951,106 @@ async function func(){
 > * API -- Application Programming Interface, 编程接口
 > * JSON -- JavaScript Object Notation, 一种数据格式
 
-2. JSON 基于 JS, 但是两者有很大不同. 比如在JSON中, 没有JS中的`undefine`, 只有`null`, 并且所有的键都需要使用双引号括起来.
-```json
-{
-    "name": "tom",
-    "age" : 18,
-    "act" : null,
-    "stu" : true
-}
-```
-```js
-const parseData = JSON.parse(json);     // JSON -> JS
-const jsonData = JSON.stringify(js);    // JS -> JSON
-```
+2. JSON 
+    1. **为了统一解析，JSON的字符串规定必须用双引号""，Object的键也必须用双引号""**
+        * number: 与JS的`number`一致
+        * boolean: 就是JS的`true`和`false`
+        * string: 就是JS的`string`
+        * null: 是JS的`null`和`undefined`
+        * array: 就是JS的`Array`, 用`[]`表示
+        * object: 就是JS的`{...}`
+    ```json
+    {
+        "name": "小明",
+        "age": 14,
+        "gender": true,
+        "height": 1.65,
+        "grade": null,
+        "middle-school": "XX Middle School",
+        "skills": [
+            "JavaScript",
+            "Java",
+            "Python"
+        ]
+    }
+    ```
+    2. 序列化`stringify`
+        1. 将js的内容直接装换成json文件
+        2. 可以添加键值, 只筛选想要的
+        3. 可以使用函数, 对键值对做处理
+        4. 可以直接在js中加入一个`toJASON`的方法, 这样可以直接控制输出
+        ```js
+        let xiaoming = {
+            name: 'xiaoming',
+            age: 14,
+            gender: true
+        }
+        function convert(key, value){
+            if (typeof value === 'string') {
+                return value.toUpperCase();
+            }
+            return value;
+        }
+        /*
+            {
+                "name": "xiaoming",
+                "age": 14,
+                "gender": true
+            }
+        */
+        let json1 = JSON.stringify(xiaoming)
+        /*
+            {
+                "name": "xiaoming"
+            }
+        */
+        let json2 = JSON.stringify(xiaoming, ['name'])
+        /*
+            {
+                "name": "XIAOMING",
+                "age": 14,
+                "gender": true
+            }
+        */
+        let json3 = JSON.stringify(xiaoming, convert)
+
+        let tom = {
+            name: 'tom',
+            age: 14,
+            gender: true
+            toJSON: function(){
+                return {
+                    "Name": "Tom",
+                    "Age": this.age
+                }
+            }
+        }
+        /*
+            {
+                "Name": "Tom",
+                "Age": 14
+            }
+        */
+        let json4 = JSON.stringify(tom)
+        ```
+    3. 反序列化
+        * 用`JSON.parse()`将一个JSON格式的字符串变成一个JavaScript对象
+        * 同样可以使用函数, 处理JS对象
+        ```js
+        let js = JSON.parse({"Name": "tom", "Age": 14}, function (key, value){
+            if (typeof value === 'string'){
+                return value + '同学'
+            }
+            return value
+        })
+        /*
+            {
+                "Name": "tom同学",
+                "Age": 14
+            }
+        */
+        ```
+
 
 3. **HTTP** 是应用层协议, 基于 **TCP/IP协议**, 用于Web上的数据传输.
 > * **Status code** -- 状态码用于反映HTTP发出请求的响应情况, 可以分为下面五种类型:
