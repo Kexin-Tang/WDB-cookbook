@@ -1232,67 +1232,23 @@ class Dog extends Pet {
 - [Language Detector](./Proj/LanguageDetector/)
 
 ###### Notes
-1. **Node.js** -- 是一种在服务器执行JS的运行环境.
+1. Node.js -- 是一种在服务器执行JS的运行环境.
 > * (&cross;)**Node** 不能直接访问客户端的内容, 如窗口, 文档, DOM等.
 > * (&check;)**Node** 有许多内置的模块, 这些模块是浏览器没有拥有的. 这些模块帮助我们操控操作系统, 读写文件等.
 
-2. **NPM** -- Node Package Manager的缩写.
+2. NPM -- Node Package Manager的缩写.
 > * 使用 `npm install` 将会把模块安装到局部, 只能通过设置完备的路径才能访问;
 > * 使用 `npm install -g` 将会把模块安装到全局, 可以在任何文件中访问.
 
-3. **process.argv** -- 返回命令行中的各种参数.
-> 第0个参数是 `process.execPath`, 其指明了 Node.js 的相关路径. 第1个参数是被执行的文件路径. 剩下的元素是其他附加的参数. 
-> ```js
-> // app.js file
-> const args = process.argv.slice(2);   // get the arguments from the third params
-> for(let arg of args){
->   console.log("Hello, "+arg);
-> };
-> ```
-> ```bash
-> # bash file
-> node app.js tom jerry
-> # Hello, tom
-> # Hello, jerry
-> ```
+3. `nodemon file` 可以在更改代码的时候, 动态的自动重启服务器.
 
-4. **fs** -- Node.js中文件系统模块, 能帮助我们创建, 删除, 读写文件. 许多操作有两种模式: 同步(会阻塞进程); 异步(不会阻塞进程).
-> 使用`require`来达到引入模块的作用, 就像 Python 中的 `import`.
-```js
-const fs = require('fs');
-const dirName = process.argv[2] || 'Project';
-
-try {
-    fs.mkdirSync(dirName);
-    fs.writeFileSync(`${dirName}/index.css`);
-} catch(e) {
-    console.log(e);
-}
-```
-
-5. **exports** -- 将某个文件中定义好的各种方法, 类, 属性设置为可以由别的文件访问. [[More details]](./NodeJS/exports/).
-
-6. `package.json` 是非常重要的一个文件, 它记录了该环境下各种模块, 库和依赖等的版本信息, 还有各种类似于作者, 创建时间, 版本等的信息.
+4. `package.json` 是非常重要的一个文件, 它记录了该环境下各种模块, 库和依赖等的版本信息, 还有各种类似于作者, 创建时间, 版本等的信息.
 > ```bash
 > # 使用init就可以初始化一个无依赖的基础环境
 > node init
 > ```
 
-7. 可以使用 `npm install` 去安装需要的库和依赖.
-8. **Express** -- 一个非常优秀的服务器框架. [[More Details]](./NodeJS/firstApp/index.js).
-> 库 Vs 框架
-> * **库**: 库的主管方是程序员. 库只会提供各种函数, 而何时使用, 需要用户自己决定.
-> * **框架**: 框架的主管方是框架. 框架可以包含各种库, 然后框架通过调用多种函数, 实现特定的功能, 而程序员只需要在合适的位置和时机插入相应的代码即可.
-> > 库相当于CPU, 显卡, 存储条等部件, 用户不用知道这些部件内部的原理, 但是仍然需要把他们拼起来成为电脑才能使用; 框架相当于一台整机, CPU, 显卡, 内存条都安装在合适的位置, 用户可以直接使用.
-
-9. 常见的 Express 函数
-* `listen(port, callback)` -- 给某个端口添加监听, 当该端口传来请求时, 可以捕获.
-* `use()` -- 类似于 C++ 中的`#define`, 可以给整个项目宏定义一些参数, 可以被所有的内容访问到.
-* route 路由 <u>(`req` 是经过 http 翻译成的数据对象 object)</u>
-  * `get(path, (req, res)=>{})` -- 如果 `path` 发来请求, 将会通过 `res.send()` 来发送 `res`. <u>(*可以使用`:xxx`来指明任意的目录, 如 `/cat/:sub` 可以匹配以 `/cat/name`, `/cat/age/` 等, 但不能匹配 `/cat/name/meow`*)</u>
-  * `post(path, (req, res)=>{})` 与 `get()` 不同, 这表明 Express 中对于HTTP的请求方式是有区分的, 如 GET / POST
-
-10.  `nodemon file` 可以在更改代码的时候, 动态的自动重启服务器.
+<span style="background-color: black; color: white;">> 更详细的Node.js内容, 请点击</span> <a href="./Nodejs-cookbook.md">这里</a>
 
 ---
 
@@ -1322,3 +1278,10 @@ try {
 >   * 采用双向绑定(data-binding): View的变动，自动反映在View Model，反之亦然. 这样开发者就不用处理接收事件和View更新的工作，框架已经帮你做好了.
 > <img src="https://upload-images.jianshu.io/upload_images/15226743-1b2adc4a66e12c6e.png?imageMogr2/auto-orient/strip|imageView2/2/w/715/format/webp">
 
+## S35: Defining RESTful Routes
+
+###### Code for RESTful
+
+###### Notes
+* REST即表述性状态传递（Representational State Transfer), 是一组架构约束条件和原则, 满足这些约束条件和原则的应用程序或设计就是RESTful.
+* `GET` Vs `POST`
