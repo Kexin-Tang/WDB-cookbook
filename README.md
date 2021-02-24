@@ -13,6 +13,10 @@
 [S28: AJAX](#s28-ajax)
 [S29: OOP](#s29-oop)
 [S30: Terminal](#s30-terminal)
+[S31-33: Node.js](#s31-33-nodejs)
+[S34: EJS for Dynamic HTML](#s34-ejs-for-dynamic-html)
+[S35: Defining RESTful Routes](#s35-defining-restful-routes)
+[S36: MongoDB](#s36-mongodb)
 
 
 ## S1: Course Orientation
@@ -1281,7 +1285,53 @@ class Dog extends Pet {
 ## S35: Defining RESTful Routes
 
 ###### Code for RESTful
+- [处理 request.body](./RESTful/request)
+- [RESTful 模拟](./RESTful/RESTful_demo)
 
 ###### Notes
-* REST即表述性状态传递（Representational State Transfer), 是一组架构约束条件和原则, 满足这些约束条件和原则的应用程序或设计就是RESTful.
 * `GET` Vs `POST`
+  * `GET`通过TCP直接把header+body组合成一个TCP包一起发出；而`POST`先发送header，服务器返回100后再发送body，即有两个TCP包
+  * 使用`GET`会将各种参数包含在url中，如`www.google.com/search?q=xxx`;而`POST`会将参数包含在表单里，更加安全，如`www.google.com`
+  * `GET`可以反复执行，而`POST`会再次提交表单（浏览器可能弹出alert('刷新后需要重新提交表单'))
+  * `GET`请求在URL中传送的参数是有长度限制的，而`POST`没有
+  * `GET`请求只能进行url编码，而`POST`支持多种编码方式
+* 使用`req.body`可以以 *键值对* 的形式获得请求的内容, 但是默认情况下为`undefined`, 因为比如`POST`的`body`可以有多种类型, 如`json`, `urlencode`, `text`等, 只有通过`app.use()`声明解码方式才行.
+```js
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.post('/cat', function(req, res) {
+    console.log(req.body)
+    res.send("POST /cat")
+})
+```
+
+* REST即表述性状态传递（Representational State Transfer), 是一组架构约束条件和原则, 满足这些约束条件和原则的应用程序或设计就是RESTful.
+> 比如对url的约束就是一种RESTful, 针对一个url: `https://www.google.com/search?q=mit`中, `https`和`www`代表了协议, `google.com`是网址, `search?q=mit`是搜索的条件, 返回一个网页.
+
+> 又比如, 在项目中, 我们可以设置如下的规则, 则也是运用了RESTful的理念
+> |NAME  | PATH         | VERB   | PURPOSE         |
+> |:---: | :---:        | :---:  | :---:           |
+> |Index | /comments/id | GET    | 根据id来获取评论  |
+> |Create| /comments/id | POST   | 创建一个为id的评论 |
+> |Update| /comments/id | PATCH  | 根据id来更新评论  |
+> |Delete| /comments/id | DELETE | 根据id来删除评论  |
+
+* `method-override` -- 在HTML中, `form`的提交只有`GET`和`POST`两种方式, 为了模拟`PATCH`, `DELETE`这种操作, 需要使用 express 的一个库, 名叫`method-override`, 可以模拟实现其他的HTTP传输方式. **(其中`form`的 *method* 必须为`POST`)**
+
+---
+
+## S36: MongoDB
+
+###### Notes
+* SQL vs NO-SQL
+  * *Structured Query Language* database 是一种**关系型数据库**, 也就是说需要先定义一个二维关系表, 表示数据之间的关系, 然后再进行插入等操作, 类似于 Excel 这样. 常见的数据库有 *MySQL*, *SQL Server*.
+  * *Not Olny SQL* database 是一种**非关系型数据库**, 用于超大规模数据的存储. 这些类型的数据存储不需要固定的模式，无需多余操作就可以横向扩展. 常见的数据库有*MongoDB*, *Redis*.
+
+* MEAN &amp; MERN stack
+  * MEAN -- MongoDB + Express + Angular + Node.js
+  * MERN -- MongoDB + Express + React + Node.js
+
+* BSON
+> JSON 存在两个问题: (1)不能保存任意的数据类型; (2)基于readable文本, 读取缓慢, 存储损耗大. 为了解决这些问题, MongoDB 使用 **二进制的JSON** 即 BSON 去存储数据.
+
+
+<span style="background-color: black; color: white;">> 更详细的MongoDB内容, 请点击</span> <a href="./MongoDB-cookbook.md">这里</a>

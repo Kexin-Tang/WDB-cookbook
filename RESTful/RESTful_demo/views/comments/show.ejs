@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Comment</title>
+</head>
+
+<body>
+    <h1>Show Comment</h1>
+    <section>
+        <p><b>Username</b>: <span>
+                <%= username %>
+            </span></p>
+    </section>
+    <section>
+        <p><b>Comment</b>: <span>
+                <%= comments %>
+            </span></p>
+    </section>
+    <a href="/comments">Back to Index</a>
+    <br>
+    <a href="/comments/<%= id %>/edit">Edit Comment</a>
+</body>
+
+</html>

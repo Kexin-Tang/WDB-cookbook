@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Comments</title>
+</head>
+
+<body>
+    <h1>Comments</h1>
+    <ul>
+        <% for(let c of data) { %>
+            <li>
+                <b>
+                    <%= c.username %>
+                </b> - <%= c.comments %>
+                    <a href="/comments/<%= c.id%>">[Details]</a>
+                    <form action="/comments/<%=c.id%>?_method=DELETE" method="POST" style="display: inline-block;">
+                        <button><span style="color: red;">DELETE</span></button>
+                    </form>
+            </li>
+            <% } %>
+    </ul>
+    <a href="/comments/new">New Comments</a>
+</body>
+
+</html>

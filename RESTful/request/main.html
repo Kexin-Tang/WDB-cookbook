@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESTful</title>
+    <script src="app.js"></script>
+</head>
+
+<body>
+    <h1>POST &amp; GET</h1>
+
+    <h2>GET</h2>
+    <form action="http://localhost:8080/cat" method="GET">
+        <input type="text" placeholder="Username">
+        <button>Submit</button>
+    </form>
+
+    <h2>POST</h2>
+    <form action="http://localhost:8080/cat" method="POST">
+        <input type="text" placeholder="Username" name="username">
+        <button>Submit</button>
+    </form>
+</body>
+
+</html>
