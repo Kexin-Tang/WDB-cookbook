@@ -17,43 +17,46 @@
 [S34: EJS for Dynamic HTML](#s34-ejs-for-dynamic-html)
 [S35: Defining RESTful Routes](#s35-defining-restful-routes)
 [S36: MongoDB](#s36-mongodb)
+[S37: Mongoose](#s37-mongoose)
+[S38: Mongoose+Express](#s38-expressmongoose)
+[S39-59: YelpCamp](#s39-59-yelpcamp)
 
 
 ## S1: Course Orientation
 ---
 ## S2: An Intro to Web Development
-1. 什么是HTML, CSS 以及 Javascript?
+### 什么是HTML, CSS 以及 Javascript?
 
 > HTML -- <i>就像句子中的名词,主要描述了一个网页中的主要内容.</i><br>
 > CSS -- <i>就像句子中的形容词,用于将内容呈现的更加美观.</i><br>
 > JS -- <i>类似句子中的动词,用于控制各种逻辑的实现.</i>
 
-2. 前端和后端是什么?
+### 前端和后端是什么?
 
 > 前端主要关注于 <i><b>客户端</b></i>, 实现网页内容的呈现<br>
 > 后端主要关注于 <i><b>服务器</b></i>, 实现浏览器与服务器之间的通信
 
-3. 什么是客户端和服务器?
+### 什么是客户端和服务器?
 > * 客户端: 请求服务器服务的终端, 一般设备如个人电脑.
 > * 服务器: 响应客户端请求的终端.
 
-4. Internet和Web?
+### Internet和Web?
 > * Internet是一种通过**TCP/IP**协议实现全球网络互连的网络结构, 可以视为是网络的网络.
 > * Web是一种信息系统, 用于文档和其他资源在Internet中传递. 与Internet基于TCP/IP不同, Web基于**HTTP**协议实现通信.
 
-5. Internet只能传递HTML, CSS, JS和其他代码. 而浏览器能够帮助翻译这些代码并渲染出好看的网页.
+**注意**: Internet只能传递HTML, CSS, JS和其他代码. 而浏览器能够帮助翻译这些代码并渲染出好看的网页.
 
 ---
 ## S3-5: HTML
 <a href="https://developer.mozilla.org/en-US/docs/Web/Reference">MDN</a> 是一个非常有用的网站, 包含了各种常见的HTML元素和使用方法.
 
-###### Code for HTML
+### Code
 - [header, paragraph, list, img, anchor](./HTML/HTML0.html)
 - [block vs inline](./HTML/HTML1.html)
 - [table](./HTML/HTML2.html)
 - [form](HTML/HTML3.html)
 
-###### Notes
+### 基础知识
 1. 在编写HTML时,需要包含下列的元素, 虽然这些内容不会显示在网页中, 但是却有非常重要的作用.
 ```html
 <!DOCTYPE html>
@@ -80,7 +83,7 @@
 ```
 ---
 ## S6-13: CSS
-###### Code for CSS
+### Code
 - [Selector](./CSS/Selector.css)
 - [Box](./CSS/Box.css)
 - [em & rem](./CSS/em_rem.css)
@@ -93,12 +96,12 @@
 - [flexbox](./CSS/flexbox.css)
 - [BootStrap](./HTML/bootstrap.html)
 
-###### Proj
+### Proj
 - [PriceTable](./Proj/PriceTable)
 - [Museum of Candy](./Proj/Museum_of_Candy)
 
 
-###### Notes
+### 基础知识
 1. CSS 是一种 **级联** 语言, 也就是说.css文件中对同一个元素的定义顺序不同, 则呈现的结果也可能不同. 一般而言, 后定义的会覆盖前定义的.
 ```css
 /* final color is blue */
@@ -156,208 +159,208 @@ p {
 
 ## S14-23: JavaScript
 
-###### Code for JS
 - [Basic syntax](./JavaScript/todo.js)
 - [Callbacks & Array Methods](./JavaScript/callbacks.js)
 
-###### Notes
-1. 基础内容
-   1. JS 的数据类型如下: `bigint`, `string`, `boolean`, `null`, `number`, `undefined` 和 `symbol`.
+### 基础知识
+1. JS 的数据类型如下: `bigint`, `string`, `boolean`, `null`, `number`, `undefined` 和 `symbol`.
 
-   2. JS 的代码在 HTML 中可标记在 `<script></script>` 中, 而该标签可以放在 head 或者 body 中, 既可以直接在内部写入 JS 代码, 也可以设置 `src` 属性, 索引到某个文件
-   
-   3. Console, Alert & Prompt
-    > * windows.alert() -- 用于在网页中弹出一个警告框
-    > * document.write() -- 将内容写到HTML文件中, 并覆盖原有的HTML
-    > * console.log()   -- 在控制台显示
-    > * windows.prompt() -- 弹出一个提示框, 可以让用户输入内容
-    ```js
-    console.log("I am a log")   // I am a log
-    console.error('Error!')
-    console.warn('Warning!')
+2. JS 的代码在 HTML 中可标记在 `<script></script>` 中, 而该标签可以放在 head 或者 body 中, 既可以直接在内部写入 JS 代码, 也可以设置 `src` 属性, 索引到某个文件
 
-    alert('Alert in the web page')
+3. Console, Alert & Prompt
+> * windows.alert() -- 用于在网页中弹出一个警告框
+> * document.write() -- 将内容写到HTML文件中, 并覆盖原有的HTML
+> * console.log()   -- 在控制台显示
+> * windows.prompt() -- 弹出一个提示框, 可以让用户输入内容
+```js
+console.log("I am a log")   // I am a log
+console.error('Error!')
+console.warn('Warning!')
 
-    let num = prompt("Enter a number")
-    ```
+alert('Alert in the web page')
 
-2. 数据类型
-   1. `NaN` 是一个数值, 代表了一个无法计算得到的数字. 
-    > NaN 与任何值都不相等, 包括其自己. 唯一能判断一个数是不是 NaN 的方法是使用 `isNaN()`.
-    ```js
-    0/0 // NaN
-    1+NaN
-    ```
-   2. Null & Undefined
-    > * null -- 缺省值
-    > * undefined -- 未赋值
-    > ```js
-    > let userName = null;  // null
-    > let a;                // undefined
-    > ```
+let num = prompt("Enter a number")
+```
 
-   3. 变量赋值
-    ```js
-    let Name = Value;       // normal
-    const Name = Unchanged; // cannot be changed
-    var Name = Value;       // old version, not recommend!
-    ```
+4. 被认为是 False 的数值 -- false, 0, "", null, undefined, NaN
 
-3. String 
-   1. ***字符串是不可变的,如果对字符串的某个索引赋值，不会有任何错误，但是，也没有任何效果***
+### 数据类型
+1. `NaN` 是一个数值, 代表了一个无法计算得到的数字. 
+ > NaN 与任何值都不相等, 包括其自己. 唯一能判断一个数是不是 NaN 的方法是使用 `isNaN()`.
+ ```js
+ 0/0 // NaN
+ 1+NaN
+ ```
+2. Null & Undefined
+ > * null -- 缺省值
+ > * undefined -- 未赋值
+ > ```js
+ > let userName = null;  // null
+ > let a;                // undefined
+ > ```
+
+3. 变量赋值
+ ```js
+ let Name = Value;       // normal
+ const Name = Unchanged; // cannot be changed
+ var Name = Value;       // old version, not recommend!
+ ```
+
+### String 
+1. ***字符串是不可变的,如果对字符串的某个索引赋值，不会有任何错误，但是，也没有任何效果***
+2. 常见操作
+```js
+let name = "Ke-Hsin";
+name[1]         // "e"
+name+"Tang"     // Ke-HsinTang
+name[1] = 'a'   // name: "Ke-Hsin"
+
+// Property
+name.length     // 7
+
+// Method
+let userInput = '  Hello woRld ';
+
+userInput.toUpperCase()     // '  HELLO WORLD '
+
+userInput.trim()            // 'Hello woRld'
+
+userInput.indexof('Hel')    // the first fit -- 3
+userInput.indexof('abc')    // not found -- -1
+
+userInput.slice(2, 7)       // 'Hello'
+userInput.slice(10)         // 'Rld '
+userInput.slice(-4, -1)     // 'Rld'
+
+userInput.replace('Rld', 'rld').trim()  // 'Hello world'
+
+// Template Literals
+`My name is ${firstName} ${lastName} ! I have $${3+4}.`
+```
+
+### Array 
+1. *注意 **in-place** 方法会直接改变原数据*
+
+2. 考虑到 `引用` 和 `地址` 的区别, 在对两个 Array 进行判断的时候, 需要注意. **一般不建议直接判断两个 Array 是否相同**.
+```js
+let num1 = [1,2,3]
+let num2 = [1,2,3]
+
+// Although they look the same, num1 and num2 store in different places (addresses).
+// And === or == will compare their addresses
+num1 === num2;  // false
+num1 == num2;   // false
+
+// In this case, numCopy is a reference of num1, they share the same address.
+let numCopy = num1
+numCopy === num1;   // true
+num1.pop();     // num1 & numCopy = [1,2]
+```
+
+3. `Const Array` 代表该数组指向某一个地址, 可以在该地址上做任意操作(如增删数据), 但是不允许更改指向(即指向另一个数组).
+```js
+const num = [1,2,3];
+num.push(4);    // it's ok, num=[1,2,3,4], no address is changed.
+num = [5,6];    // error! [5,6] has a different address, you cannot assign an new address to a const.
+```
+
+4. 常用操作
+> * 尾部操作: push/pop & 头部操作: shift/unshift
+> ```js
+> let num = [1,2]
+> num.push(3,4);  // [1,2,3,4], in-place
+> num.pop();      // [1,2,3], in-place
+> num.shift();    // [2,3], in-place
+> num.unshift(1); // [1,2,3], in-place
+> ```
+> * 连接: concat & 判断: includes & 搜索: indexOf & 逆序: reverse
+> ```js
+> let num1 = [1,2]
+> let num2 = [3,4]
+> let num = num1.concat(num2);   // num = [1,2,3,4], not in-place 
+> // not in-place
+> num.includes(100);  // false
+> num.includes(1);    // true
+> 
+> // not in-place
+> num.indexOf(2);     // 1
+> num.indexOf(100);   // -1
+> 
+> num.reverse();      // [4,3,2,1], in-place
+> ```
+> * 切片: slice & 删除/替换: splice
+> ```js
+> let colors = ['red', 'blue', 'purple', 'white']
+> 
+> // not in-place
+> let part1 = colors.slice(2);      // ['purple', 'white']
+> let part2 = colors.slice(0,2);    // ['red', 'blue']
+> 
+> // in-place
+> // splice(index, ?deleteNum, ...item)
+> let deleteTwo = colors.splice(-1,2);              // colors=['red','blue']            & deleteTwo=['purple', 'white']
+> let deleteZero = colors.splice(1,0,'green');      // colors=['red','green','blue']    & deleteZero=[] 
+> let deleteOne = colors.splice(0, 1, 'black');     // colors=['black','green','blue']  & deleteOne=['red']
+> ```
+> * 排序
+> ```js
+> let num = [100,5,23,7,0];
+> num.sort();   // [0,5,7,23,100], in-place
+> ```
+> * 按指定方式合并输出: join
+> ```js
+> let data = [1,2,3]
+> data.join('-')        // '1-2-3'
+> ```
+
+### Object
+1. 存储 `键-值` 对, 类似Python中的字典. 
+2. ***除了 symbol 外, 键都会被以 string 的形式存储***
+```js
+// let obj = { key: value }
+let stu = {name:"tom", age:18, motto:"my work is in my heart", favorate:['bike', 'game']}
+
+let name = stu["name"]; // "tom"
+let motto = stu[motto]; // error
+let age = stu.age       // 18
+delete stu.age
+```
+```js
+let years = {2000:'good', 2020:'bad'};
+let birth = 2000;
+
+let y1 = years["2000"]; // good
+let y2 = years[2020];   // bad
+let y3 = years.2000;    // error
+let y4 = years."2020";  // error
+let y5 = years[birth];  // good
+let y6 = years.birth;   // error
+```
+
+### Map 和 Set
+1. Map 
+   1. 是一组键值对的结构，具有极快的查找速度, 类似于 C++ 中的哈希表.
    2. 常见操作
-    ```js
-    let name = "Ke-Hsin";
-    name[1]         // "e"
-    name+"Tang"     // Ke-HsinTang
-    name[1] = 'a'   // name: "Ke-Hsin"
+     ```js
+     let m = new Map([['tom', 89], ['jack', 95]])
+     m.set('mary', 100)
+     m.get('tom')    // 89
+     m.has('Adam')   // false
+     m.delete('jack')
+     m.get('jack')   // undefined
+     ``` 
+   3. 当对某一个键不断赋值, 则后面的值会覆盖前面的值
+     
+2. Set
+   1. 类似数学中的集合, 可以存储各种类型元素, 但是不能重复, 而且集合中元素是**无序**的, 不能直接用下标访问
+   2. 常见操作
+     ```js
+     let s = new Set([1, 2, 2, "2"])     // s = [1,2,"2"]
+     s.add(3)                            // s = [1,2,"2",3]
+     s.delete("2")                       // s = [1,2,3]
+     ```
 
-    // Property
-    name.length     // 7
-
-    // Method
-    let userInput = '  Hello woRld ';
-
-    userInput.toUpperCase()     // '  HELLO WORLD '
-
-    userInput.trim()            // 'Hello woRld'
-
-    userInput.indexof('Hel')    // the first fit -- 3
-    userInput.indexof('abc')    // not found -- -1
-
-    userInput.slice(2, 7)       // 'Hello'
-    userInput.slice(10)         // 'Rld '
-    userInput.slice(-4, -1)     // 'Rld'
-
-    userInput.replace('Rld', 'rld').trim()  // 'Hello world'
-
-    // Template Literals
-    `My name is ${firstName} ${lastName} ! I have $${3+4}.`
-    ```
-
-4. Array 
-   1. *注意 **in-place** 方法会直接改变原数据*
-   
-   2. 考虑到 `引用` 和 `地址` 的区别, 在对两个 Array 进行判断的时候, 需要注意. **一般不建议直接判断两个 Array 是否相同**.
-    ```js
-    let num1 = [1,2,3]
-    let num2 = [1,2,3]
-
-    // Although they look the same, num1 and num2 store in different places (addresses).
-    // And === or == will compare their addresses
-    num1 === num2;  // false
-    num1 == num2;   // false
-
-    // In this case, numCopy is a reference of num1, they share the same address.
-    let numCopy = num1
-    numCopy === num1;   // true
-    num1.pop();     // num1 & numCopy = [1,2]
-    ```
-
-   3. `Const Array` 代表该数组指向某一个地址, 可以在该地址上做任意操作(如增删数据), 但是不允许更改指向(即指向另一个数组).
-    ```js
-    const num = [1,2,3];
-    num.push(4);    // it's ok, num=[1,2,3,4], no address is changed.
-    num = [5,6];    // error! [5,6] has a different address, you cannot assign an new address to a const.
-    ```
-
-   4. 常用操作
-    > * 尾部操作: push/pop & 头部操作: shift/unshift
-    > ```js
-    > let num = [1,2]
-    > num.push(3,4);  // [1,2,3,4], in-place
-    > num.pop();      // [1,2,3], in-place
-    > num.shift();    // [2,3], in-place
-    > num.unshift(1); // [1,2,3], in-place
-    > ```
-    > * 连接: concat & 判断: includes & 搜索: indexOf & 逆序: reverse
-    > ```js
-    > let num1 = [1,2]
-    > let num2 = [3,4]
-    > let num = num1.concat(num2);   // num = [1,2,3,4], not in-place 
-    > // not in-place
-    > num.includes(100);  // false
-    > num.includes(1);    // true
-    > 
-    > // not in-place
-    > num.indexOf(2);     // 1
-    > num.indexOf(100);   // -1
-    > 
-    > num.reverse();      // [4,3,2,1], in-place
-    > ```
-    > * 切片: slice & 删除/替换: splice
-    > ```js
-    > let colors = ['red', 'blue', 'purple', 'white']
-    > 
-    > // not in-place
-    > let part1 = colors.slice(2);      // ['purple', 'white']
-    > let part2 = colors.slice(0,2);    // ['red', 'blue']
-    > 
-    > // in-place
-    > // splice(index, ?deleteNum, ...item)
-    > let deleteTwo = colors.splice(-1,2);              // colors=['red','blue']            & deleteTwo=['purple', 'white']
-    > let deleteZero = colors.splice(1,0,'green');      // colors=['red','green','blue']    & deleteZero=[] 
-    > let deleteOne = colors.splice(0, 1, 'black');     // colors=['black','green','blue']  & deleteOne=['red']
-    > ```
-    > * 排序
-    > ```js
-    > let num = [100,5,23,7,0];
-    > num.sort();   // [0,5,7,23,100], in-place
-    > ```
-    > * 按指定方式合并输出: join
-    > ```js
-    > let data = [1,2,3]
-    > data.join('-')        // '1-2-3'
-    > ```
-
-5. Object
-   1. 存储 `键-值` 对, 类似Python中的字典. 
-   2. ***除了 symbol 外, 键都会被以 string 的形式存储***
-    ```js
-    // let obj = { key: value }
-    let stu = {name:"tom", age:18, motto:"my work is in my heart", favorate:['bike', 'game']}
-
-    let name = stu["name"]; // "tom"
-    let motto = stu[motto]; // error
-    let age = stu.age       // 18
-    delete stu.age
-    ```
-    ```js
-    let years = {2000:'good', 2020:'bad'};
-    let birth = 2000;
-
-    let y1 = years["2000"]; // good
-    let y2 = years[2020];   // bad
-    let y3 = years.2000;    // error
-    let y4 = years."2020";  // error
-    let y5 = years[birth];  // good
-    let y6 = years.birth;   // error
-    ```
-
-6. Map 和 Set
-   1. Map 
-      1. 是一组键值对的结构，具有极快的查找速度, 类似于 C++ 中的哈希表.
-      2. 常见操作
-        ```js
-        let m = new Map([['tom', 89], ['jack', 95]])
-        m.set('mary', 100)
-        m.get('tom')    // 89
-        m.has('Adam')   // false
-        m.delete('jack')
-        m.get('jack')   // undefined
-        ``` 
-      3. 当对某一个键不断赋值, 则后面的值会覆盖前面的值
-        
-   2. Set
-      1. 类似数学中的集合, 可以存储各种类型元素, 但是不能重复, 而且集合中元素是**无序**的, 不能直接用下标访问
-      2. 常见操作
-        ```js
-        let s = new Set([1, 2, 2, "2"])     // s = [1,2,"2"]
-        s.add(3)                            // s = [1,2,"2",3]
-        s.delete("2")                       // s = [1,2,3]
-        ```
-
-7. 双等号 Vs 三等号
+### 双等号 Vs 三等号
 > * ==
 >   * 检查值是否相同, 但是并不检查种类是否相同. 相当于先进行类型转换, 再比较.
 > * ===
@@ -372,120 +375,123 @@ p {
 > NaN === NaN;          // false
 > ```
 
-8. 被认为是 False 的数值 -- false, 0, "", null, undefined, NaN
+### 遍历
+ 1. `for(value of iterable)` 用于遍历 Array, map 和 set, 除了对象 Object.
+ 2. `for(key in objects)` 用于遍历对象, 获得的是每个pair的键.
+ ```js
+ let stu = {'tom':100, 'jack':85};
+ for(let name in stu)
+ {
+     console.log(`${name} has score: ${stu.name}`);
+ }
 
-9. 遍历
-    1. `for(value of iterable)` 用于遍历 Array, map 和 set, 除了对象 Object.
-    2. `for(key in objects)` 用于遍历对象, 获得的是每个pair的键.
-    ```js
-    let stu = {'tom':100, 'jack':85};
-    for(let name in stu)
-    {
-        console.log(`${name} has score: ${stu.name}`);
-    }
+ console.log(Object.keys(stu));      // ['tom','jack']
+ console.log(Object.values(stu));    // [100,85]
+ console.log(Object.entries(stu));   // [['tom',100], 
+                                     //  ['jack',85]]
+ ```
+ 3. `forEach(callback)` 可以类似于 Python 中 enumerate, 得到索引和值(或键和值)
+ ```js
+ let a = ['A', 'B', 'C']
+ let m = new Map([['tom', 89], ['jack', 95]])
+ let s = new Set([1,2])
 
-    console.log(Object.keys(stu));      // ['tom','jack']
-    console.log(Object.values(stu));    // [100,85]
-    console.log(Object.entries(stu));   // [['tom',100], 
-                                        //  ['jack',85]]
-    ```
-    3. `forEach(callback)` 可以类似于 Python 中 enumerate, 得到索引和值(或键和值)
-    ```js
-    let a = ['A', 'B', 'C']
-    let m = new Map([['tom', 89], ['jack', 95]])
-    let s = new Set([1,2])
+ a.forEach(function(ele, idx, arr) {
+     console.log(`${ele}, index=${idx}.`)
+ })
 
-    a.forEach(function(ele, idx, arr) {
-        console.log(`${ele}, index=${idx}.`)
-    })
+ m.forEach(function(val, key, map){
+     console.log(`${key}-${val}`)
+ })
 
-    m.forEach(function(val, key, map){
-        console.log(`${key}-${val}`)
-    })
+ s.forEach(function(ele, sameEle, set) {
+     console.log(ele)
+ })
+ ```
 
-    s.forEach(function(ele, sameEle, set) {
-        console.log(ele)
-    })
-    ```
+### 函数
+1. 定义函数的三种方法
+  * 赋予函数名, 与其他编程语言保持一致
+  * 将匿名函数赋值给某个引用
+  * 箭头函数
+```js
+// function defination
+function add(x, y){
+  return x+y;
+}
+// function expression
+const mul = function (x,y){
+  return x*y;
+}
+// arrow function
+const square = (x) => {
+  return x*x;
+}
+```
 
-10. 函数
-    1. 定义函数的三种方法
-        * 赋予函数名, 与其他编程语言保持一致
-        * 将匿名函数赋值给某个引用
-        * 箭头函数
-    ```js
-    // function defination
-    function add(x, y){
-        return x+y;
-    }
-    // function expression
-    const mul = function (x,y){
-        return x*y;
-    }
-    // arrow function
-    const square = (x) => {
-        return x*x;
-    }
-    ```
-    2. `arguments` 关键字可以帮助在函数内部访问所有传入的参数
-    ```js
-    function a(x){
-        for(let i=0; i<arguments.length; i++)
-            console.log(arguments[i])
-    }
+2. `arguments` 关键字可以帮助在函数内部访问所有传入的参数
+```js
+function a(x){
+  for(let i=0; i<arguments.length; i++)
+      console.log(arguments[i])
+}
 
-    a(1,2,3)    // 1, 2, 3
-    a(5)        // 5
-    ```
-    3. 默认参数
-    ```js
-    function f(a, b=1){
-        console.log(b)
-    }
-    f(1, 2) // 2
-    f(1)    // 1
-    ```
-    4. 变量提升 -- JS会自动把用`var`定义的变量声明提前(但是不会提升变量赋值, 如果一个变量先使用再赋值, 那么提升时赋值为`undefined`)
-    ```js
-    // 下面文件执行时, 输出结果为 undefined, 10, 99
-    var a = 99
-    f()
-    console.log(a)  // 会在f()执行完成后执行, 打印全局变量99
-    function f(){
-        console.log(a)  // 会将局部变量a的声明提前, 此时a=undefined
-        var a = 10
-        console.log(a)  // 打印局部变量a=10
-    }
-    ```
-    5. `let` 和 `var`
-        * `let`赋予了JS块级作用域
-        ```js
-        {
-            let a = 10
-        }
-        console.log(a)  // error
-        {
-            var b = 10
-        }
-        console.log(b)  // 10
-        ```
-        * `let`没有变量提升, 所以必须先定义, 再使用
-        * `let`不能重复赋值, 如`let a=10`之后不能再`let a=xxx`
-    6. 作用域
-        * 全局作用域 -- 不在任何函数内定义的变量就具有全局作用域. 在JS中的全局指的是全局对象`window`, 所有定义的变量和函数都是定义在`window`作用域下.
-        > 在自定义的库中, 为了防止`window`中出现同名冲突, 常常会自己在文件开头设定一个空对象, 然后所有变量和方法都加上自己定义的对象名
-        * 局部作用域
-    7. 上下文语义 -- 在嵌套函数中, 内层函数可以不需要外层函数传递参数, 就可以直接访问参数
-    ```js
-    function f1(){
-        let a = 10
-        function f2(){
-            console.log(a)
-        }
-    }
-    f1()    // 10, 因为f2可以通过上下文语义访问到未传递的参数
-    ```
-11. 传播
+a(1,2,3)    // 1, 2, 3
+a(5)        // 5
+```
+3. 默认参数
+```js
+function f(a, b=1){
+  console.log(b)
+}
+f(1, 2) // 2
+f(1)    // 1
+```
+
+4. 变量提升 -- JS会自动把用`var`定义的变量声明提前(但是不会提升变量赋值, 如果一个变量先使用再赋值, 那么提升时赋值为`undefined`)
+```js
+// 下面文件执行时, 输出结果为 undefined, 10, 99
+var a = 99
+f()
+console.log(a)  // 会在f()执行完成后执行, 打印全局变量99
+function f(){
+  console.log(a)  // 会将局部变量a的声明提前, 此时a=undefined
+  var a = 10
+  console.log(a)  // 打印局部变量a=10
+}
+```
+
+5. `let` 和 `var`
+* `let`赋予了JS块级作用域
+```js
+{
+   let a = 10
+}
+console.log(a)  // error
+{
+   var b = 10
+}
+console.log(b)  // 10
+```
+* `let`没有变量提升, 所以必须先定义, 再使用
+* `let`不能重复赋值, 如`let a=10`之后不能再`let a=xxx`
+6. 作用域
+* 全局作用域 -- 不在任何函数内定义的变量就具有全局作用域. 在JS中的全局指的是全局对象`window`, 所有定义的变量和函数都是定义在`window`作用域下.
+> 在自定义的库中, 为了防止`window`中出现同名冲突, 常常会自己在文件开头设定一个空对象, 然后所有变量和方法都加上自己定义的对象名
+* 局部作用域
+
+ 7. 上下文语义 -- 在嵌套函数中, 内层函数可以不需要外层函数传递参数, 就可以直接访问参数
+ ```js
+ function f1(){
+     let a = 10
+     function f2(){
+         console.log(a)
+     }
+ }
+ f1()    // 10, 因为f2可以通过上下文语义访问到未传递的参数
+ ```
+
+###  传播
 ```js
 function show(a, b, ...res){
     console.log(a)
@@ -509,7 +515,8 @@ let info2 = {age:18, dep:'ece'};
 let stu1 = {...info1, ...info2, sex:'man'}; // {name:'tom', age:18, dep:'ece', sex:'man'}
 let stu2 = {...info2, ...info1, sex:'man'}; // {name:'tom', age:18, dep:'cs', sex:'man'}
 ```
-12. 解构赋值
+
+### 解构赋值
 * 使用`[]`获取Array, 使用`{}`获取Object
 * 可以使用`[,,c]`去跳过前两个元素
 * 可以使用 **传播** 去获取剩余元素
@@ -546,184 +553,182 @@ let alpha = ['A', ['B', 'C']]
 const [a, [b, c]] = alpha
 ```
 
-13. 方法
-    * 在对象中, 除了可以定义属性, 还可以定义一些函数, 而这些函数就成为对象的方法.
-    * **`this`指针**
-      1. 在调用的时候一定要使用`object.method()`, 因为方法中的`this`会指向调用它的对象
-        ```js
-        function getAge(){
-            let now = new Data().getFullYear()
-            return now - this.birth
-        }
-
-        let person = {
-            name: 'tom',
-            birth: 2000,
-            getAge: getAge  // 注意, 此处不能写成getAge()!!
-        }
-
-        person.getAge()     // 21, 因为this指向了调用对象, 即person
-        getAge()            // NaN, 因为this指向了调用对象, 即window
-        ```
-        2. 在函数中套一个函数, 那么嵌套函数的`this`仍然是指向`window`, 只有最外层的是指向object
-        ```js
-        let xiaoming = {
-            name: '小明',
-            birth: 1990,
-            age: function () {
-                function getAgeFromBirth() {
-                    var y = new Date().getFullYear();
-                    return y - this.birth;
-                }
-                return getAgeFromBirth();
-            }
-        };
-        xiaoming.age()  // NaN
-        ```
-        3. 解决嵌套问题的方法就是在每个嵌套函数里都事先捕获`this`
-        ```js
-        let xiaoming = {
-            name: '小明',
-            birth: 1990,
-            age: function () {
-                let that = this
-                function getAgeFromBirth() {
-                    var y = new Date().getFullYear();
-                    return y - that.birth;
-                }
-                return getAgeFromBirth();
-            }
-        };
-        ```
-    * `apple`和`call`
-      * 通过调用`apply`和`call`, 可以指定函数中`this`的指向, 两者的区别在于: `apply`的参数以Array形式传入, `call`的要顺序传入
-      ```js
-        function show(a, b, c){
-            return `${this.name} has ${a}, ${b}, ${c}`
-        }
-
-        let person = {
-            name: 'tom',
-            birth: 2000,
-            show: show
-        }
-
-        getAge.apply(person, [1,2,3])
-        getAge.call(person,1,2,3)
-      ```
-
-14. 高级函数
-    1. 函数的参数能够接收别的函数, 也能够返回函数
-    2. `map()`和`reduce()`
-       1. `map(function)`用于将某一个函数作用于调用映射的Array上, 使得每个元素都经过映射成为新的值
-       ```js
-       function square(x) {
-           return x*x;
-       }
-       let data = [1,2,3]
-       data.map(square)     // [1,4,9]
-       ```
-       2. `reduce(function)`用于将结果继续和序列的下一个元素做累积计算, 最终将一个序列变为一个值, 具体的逻辑: `[x1, x2, x3, x4].reduce(f) = f(f(f(x1, x2), x3), x4)`
-       ```js
-       let data = [1,2,3,4]
-       data.reduce((x, y) => {
-           return x*y
-       })   // (((1*2)*3)*4)
-       ```
-    3. `filter(function)` 用于根据 function 返回的 boolean, 保留 true 的, 删去 false 的
-    > filter的回调函数可以有三个参数, 代表(value, index, self)
+### 方法
+* 在对象中, 除了可以定义属性, 还可以定义一些函数, 而这些函数就成为对象的方法.
+* **`this`指针**
+  1. 在调用的时候一定要使用`object.method()`, 因为方法中的`this`会指向调用它的对象
     ```js
-    function selectEven(num){ return num%2==0 }
-    let nums = [1,2,3,4]
-    nums.filter(selectEven) // 挑出偶数
+    function getAge(){
+        let now = new Data().getFullYear()
+        return now - this.birth
+    }
+
+    let person = {
+        name: 'tom',
+        birth: 2000,
+        getAge: getAge  // 注意, 此处不能写成getAge()!!
+    }
+
+    person.getAge()     // 21, 因为this指向了调用对象, 即person
+    getAge()            // NaN, 因为this指向了调用对象, 即window
     ```
-    4. `sort(function)`完成对元素的排列, 默认情况下将元素都转为**String**再进行比较(**如果要排列数字, 请自行设计回调函数**). 如果要设计回调函数, 那么有两个参数(x, y)分别代表从左至右任意两个相邻的元素, 返回值为负数则x < y; 返回值为0则x == y; 返回值为正数则x > y.
+    1. 在函数中套一个函数, 那么嵌套函数的`this`仍然是指向`window`, 只有最外层的是指向object
     ```js
-    let nums = [1,20,10,5]
-    nums.sort((x, y)=>{
-        if(x<y)         return -1;
-        else if(x==y)   return 0;
-        else            return 1;
-    })  // [1,5,10,20]
-
-    // nums.sort((x, y) => x-y) 即可实现升序排列
+    let xiaoming = {
+        name: '小明',
+        birth: 1990,
+        age: function () {
+            function getAgeFromBirth() {
+                var y = new Date().getFullYear();
+                return y - this.birth;
+            }
+            return getAgeFromBirth();
+        }
+    };
+    xiaoming.age()  // NaN
     ```
-    5. 闭包 -- 通过返回函数, 实现特定功能
-        * 返回闭包时牢记的一点就是：**返回函数不要引用任何循环变量，或者后续会发生变化的变量**
-        ```js
-        // 最后返回的都是16, 因为返回函数时并没有立刻执行
-        // 相当于arr中存的函数都是返回`i*i`而非`1*1`或`2*2`
-        // 当调用的时候, 去内存中查找, i=4, 所以都返回16
-        function count() {
-            var arr = [];
-            for (var i=1; i<=3; i++) {
-                arr.push(function () {
-                    return i * i;
-                });
+    1. 解决嵌套问题的方法就是在每个嵌套函数里都事先捕获`this`
+    ```js
+    let xiaoming = {
+        name: '小明',
+        birth: 1990,
+        age: function () {
+            let that = this
+            function getAgeFromBirth() {
+                var y = new Date().getFullYear();
+                return y - that.birth;
             }
-            return arr;
+            return getAgeFromBirth();
         }
+    };
+    ```
+* `apply`和`call`
+  * 通过调用`apply`和`call`, 可以指定函数中`this`的指向, 两者的区别在于: `apply`的参数以Array形式传入, `call`的要顺序传入
+  ```js
+    function show(a, b, c){
+        return `${this.name} has ${a}, ${b}, ${c}`
+    }
 
-        var results = count();
-        // 并未执行
-        var f1 = results[0];
-        var f2 = results[1];
-        var f3 = results[2];
+    let person = {
+        name: 'tom',
+        birth: 2000,
+        show: show
+    }
 
-        f1();   // 16
-        f2();   // 16
-        f3();   // 16
-        ```
-        * 闭包可以帮助实现在没有`private`关键字的情况下保护私有变量
-        ```js
-        // x类似于private变量, 受到了保护
-        function create_counter(initial) {
-            var x = initial || 0;
-            return {
-                inc: function () {
-                    x += 1;
-                    return x;
-                }
+    getAge.apply(person, [1,2,3])
+    getAge.call(person,1,2,3)
+  ```
+
+### 高级函数
+1. 函数的参数能够接收别的函数, 也能够返回函数
+2. `map()`和`reduce()`
+   1. `map(function)`用于将某一个函数作用于调用映射的Array上, 使得每个元素都经过映射成为新的值
+   ```js
+   function square(x) {
+       return x*x;
+   }
+   let data = [1,2,3]
+   data.map(square)     // [1,4,9]
+   ```
+   1. `reduce(function)`用于将结果继续和序列的下一个元素做累积计算, 最终将一个序列变为一个值, 具体的逻辑: `[x1, x2, x3, x4].reduce(f) = f(f(f(x1, x2), x3), x4)`
+   ```js
+   let data = [1,2,3,4]
+   data.reduce((x, y) => {
+       return x*y
+   })   // (((1*2)*3)*4)
+   ```
+3. `filter(function)` 用于根据 function 返回的 boolean, 保留 true 的, 删去 false 的
+> filter的回调函数可以有三个参数, 代表(value, index, self)
+```js
+function selectEven(num){ return num%2==0 }
+let nums = [1,2,3,4]
+nums.filter(selectEven) // 挑出偶数
+```
+4. `sort(function)`完成对元素的排列, 默认情况下将元素都转为**String**再进行比较(**如果要排列数字, 请自行设计回调函数**). 如果要设计回调函数, 那么有两个参数(x, y)分别代表从左至右任意两个相邻的元素, 返回值为负数则x < y; 返回值为0则x == y; 返回值为正数则x > y.
+```js
+let nums = [1,20,10,5]
+nums.sort((x, y)=>{
+    if(x<y)         return -1;
+    else if(x==y)   return 0;
+    else            return 1;
+})  // [1,5,10,20]
+
+// nums.sort((x, y) => x-y) 即可实现升序排列
+```
+5. 闭包 -- 通过返回函数, 实现特定功能
+    * 返回闭包时牢记的一点就是：**返回函数不要引用任何循环变量，或者后续会发生变化的变量**
+    ```js
+    // 最后返回的都是16, 因为返回函数时并没有立刻执行
+    // 相当于arr中存的函数都是返回`i*i`而非`1*1`或`2*2`
+    // 当调用的时候, 去内存中查找, i=4, 所以都返回16
+    function count() {
+        var arr = [];
+        for (var i=1; i<=3; i++) {
+            arr.push(function () {
+                return i * i;
+            });
+        }
+        return arr;
+    }
+
+    var results = count();
+    // 并未执行
+    var f1 = results[0];
+    var f2 = results[1];
+    var f3 = results[2];
+
+    f1();   // 16
+    f2();   // 16
+    f3();   // 16
+    ```
+    * 闭包可以帮助实现在没有`private`关键字的情况下保护私有变量
+    ```js
+    // x类似于private变量, 受到了保护
+    function create_counter(initial) {
+        var x = initial || 0;
+        return {
+            inc: function () {
+                x += 1;
+                return x;
             }
         }
-        let cnt = create_counter(10)
-        cnt.inc()   // 11
-        cnt.inc()   // 12
-        ```
-    6. 箭头函数
-       * 箭头函数的定义方式有多种, 如只传入一个参数时可以省去参数列表的括号, 又如只有一句执行语句时可以不写return, 也不用大括号
-       ```js
-       let f1 = x => x*x
-       let f2 = (x, y) => x+y
-       let f3 = (x) => {
-           if(x>0)  return x
-           else     return -x
-       }
-       ```
-       * 箭头函数的 `this` 是根据上下文语义决定的, 即指向永远是上一层的调用者
-    7. generator 生成器
-        * 生成器由 `function*` 定义, 使用 `yield` 搭配生成器输出, 并可以搭配 `return` 去终止生成器.
-        * 生成器每次都会在`yield`处停止, 等待下一次调用. 而调用的方法是使用`.next()`.
-        * 使用`next`会返回一个对象, 包含值和状态, 如果不想判断其状态, 可以使用`for...of...`来迭代其值.
-        ```js
-        function* nextId(end){
-            let i = 1;
-            while(i<end){
-                yield i;
-                i+=1;
-            }
-            return;
+    }
+    let cnt = create_counter(10)
+    cnt.inc()   // 11
+    cnt.inc()   // 12
+    ```
+6. 箭头函数
+   * 箭头函数的定义方式有多种, 如只传入一个参数时可以省去参数列表的括号, 又如只有一句执行语句时可以不写return, 也不用大括号
+   ```js
+   let f1 = x => x*x
+   let f2 = (x, y) => x+y
+   let f3 = (x) => {
+       if(x>0)  return x
+       else     return -x
+   }
+   ```
+   * 箭头函数的 `this` 是根据上下文语义决定的, 即指向永远是上一层的调用者
+7. generator 生成器
+    * 生成器由 `function*` 定义, 使用 `yield` 搭配生成器输出, 并可以搭配 `return` 去终止生成器.
+    * 生成器每次都会在`yield`处停止, 等待下一次调用. 而调用的方法是使用`.next()`.
+    * 使用`next`会返回一个对象, 包含值和状态, 如果不想判断其状态, 可以使用`for...of...`来迭代其值.
+    ```js
+    function* nextId(end){
+        let i = 1;
+        while(i<end){
+            yield i;
+            i+=1;
         }
-        cnt = nextId(2)
-        cnt.next();  // {value: 1, done: false}
-        cnt.next();  // {value: 2, done: false}
-        cnt.next();  // {value: undefined, done: true}
-        ```
+        return;
+    }
+    cnt = nextId(2)
+    cnt.next();  // {value: 1, done: false}
+    cnt.next();  // {value: 2, done: false}
+    cnt.next();  // {value: undefined, done: true}
+    ```
        
 
-
-
-15. **try-catch**
+### try-catch
 ```js
 try{
     // something may be wrong
@@ -737,16 +742,16 @@ try{
 
 ## S24-26: Document Object Model (DOM)
 
-###### Code for DOM
+### Code
 - [DOM](./JavaScript/DOM.js)
 - [Event](./JavaScript/event.js)
 
-###### Proj
+### Proj
 - [Pokemon](./Proj/Pokemon/)
 - [ProductNum](./Proj/ProductNum/)
 - [Score Keeper](./Proj/ScoreKeeper/)
 
-###### Notes
+### 基础知识
 1. DOM 是文档对象模型, 定义了访问和操作HTML文档的标准方法. 程序员可以使用JS等通过DOM操作HTML的方法和属性, 以实现JS控制HTML.
 
 2. DOM 会将HTML和CSS内容转换为JS的objects, 你可以使用 `console.dir(document)` 去查看这些objects. 
@@ -835,10 +840,10 @@ form.addEventListener('submit', function(e){
 
 ## S27: Async JavaScript
 
-###### Code for Async
+### Code
 - [Promise](./JavaScript/promise.js)
 
-###### Notes
+### 基础知识
 1. **Call Stack** -- JS的一个非常重要的机制, 用于追踪调用过的多个函数如何按顺序执行.
 
 2. **Single Thread** -- JS每次都只能处理一行代码, 不能并行处理.
@@ -941,122 +946,121 @@ async function func(){
 
 ## S28: AJAX
 
-###### Code for AJAX
+### Code
 - [XML HTTP Request](./JavaScript/XMLHttpRequest.js)
 - [fetch](./JavaScript/fetch.js)
 - [axios](./JavaScript/axios.js)
 
-###### Proj
+### Proj
 - [TV Show Search APP]()
 
-###### Notes
-1. 基础概念和名词解释:
+### 基础知识
 > * AJAX -- Asynchronous Javascript And XML, 异步JS和XML文件
 > * API -- Application Programming Interface, 编程接口
 > * JSON -- JavaScript Object Notation, 一种数据格式
 
-2. JSON 
-    1. **为了统一解析，JSON的字符串规定必须用双引号""，Object的键也必须用双引号""**
-        * number: 与JS的`number`一致
-        * boolean: 就是JS的`true`和`false`
-        * string: 就是JS的`string`
-        * null: 是JS的`null`和`undefined`
-        * array: 就是JS的`Array`, 用`[]`表示
-        * object: 就是JS的`{...}`
-    ```json
-    {
-        "name": "小明",
-        "age": 14,
-        "gender": true,
-        "height": 1.65,
-        "grade": null,
-        "middle-school": "XX Middle School",
-        "skills": [
-            "JavaScript",
-            "Java",
-            "Python"
-        ]
+### JSON 
+1. **为了统一解析，JSON的字符串规定必须用双引号""，Object的键也必须用双引号""**
+    * number: 与JS的`number`一致
+    * boolean: 就是JS的`true`和`false`
+    * string: 就是JS的`string`
+    * null: 是JS的`null`和`undefined`
+    * array: 就是JS的`Array`, 用`[]`表示
+    * object: 就是JS的`{...}`
+```json
+{
+    "name": "小明",
+    "age": 14,
+    "gender": true,
+    "height": 1.65,
+    "grade": null,
+    "middle-school": "XX Middle School",
+    "skills": [
+        "JavaScript",
+        "Java",
+        "Python"
+    ]
+}
+```
+2. 序列化`stringify`
+    1. 将js的内容直接装换成json文件
+    2. 可以添加键值, 只筛选想要的
+    3. 可以使用函数, 对键值对做处理
+    4. 可以直接在js中加入一个`toJASON`的方法, 这样可以直接控制输出
+    ```js
+    let xiaoming = {
+        name: 'xiaoming',
+        age: 14,
+        gender: true
     }
-    ```
-    2. 序列化`stringify`
-        1. 将js的内容直接装换成json文件
-        2. 可以添加键值, 只筛选想要的
-        3. 可以使用函数, 对键值对做处理
-        4. 可以直接在js中加入一个`toJASON`的方法, 这样可以直接控制输出
-        ```js
-        let xiaoming = {
-            name: 'xiaoming',
-            age: 14,
-            gender: true
+    function convert(key, value){
+        if (typeof value === 'string') {
+            return value.toUpperCase();
         }
-        function convert(key, value){
-            if (typeof value === 'string') {
-                return value.toUpperCase();
-            }
-            return value;
+        return value;
+    }
+    /*
+        {
+            "name": "xiaoming",
+            "age": 14,
+            "gender": true
         }
-        /*
-            {
-                "name": "xiaoming",
-                "age": 14,
-                "gender": true
-            }
-        */
-        let json1 = JSON.stringify(xiaoming)
-        /*
-            {
-                "name": "xiaoming"
-            }
-        */
-        let json2 = JSON.stringify(xiaoming, ['name'])
-        /*
-            {
-                "name": "XIAOMING",
-                "age": 14,
-                "gender": true
-            }
-        */
-        let json3 = JSON.stringify(xiaoming, convert)
+    */
+    let json1 = JSON.stringify(xiaoming)
+    /*
+        {
+            "name": "xiaoming"
+        }
+    */
+    let json2 = JSON.stringify(xiaoming, ['name'])
+    /*
+        {
+            "name": "XIAOMING",
+            "age": 14,
+            "gender": true
+        }
+    */
+    let json3 = JSON.stringify(xiaoming, convert)
 
-        let tom = {
-            name: 'tom',
-            age: 14,
-            gender: true
-            toJSON: function(){
-                return {
-                    "Name": "Tom",
-                    "Age": this.age
-                }
-            }
-        }
-        /*
-            {
+    let tom = {
+        name: 'tom',
+        age: 14,
+        gender: true
+        toJSON: function(){
+            return {
                 "Name": "Tom",
-                "Age": 14
+                "Age": this.age
             }
-        */
-        let json4 = JSON.stringify(tom)
-        ```
-    3. 反序列化
-        * 用`JSON.parse()`将一个JSON格式的字符串变成一个JavaScript对象
-        * 同样可以使用函数, 处理JS对象
-        ```js
-        let js = JSON.parse({"Name": "tom", "Age": 14}, function (key, value){
-            if (typeof value === 'string'){
-                return value + '同学'
-            }
-            return value
-        })
-        /*
-            {
-                "Name": "tom同学",
-                "Age": 14
-            }
-        */
-        ```
+        }
+    }
+    /*
+        {
+            "Name": "Tom",
+            "Age": 14
+        }
+    */
+    let json4 = JSON.stringify(tom)
+    ```
+3. 反序列化
+    * 用`JSON.parse()`将一个JSON格式的字符串变成一个JavaScript对象
+    * 同样可以使用函数, 处理JS对象
+    ```js
+    let js = JSON.parse({"Name": "tom", "Age": 14}, function (key, value){
+        if (typeof value === 'string'){
+            return value + '同学'
+        }
+        return value
+    })
+    /*
+        {
+            "Name": "tom同学",
+            "Age": 14
+        }
+    */
+    ```
 
-
-3. **HTTP** 是应用层协议, 基于 **TCP/IP协议**, 用于Web上的数据传输.
+### HTTP
+1. *HTTP* 是应用层协议, 基于 *TCP/IP协议*, 用于Web上的数据传输.
 > * **Status code** -- 状态码用于反映HTTP发出请求的响应情况, 可以分为下面五种类型:
 >   * Informational responses (100–199)
 >   * Successful responses (200–299)
@@ -1066,28 +1070,29 @@ async function func(){
 > * **Body** -- HTTP body 是HTTP传输的主要信息内容.
 > * **Header** -- HTTP headers 是客户端和服务器传输额外信息的部分. 主要包括各种与内容无关的信息, 比如"状态码", "请求时间"等.
 
-4. `XMLHttpRequest()` (XHR) 是最普通的一种通过JS发起请求和得到响应的方法, 但是存在许多问题:
+2. `XMLHttpRequest()` (XHR) 是最普通的一种通过JS发起请求和得到响应的方法, 但是存在许多问题:
 > 1. 不支持 `promise`, 多个请求之间如果有先后关系的话，就会出现回调地狱
 > 2. 语法复杂
 
-5. `fetch()` 是JS种新定义的一种发起请求和得到响应的方式, 基于promise进行异步控制!
+3. `fetch()` 是JS种新定义的一种发起请求和得到响应的方式, 基于promise进行异步控制!
 > 缺点: 在收到 header 后就会判断传输成功, promise就会返回 resolve, 但是此时 body 还没有传递完成, 可能会出错.
 
-6. `axios` 是 `fetch` 的升级版, 更加优秀.
+4. `axios` 是 `fetch` 的升级版, 更加优秀.
 
 ---
 
 ## S29: OOP
 
-###### Code for OOP
+### Code
 - [create OOP](./JavaScript/createOOP.js)
 - [super & extends](./JavaScript/super_extends.js)
 
-###### Notes
-1. **Prototype** 原型是一系列能够被所有类对象访问的属性和方法. 比如所有 String 类的实例对象都有 `length` 的属性. 用户也能定义新的方法和属性, 但是这些一般都只能被特定的对象访问.
+### 基础知识
+**Prototype** 原型是一系列能够被所有类对象访问的属性和方法. 比如所有 String 类的实例对象都有 `length` 的属性. 用户也能定义新的方法和属性, 但是这些一般都只能被特定的对象访问.
 > 在每个类中, 有个叫做`__proto__`的属性, 里面保存的是该类所有实例共用的方法和属性.
 
-2. **Factory Function**
+### 类的构造方法
+1. Factory Function
 ```js
 function colorMaker(r, g, b) {
     const color = {};
@@ -1113,7 +1118,7 @@ function colorMaker(r, g, b) {
 > ```
 > > **问题**: 每个对象都会拥有该定义中方法和属性的一个拷贝, 比如 `colorMaker(0,0,0).rgb()` &NotEqual; `colorMaker(255,255,255).rgb()`. 换句话说, 这些方法和属性都不是定义在类的 `__proto__` 中.
 
-3. **Constructor Function**
+2. Constructor Function
 ```js
 function colorMaker(r, g, b) {
     this.r = r;
@@ -1141,7 +1146,7 @@ colorMaker.prototype.hex = function () {
 > **问题**: 需要分开定义属性和方法.
 
 
-4. **Class**
+3. Class
 > 将包装属性和方法到同一个类内!
 > > `constructor()` 将会在执行`new`操作后自动运行, 类似 Python 中的 `__init__(self)`.
 ```js
@@ -1166,7 +1171,7 @@ class colorMaker {
     }
 }
 ```
-5. **Extends & Super**
+### Extends & Super
 > extends -- 会从父类中继承公共的属性和方法.<br>
 > super -- 继承父类中的某一些属性, 然后可以增加自己独特的属性.
 ```js
@@ -1206,6 +1211,8 @@ class Dog extends Pet {
 
 ## S30: Terminal
 
+### 常见指令
+
 | Command |                  Function                   |
 | :-----: | :-----------------------------------------: |
 |  `ls`   |    List the content of your current dir     |
@@ -1218,7 +1225,7 @@ class Dog extends Pet {
 
 
 
-###### Notes
+### 基础知识
 1. **Terminal** -- 使用文本输入输出操控计算机的接口.
 2. **Shell** -- 运行在终端上的程序.
 3. **Bash** -- 一种常见的Shell.
@@ -1228,14 +1235,14 @@ class Dog extends Pet {
 
 ## S31-33: Node.js
 
-###### Code for Node.js
+### Code
 - [exports](./NodeJS/exports/)
 - [express](./NodeJS/firstApp/)
 
-###### Proj
+### Proj
 - [Language Detector](./Proj/LanguageDetector/)
 
-###### Notes
+### 基础知识
 1. Node.js -- 是一种在服务器执行JS的运行环境.
 > * (&cross;)**Node** 不能直接访问客户端的内容, 如窗口, 文档, DOM等.
 > * (&check;)**Node** 有许多内置的模块, 这些模块是浏览器没有拥有的. 这些模块帮助我们操控操作系统, 读写文件等.
@@ -1258,15 +1265,15 @@ class Dog extends Pet {
 
 ## S34: EJS for Dynamic HTML
 
-###### Notes
+### 基础知识
 * **EJS** 是 Embedded JavaScript 的简称, 是一套简单的模板语言，利用普通的 JavaScript 代码生成 HTML 页面. [[More details]](./EJS/Templating/).
 
-* 基本语法
+### 基本语法
 > * `<%= js expression %>` -- 显示JS代码的运行结果;
 > * `<% js command %>` 执行JS的代码, 但是并不会显示结果, 一般用于执行循环和条件语句;
 
 
-* 几种模型结构的介绍
+### 几种模型结构的介绍
 > * MVC
 >   * Model -- 用于操控数据部分, 比如数据库
 >   * View -- 用于实现显示的界面, 如web page
@@ -1284,11 +1291,11 @@ class Dog extends Pet {
 
 ## S35: Defining RESTful Routes
 
-###### Code for RESTful
+### Code
 - [处理 request.body](./RESTful/request)
 - [RESTful 模拟](./RESTful/RESTful_demo)
 
-###### Notes
+### 基础知识
 * `GET` Vs `POST`
   * `GET`通过TCP直接把header+body组合成一个TCP包一起发出；而`POST`先发送header，服务器返回100后再发送body，即有两个TCP包
   * 使用`GET`会将各种参数包含在url中，如`www.google.com/search?q=xxx`;而`POST`会将参数包含在表单里，更加安全，如`www.google.com`
@@ -1321,7 +1328,7 @@ app.post('/cat', function(req, res) {
 
 ## S36: MongoDB
 
-###### Notes
+### 基础知识
 * SQL vs NO-SQL
   * *Structured Query Language* database 是一种**关系型数据库**, 也就是说需要先定义一个二维关系表, 表示数据之间的关系, 然后再进行插入等操作, 类似于 Excel 这样. 常见的数据库有 *MySQL*, *SQL Server*.
   * *Not Olny SQL* database 是一种**非关系型数据库**, 用于超大规模数据的存储. 这些类型的数据存储不需要固定的模式，无需多余操作就可以横向扩展. 常见的数据库有*MongoDB*, *Redis*.
@@ -1335,3 +1342,213 @@ app.post('/cat', function(req, res) {
 
 
 <span style="background-color: black; color: white;">> 更详细的MongoDB内容, 请点击</span> <a href="./MongoDB-cookbook.md">这里</a>
+
+---
+
+## S37: Mongoose
+
+### 基础知识
+* *Mongoose* 是一种能够让 *Node.js* 与 *MongoDB* 数据库相连接的一种工具
+
+* ORM Vs ODM
+  * ORM -- Object Relation Map, 针对 *MySQL* 这样的关系型数据库, 建立起 <u>数据间的关系</u> 和 <u>编程语言中的对象</u> 之间的映射
+  * ODM -- Object Document Map, 针对 *MongoDB* 这样的非关系型数据库, 建立起 <u>文档</u> 和 <u>编程语言中的对象</u> 之间的映射
+
+* 模式 (Schema): Mongoose 的一切始于 Schema。每个 schema 都会映射到一个 MongoDB collection ，并定义这个collection里的文档的构成.
+```js
+  let mongoose = require('mongoose');
+  let Schema = mongoose.Schema;
+
+  let blogSchema = new Schema({
+    title:  String,     // 定义 MongoDB 中的title对应的类型为String, 下面类似
+    author: String,
+    body:   String,
+    comments: [{ body: String, date: Date }],
+    date: { type: Date, default: Date.now },
+    hidden: Boolean,
+    meta: {
+      votes: Number,
+      favs:  Number
+    }
+  });
+```
+
+* 模型 (Model): 使用如下的语法将特定的模式绑定到指定的模型上, 即相当于 document 是 Model 的一个实例
+```js
+let Blog = mongoose.model('Blog', blogSchema);
+```
+
+### 连接数据库
+> 1. `mongoose.connect()`中第一个参数的构成: **[数据库类型]://[地址]:[端口号]/[collectionName]**
+> 2. `connect()`返回一个 *Promise*, 可以使用`then()`和`catch()`去捕获
+```js
+let mongoose = require("mongoose");
+mongoose.connect('mongodb://localhost:27017/movieApp', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log(`we're connected!`))
+    .catch((e) => console.log(e));
+```
+
+* 在数据库中, 以 *MongoDB* 为例, 可以使用如下指令载入文件
+```bash
+> .load [file]
+```
+
+### CRUD
+* Create
+  * 使用`save()`新建一个document
+  ```js
+  let Schema = mongoose.Schema;
+  let movieSchema = new Schema({
+      title: String,
+      year: Number
+  });
+  let Movie = mongoose.model('Movie', movieSchema);
+  let ironMan = new Movie({title: "Ironman", year: 2010}) // 此时并未插入数据库
+  ironMan.save(); // 此时插入了数据库, 可以使用`db.movieApp.find()`查看
+  ```
+  * 使用类似 *MongoDB* 语法的`insertMany()`新建document
+  ```js
+  let Movie = mongoose('Movie', movieSchema);
+  Movie.insertMany([{title: "Ironman", year: 2010}]).then(data => console.log(data));
+  ```
+* Read/Find
+  * 与 *MongoDB* 语法类似, 但需要注意, 使用`find()`返回的是一个非常复杂的结构, 使用`find().then(data => ...)`中`data`才是真正想要的内容
+  * `find()`返回的是一个list, 即使只有一个document也是一个list
+  * `find()`返回的并不是一个 *Promise*, 可以使用`find().exec()`返回一个 *Promise*
+  ```js
+  Movie.find({title: {$eq: "Ironman"}}).then(data => console.log(data))
+  // [ {"title": "Ironman", "year": 2010} ]
+  ```
+* Update
+  * 使用`updateOne(query, update).then(data => ...)`中`data`并不是展示想要的新数据, 而是展示关于修改的信息, 但是内容确实被更改了
+  * 使用`findOneAndUpdate(query, update, option, callback).then(data => ...)`中`data`是数据, 但是注意: option默认返回的是旧的数据(查找到的数据), 只有设置`new: true`才会返回新的数据(更改后的数据)
+  ```js
+  let query = {title: "Ironman"};
+  let update = {year: 2012};
+  Movie.findOneAndUpdate(query, update, {new: true}).then(data => console.log(data));
+  ```
+* Delete
+  * 使用`deleteOne(query)` 或者 `deleteMany(query)` 进行删除
+
+### Validation & Constrain
+  * 通过在设置 *Schema* 的时候, 可以指定 *key* 的数据类型, 同时, 也可以设置一些其他的属性, 如果创建的时候不满足这些属性, 则会报错. 把这一个过程称为 *Validation*, 把这些属性称为 *Constrain*
+    ```js
+    let schema = new mongoose.Schema({
+        // name必须被设置为String, 且自动保存为全小写
+        name : {
+            type : String,
+            required : true,
+            lowercase : true
+        },
+        color : String,
+        onSale : {
+            type : Boolean,
+            default : false
+        },
+        // 列表
+        categories : [String],
+        // 嵌套 constrain
+        // [arg0, arg1]中arg0是参数, arg1是如果不满足则报错的信息
+        qty : {
+            online : {
+                type : Number,
+                default : 0,
+                min : [0, "Should be positive or zero"]
+            },
+            inPerson : {
+                type : Number,
+                default : 0,
+                min : [0, "Should be positive or zero"]
+            }
+        }
+    })
+    ```
+  * 在 *Update* 的时候, 会出现一个问题: 先前设置的 *Constrain* 并不能继续被使用, 比如 *Constrain* 了价格不能为负数, 但是更新时可以设置为负数. 为了解决这个问题, 需要在**使用 *Update* 的时候设置 *Option***, 即 **`runValidators: true`** 
+    ```js
+    Collection.findOneAndUpdate(query, update, {runValidators: true})
+    ```
+
+### Instance &amp; Static Method
+
+  * 给某个特定的实例设置 *Instance Method*. `schemaName.methods.methodName`
+  * 给一整个 *Model* 设置 *Static Method*. `schemaName.statics.methodName`
+  * 注意: **一定不要使用箭头函数, 否则this会指向意想不到的位置而非特定的实例**
+```js
+// 假设定义了一个 productSchema, 然后新建一个叫 Product 的 Model
+
+// 设置 instance method
+productSchema.method.change = function () {
+    this.name = "bike";
+}
+// 设置 static method
+productSchema.statics.change = function () {
+    return this.updateOne({name: "mountainBike"}, {name: "bike"})
+}
+// 假设 Product 有个实例名叫 mountainBike
+// 下面两个语句的功能都是一样的: 将 mountainBike -> bike
+
+// mountainBike.change();  
+// Product.change();       
+```
+
+### Virtual
+    * `schemaName.virtual(Name).get(callback)` 可以利用 *MongoDB* 中的元素设置新的属性等, 但是不会改变 DB 的数据, 相当于 *虚拟* 了一个新的属性
+    * `schemaName.virtual(Name).get(callback).set(callback)` 可以让用户通过给 *虚拟* 的属性设置新值, 从而改变 DB 的数据
+```js
+let personSchema = new mongoose.Schema({
+    firstName: String,
+    lastName: String
+})
+
+let Person = mongoose.model('Person', personSchema);
+personSchema.virtual('fullName')
+.get(function(){
+    return `${this.firstName} ${this.lastName}`;
+})
+.set(function(name){
+    this.firstName = name.substr(0, indexOf(' '));
+    this.lastName = name.substr(indexOf(' '));
+})
+
+let stu = new Person({firstName: kexin, lastName: tang});
+stu.save()
+```
+```bash
+> console.log(stu.fullName);    // kexin tang, 但是DB中并没有该属性
+> stu.fullName = "Kexin Tang";  // firstName=Kexin, lastName=Tang
+```
+
+### 中间件 Middleware
+* 中间件 (也称为pre and post hook) 是执行异步函数期间传递控制权的函数.
+* 前置中间件
+    * 当每个中间件调用 *next* 时，前置中间件函数会依次执行
+    * 也可以选择返回 *Promise* 或者使用 `async`和`await`
+```js
+let schema = new mongoose.Schema(...);
+schema.pre('save', function(..., next) {
+    doSomething();
+    next();
+})
+schema.pre('save', function() {
+    return doSomething().then(() => next());
+})
+schema.pre('save', async function() {
+    await doSomething();
+    await next();
+});
+```
+* 后置中间件: 会在前置中间件和操作执行完毕后被调用
+```js
+schema.post('save', function(doc) {
+  console.log('%s has been saved', doc._id);
+});
+```
+* `init`中间件是同步中间件, 所以不能使用 `async`和`await`
+
+---
+
+## [S38: Express+Mongoose](./Mongoose)
+
+---
+
+## S39-59: YelpCamp

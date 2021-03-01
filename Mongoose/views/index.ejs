@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+</head>
+
+<body>
+    <h1>
+        Products -- <%= category %>
+    </h1>
+    <ul>
+        <% for(let product of products){ %>
+            <li style="padding: 10px 10px;">
+                <a href="http://localhost:8080/products/<%= product.id %> ">
+                    <%= product.name %>
+                </a>
+                <div style="display: inline-block; padding-left: 20px;">
+                    <form action="/products/<%= product.id %>?_method=DELETE" method="POST">
+                        <button> Delete</button>
+                    </form>
+                </div>
+            </li>
+            <% } %>
+    </ul>
+    <a href="/products/add">Add a Product</a>
+    <% if(category !=='all' ) { %>
+        <span> | </span>
+        <a href="/products">All Products</a>
+        <% } %>
+</body>
+
+</html>

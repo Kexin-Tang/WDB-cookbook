@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+</head>
+
+<body style="width: 40%; height: 30%; text-align: center; margin: auto;">
+    <h1>Add a Product</h1>
+    <div style="border: 1px solid black;">
+        <form action="/products/<%= product._id %>?_method=PUT" method="POST">
+            <div style="padding: 10px 10px;">
+                <label for="name">Name: </label><input type="text" name="name" id="name" placeholder="Enter name"
+                    value="<%= product.name %> ">
+            </div>
+            <div style="padding: 10px 10px;">
+                <label for="price">Price: </label><input type="number" name="price" id="price"
+                    value="<%= product.price %>">
+            </div>
+            <div style="padding: 10px 10px;">
+                <label for="category">Category: </label>
+                <select name="category" id="category">
+                    <option value="fruit" <%=product.category==='fruit' ? 'selected' : '' %> >Fruit</option>
+                    <option value="vegetable" <%=product.category==='vegetable' ? 'selected' : '' %>>Vegetable</option>
+                    <option value="dairy" <%=product.category==='dairy' ? 'selected' : '' %>>Dairy</option>
+                </select>
+            </div>
+            <div style="padding: 10px 10px;">
+                <button>Submit</button>
+            </div>
+        </form>
+        <div style="text-align: right;">
+            <a href="/products/<%= product._id %> ">Back to Detail page</a>
+        </div>
+    </div>
+</body>
+
+</html>
