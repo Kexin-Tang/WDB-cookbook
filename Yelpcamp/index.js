@@ -67,6 +67,10 @@ app.delete('/campgrounds/:id', async (req, res) => {
     res.redirect('/campgrounds');
 });
 
+app.use((req, res) => {
+    res.status(404).send("404 NOT FOUND!");
+});
+
 // 添加监听
 app.listen(8080, function () {
     console.log("Listening on Port 8080 ...");

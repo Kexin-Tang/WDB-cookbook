@@ -1518,7 +1518,7 @@ stu.save()
 > stu.fullName = "Kexin Tang";  // firstName=Kexin, lastName=Tang
 ```
 
-### 中间件 Middleware
+### Mongoose 中间件
 * 中间件 (也称为pre and post hook) 是执行异步函数期间传递控制权的函数.
 * 前置中间件
     * 当每个中间件调用 *next* 时，前置中间件函数会依次执行
@@ -1551,4 +1551,107 @@ schema.post('save', function(doc) {
 
 ---
 
-## S39-59: YelpCamp
+## [S39-59: YelpCamp](./Yelpcamp)
+
+---
+
+## S40: Middleware
+
+### 基础知识
+* Express应用程序本质上是一系列中间件函数调用 ***(中间件是一种函数)***
+* 中间件是一种能够 *访问请求(req)*, *访问响应(res)* 以及 *在请求-响应周期内访问next对象* 的一种函数 
+*  如果当前的中间件不能终止 *请求-响应周期*, 则需要通过调用 *next()* 将控制权移交, 否则会被持续挂起
+```js
+var express = require("express");
+var app = express();
+
+// 当访问dogs时, 会打印"Hiiiii", 但是网页会一直旋转等待
+app.get('/dogs', (req, res) => {
+    console.log('Hiiiii');
+});
+
+// 当访问cats时, 会打印"Hiiiii", 但是网页不再旋转等待, 因为周期被终结
+app.get('/cats', (req, res) => {
+    res.send("");
+})
+```
+* 中间件的**定义顺序**非常重要, 先定义的被先执行, *next()* 会针对后定义的中间件
+```js
+// LOGGED Hello World!
+var express = require('express')
+var app = express()
+
+app.use((req, res, next) => {
+  console.log('LOGGED')
+  next()
+})
+
+app.get('/', function (req, res) {
+  res.send('Hello World!')
+})
+
+app.listen(3000)
+```
+* 中间件可以更改 *req* 和 *res* 的对象
+```js
+var express = require('express')
+var app = express()
+
+app.use((req, res, next) => {
+  req.requestTime = Date.now()
+  next()
+})
+
+// 由于先执行了上面的中间件, 所以req拥有了requestTime的属性
+app.get('/', function (req, res) {
+  var responseText = 'Hello World!<br>'
+  responseText += '<small>Requested at: ' + req.requestTime + '</small>'
+  res.send(responseText)
+})
+
+app.listen(3000)
+```
+* 中间件的调用顺序类似于**递归**, 一般不建议在`next()`的后面写别的语句, 所以一般可以使用`return next()`
+```js
+// I am the first middleware!!
+// I am the second middleware!!
+// I am the second end of middleware!!
+// I am the first end of middleware!!
+const express = require("express");
+const app = express();
+
+app.use((req, res, next) => {
+    console.log('I am the first middleware!!');
+    next();
+    console.log('I am the first end of middleware!!');
+})
+
+app.use((req, res, next) => {
+    console.log('I am the seconde middleware!!');
+    next();
+    console.log('I am the second end of middleware!!');
+});
+```
+* 在`app.METHOD()`中, 第二个参数是 *callback*, 我们可以一次性依顺序传入多个 *callback* 函数, 这样当靠前的函数执行完成, 并 **调用 `next()`** 后, 就可以顺序执行 *callback*.
+```js
+const verify = (req, res, next) => {
+    const {pwd} = req.query;
+    if(pwd === 'admin'){
+        next();
+    }
+    else {
+        res.send("Password Error!");
+    }
+}
+
+const func = (req, res) => {
+    res.send("ADMIN MODEL");
+}
+
+// 只有访问 `/admin?pwd=admin` 才能执行 func
+app.get('/admin', verify, func);
+```
+
+---
+
+
