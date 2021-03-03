@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Info</title>
-</head>
-
-<body>
+<% layout('layouts/boilerplate') %>
     <h1>EDIT Info</h1>
     <form action="/campgrounds/<%= camp._id %>?_method=PUT" method="POST">
         <div style="padding: 10px 10px;">
@@ -24,6 +14,3 @@
     <footer>
         <a href="/campgrounds/<%= camp._id %> ">&rarr; Back</a>
     </footer>
-</body>
-
-</html>

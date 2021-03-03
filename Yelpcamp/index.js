@@ -4,6 +4,7 @@ const app = express();
 const method = require('method-override');
 const mongoose = require("mongoose");
 const Campground = require('./models/campground');
+const ejsMate = require("ejs-mate");
 
 app.use(express.urlencoded({ extended: true }));    // 用于解析POST的报文
 app.use(method('_method'));                         // 使用POST去模拟PUT, PATCH, DELETE等
@@ -21,6 +22,7 @@ db.once('open', () => console.log('Database connected'));
 // 设置EJS
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.engine('ejs', ejsMate);
 
 
 app.get('/', (req, res) => {

@@ -1,20 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show Details</title>
-</head>
-
-<body>
+<% layout('layouts/boilerplate') %>
     <h1>CAMPGROUND SHOW</h1>
+    <img src="<%= camp.image %> " alt="image for the camp">
     <p>
-        <%= camp.title %>
+        <b>
+            <%= camp.title %>
+        </b> - <i>
+            <%= camp.location %>
+        </i>
     </p>
     <p>
-        <%= camp.location %>
+        $ <%= camp.price %>
+    </p>
+    <p>
+        <%= camp.description %>
     </p>
     <p>
         <a href="/campgrounds/<%= camp._id %>/edit ">&rarr; Edit</a>
@@ -26,6 +24,3 @@
         <a href="/campgrounds/new">&rarr; Add a new Campground</a>
         <a href="/campgrounds"> | &rarr; Back to Mainpage</a>
     </footer>
-</body>
-
-</html>

@@ -25,9 +25,13 @@ const seedDB = async () => {
     // 生成50个数据
     for (let i = 0; i < 50; i++) {
         const random1000 = Math.floor(Math.random() * 1000);    // 随机选取一个城市信息
+        const price = Math.floor(Math.random() * 20) + 20;
         const newCamp = new Campground({                        // 基于这个信息, 新建新的记录
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
-            title: `${sample(descriptors)} ${sample(places)}`
+            title: `${sample(descriptors)} ${sample(places)}`,
+            image: 'https://source.unsplash.com/collection/483251',
+            description: 'Some descriptions...',
+            price: price
         })
         await newCamp.save();
     }
