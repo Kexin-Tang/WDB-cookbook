@@ -1,26 +1,35 @@
 <% layout('layouts/boilerplate') %>
-    <h1>CAMPGROUND SHOW</h1>
-    <img src="<%= camp.image %> " alt="image for the camp">
-    <p>
-        <b>
-            <%= camp.title %>
-        </b> - <i>
-            <%= camp.location %>
-        </i>
-    </p>
-    <p>
-        $ <%= camp.price %>
-    </p>
-    <p>
-        <%= camp.description %>
-    </p>
-    <p>
-        <a href="/campgrounds/<%= camp._id %>/edit ">&rarr; Edit</a>
-    </p>
-    <form action="/campgrounds/<%= camp._id %>?_method=DELETE " method="POST">
-        <button>DELETE</button>
-    </form>
-    <footer>
-        <a href="/campgrounds/new">&rarr; Add a new Campground</a>
-        <a href="/campgrounds"> | &rarr; Back to Mainpage</a>
-    </footer>
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card mb-3">
+                <img src="<%= camp.image %> " class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= camp.title %>
+                    </h5>
+                    <p class="card-text">
+                        <span class="text-muted">
+                            <%= camp.description %>
+                        </span>
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <%= camp.location %>
+                    </li>
+                    <li class="list-group-item">$ <%= camp.price %>
+                    </li>
+                </ul>
+                <div class="card-body text-center">
+                    <a href="/campgrounds/new" class="card-link btn btn-dark">New</a>
+                    <a href="/campgrounds/<%= camp._id %>/edit " class="card-link btn btn-dark">Edit</a>
+                    <a href="/campgrounds" class="card-link btn btn-secondary">Back</a>
+                </div>
+            </div>
+
+            <form action="/campgrounds/<%= camp._id %>?_method=DELETE " method="POST" class="text-center my-3">
+                <button class="btn btn-danger">DELETE</button>
+            </form>
+
+        </div>
+    </div>
