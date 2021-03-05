@@ -1654,4 +1654,81 @@ app.get('/admin', verify, func);
 
 ---
 
+## S42: Express Error
 
+### Error Handler
+
+* Express 的自带错误检测使用 *throw new Error()* 设置 *err* 来抛出错误信息至页面, 但是我们不想让用户看见我们的错误信息来源, 就需要使用自定义的错误检测
+```js
+// 当访问'/error'时, 会在页面上显示"There are errors!"以及错误追踪信息
+app.get('/error', (req, res, next) => {
+    throw new Error("There are errors!");
+})
+```
+* 自定义错误检测使用`app.use((err, req, res, next) => {...})` 来响应错误, *throw new Error* 会传递对象给 *err*.
+```js
+app.get('/error', (req, res, next) => {
+    throw new Error("There are errors!");   // 不会被调用
+})
+app.use((err, req, res, next) => {
+    console.log(err.stack); // 可以在命令行显示错误追踪, 而不会更新到页面给用户看
+    res.status(500).send("There are errors!");  // 当HTTP状态码为500时, 该信息会显示在页面上
+})
+```
+
+* 如果在自定义的错误检测时, 想要使用内置的错误检测, 可以使用`next(err)`
+> 在`next()`函数中, 如果不传入参数, 则调用下一个 *Middleware*, 如果传入一个参数, 则会调用错误检测
+```js
+app.get('/error', (req, res, next) => {
+    throw new Error("There are errors!");
+})
+app.use((err, req, res, next) => {
+    console.log(err.stack); // 可以在命令行显示错误追踪, 而不会更新到页面给用户看
+    next(err);              // 会将 throw 中的内容进行显示
+})
+```
+
+### Error Class
+```js
+class AppError extends Error {
+    constructor(message, status) {
+        super();
+        this.message = message;
+        this.status = status;
+    }
+}
+module.exports = AppError;
+```
+```js
+const AppError = require("./AppError");
+// statusCode=401, message="There is no cats!"
+app.get('/cat', (req, res, next) => {
+    throw new AppError("There is no cats!", 401);
+})
+// statusCode=500, message="Error"
+app.get('/dog', (req, res, next) => {
+    dog.woof();
+})
+app.use((err, req, res, next) => {
+    const {status=500, message="Error"} = err;
+    res.status(status).send(message);
+})
+```
+* 在 *Express* 的 *Error* 类中, 设定 *status* 会自动赋值给 *err.statusCode* !
+
+### Async Error
+```js
+app.get('/', async (req, res, next) => {
+    const {id} = req.params;
+    const product = await Product.find(id);
+    if(!product){
+        return next(new AppError("Page Not Found", 404));
+    }
+    res.render("main", {product});
+});
+```
+* 在 *async* 函数中, 如果想使用 *throw* 抛出异常, 需要使用`return next(new Error())` !
+> * 如果不使用`next()`, 则会出错
+> * 如果不使用`return`, 则`res.render`会出错, 因为会在调用完中间件后继续执行, 而此时 *product* 仍然是 *undefined*, 详见 [Middleware](#s40-middleware)
+
+## 
