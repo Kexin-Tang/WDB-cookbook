@@ -1717,6 +1717,7 @@ app.use((err, req, res, next) => {
 * 在 *Express* 的 *Error* 类中, 设定 *status* 会自动赋值给 *err.statusCode* !
 
 ### Async Error
+#### 方法一
 ```js
 app.get('/', async (req, res, next) => {
     const {id} = req.params;
@@ -1727,8 +1728,70 @@ app.get('/', async (req, res, next) => {
     res.render("main", {product});
 });
 ```
-* 在 *async* 函数中, 如果想使用 *throw* 抛出异常, 需要使用`return next(new Error())` !
-> * 如果不使用`next()`, 则会出错
+在 *async* 函数中, 如果想使用 *throw* 抛出异常, 需要使用`return next(new Error())` !
+> * 如果不使用`next()`, 则会出错, 原因在于当你的程序开始执行回调函数时，它原来的栈信息已经丢失
 > * 如果不使用`return`, 则`res.render`会出错, 因为会在调用完中间件后继续执行, 而此时 *product* 仍然是 *undefined*, 详见 [Middleware](#s40-middleware)
 
-## 
+使用上述的方法时，可以捕获显式错误，但是对于 *隐式错误* 无法处理，如上述例子中可以处理 *product不存在* 的错误，但是无法处理数据库数据读取、存储时出现的错误。
+
+#### 方法二
+
+为了处理各种错误(显式+隐式)，可以**针对所有的async函数使用`try-catch`**
+```js
+app.get('/', async (req, res, next) => {
+    try{
+        const {id} = req.params;
+        const product = await Product.find(id);
+        if(!product){
+            return next(new AppError("Page Not Found", 404));
+        }
+        res.render("main", {product});
+    } catch(e) {
+        next(e);
+    }
+});
+```
+
+#### 方法三
+对每一个函数内部都使用`try-catch`十分繁琐，所以可以新建一个函数`errorHandler()`，将每个`async`函数都用`errorHandler()`包裹起来。
+```js
+const errorHandler = function(func) {
+    return function (req, res, next){
+        func(req, res, next).catch(e => next(e));
+    }
+};
+
+app.get('/', errorHandler(async (req, res, next) => {
+    const {id} = req.params;
+    const product = await Product.find(id);
+    if(!product){
+        return next(new AppError("Page Not Found", 404));
+    }
+    res.render("main", {product});
+}));
+```
+
+#### 方法四
+直接使用 *Express* 自带的库 `express-async-errors`
+```js
+require("express-async-errors");
+```
+
+### Mongoose自带的错误名称
+Mongoose中不同类型的错误有着不同名字，比如 *ValidationError*, *CastError*等。我们可以针对不同的错误，进行不同的操作。
+
+```js
+app.use((err, req, res, next) => {
+    if(err.name === "ValidationError"){
+        validationHandler(err);
+    }
+    else if(err.name === "CastError"){
+        castError(err);
+    }
+    else{
+        next(err);
+    }
+})
+```
+
+---
