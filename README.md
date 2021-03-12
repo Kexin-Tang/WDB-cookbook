@@ -1803,3 +1803,189 @@ JOI 是一个非常强力的错误检测库，可以定义数据所需要满足�
 > * 在传输的过程中，也需要有错误检测，以防止绕过客户端，钻服务端的空子，如：客户端规定密码要满足正则表达式，但是服务端无法检测如此复杂的规则，那么就需要在传输过程中设定传输的数据必须满足正则表达式。
 
 ---
+
+## S44: Database Relation
+
+### 方法一
+
+该方法直接在Schema中嵌套定义了addresses信息，即相当于在User表中嵌套了一个Address表。
+
+| id(Primary Key) | username |          addresses          |
+| :-------------: | :------: | :-------------------------: |
+|        0        |   tom    | [Downtown 606, Georgie 111] |
+|        1        |  jerry   |         [Mason 100]         |
+
+
+```js
+const Schema = new mongoose.Schema({
+    user: String,
+    addresses: [{
+        _id: {id:false},    // 如果不使用该句，则会给每一个addresses都新建一个_id
+        street: String,
+        city: String,
+        state: String
+    }]
+})
+const User = mongoose.model('User', Schema);
+const makeUsers = async () => {
+    let user = new User({user: "someName"});
+    const addresses = [
+        { street: "Greenland 101", city: "NYC", state: "New York"},
+        { street: "Springfield", city: "Austin", state: "Texas"}
+    ];
+    user.addresses.push(addresses)
+    await user.save();
+}
+```
+
+### 方法二
+
+* User Table
+
+| id(Primary Key) | username | addresses |
+| :-------------: | :------: | :-------: |
+|        0        |   tom    |  [0, 2]   |
+|        1        |  jerry   |    [1]    |
+
+* Address Table
+
+| id(Primary key) |   address    |
+| :-------------: | :----------: |
+|        0        | Downtown 606 |
+|        1        |  Mason 100   |
+|        2        | Georgie 111  |
+
+在数据库中，只会存储另一张表的ID，而不会存储详细的信息，当需要查询详细信息时，可以调用 `populate` 方法去 *ref* 的model中查找详细信息并放入本表中。
+
+```js
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const productSchema = new Schema({
+    name: String,
+    price: Number
+});
+const farmSchema = new Schema({
+    name: String,
+    products: [{ type: Schema.Types.ObjectId, ref: "Product" }]
+});
+
+const Product = mongoose.model('Product', productSchema);
+const Farm = mongoose.model("Farm", farmSchema);
+
+const createProducts = async () => {
+    await Product.insertMany([{name: "watermelon", price: 4.99}, {name: "peach", price: 1.99}]);
+}
+
+createProducts();   // 此时数据库中已插入两条products信息
+
+const createFarm = async () => {
+    const products = Product.find();
+    const farm = new Farm({name: "Super Farm"});
+    farm.products.push(products);   // 虽然代码中插入的是所有详细信息，但是数据库中只会存储对应的ObejctId
+    await farm.save();
+}
+
+createFarm();
+
+// {
+//     _id: ObjectId(...),
+//     name: "Super Farm",
+//     products: [ObjectId(...), ObjectId(...)]
+// }   
+Farm.find().then(farm => console.log(farm));
+
+// {
+//     _id: ObjectId(...),
+//     name: "Super Farm",
+//     products: [{_id: ObjectId(...), name: "watermelon", price: 4.99}, {_id: ObjectId(...), name: "peach", price: 1.99}]
+// }   
+Farm.find().populate("products").then(farm => console.log(farm));   // 使用populate可以在ref的Model中查找存储的ObjectId对应的详细内容
+```
+
+### 方法三
+
+* User Table
+
+| id(Primary Key) | username |
+| :-------------: | :------: |
+|        0        |   tom    |
+|        1        |  jerry   |
+
+* Address Table
+
+| id(Primary key) |   address    | userID(Foreign key) |
+| :-------------: | :----------: | :-----------------: |
+|        0        | Downtown 606 |          0          |
+|        1        |  Mason 100   |          1          |
+|        2        | Georgie 111  |          0          |
+
+```js
+const userSchema = new Schema({
+    username: String
+});
+const addressSchema = new Schema({
+    address: String,
+    userID: { type: Schema.Types.ObjectId, ref: "User" }
+});
+
+const User = mongoose.model("User", userSchema);
+const Address = mongoose.model("Address", addressSchema);
+
+const create = async () => {
+    const u = new User({name: "ToM"});
+    await u.save();
+
+    const a = new Address({address: "Mason 100"});
+    a.userID.push(u);
+    await a.save();
+};
+
+create();
+
+// {
+//     address: "Mason 100",
+//     userId: ObjectId(...)
+// }
+Address.find().then(a => console.log(a));
+
+// {
+//     address: "Mason 100",
+//     userId: {"ToM"}
+// }
+Address.find().populate("userID", "username").then(a => console.log(a));
+```
+
+### 什么时候使用那一种方法
+
+这是一个复杂的哲&male;学问题，为了回答这个问题，有几条基本的规则需要遵守，详情请点击[这里](https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-3)。
+
+
+### 删除
+
+由于各个表单之间有联系，删除一个用户后，必须连带删除其地址，这需要使用到Mongoose的Middleware。
+
+```js
+const userSchema = new Schema({
+    ...
+});
+
+// 注意，该中间件定义需要在mongoose.model之前绑定
+// 该中间件是POST中间件，即在查询到一个数据之后再执行该中间件
+userSchema.post("findOneAndDelete", async (user) => {
+    if(user.addresses.length){
+        await Address.deleteMany({_id: {$in: user.addresses}});
+    }
+});
+
+const User = mongoose.model("User", userSchema);
+
+...
+
+const delete = async (id) => {
+    // 执行时，会自动调用findOneAndDelete的post中间件
+    await User.findOneAndDelete({_id: id});
+}
+```
+
+---
+
