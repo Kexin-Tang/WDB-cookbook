@@ -2,31 +2,31 @@
     <div class="row">
         <h1 class="text-center">New Campground</h1>
         <div class="col-6 offset-3">
-            <form action="/campgrounds" method="POST">
+            <form action="/campgrounds" method="POST" class="needs-validation" novalidate>
                 <div class="mb-3">
                     <label for="title" class="form-label">Title </label>
-                    <input type="text" name="campgrounds[title]" id="title" class="form-control">
+                    <input type="text" name="campgrounds[title]" id="title" class="form-control" required>
                 </div>
                 <div class="mb-3">
                     <label for="location" class="form-label">Location </label>
-                    <input type="text" name="campgrounds[location]" id="location" class="form-control">
+                    <input type="text" name="campgrounds[location]" id="location" class="form-control" required>
                 </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Image URL </label>
-                    <input type="text" name="campgrounds[image]" id="image" class="form-control">
+                    <input type="text" name="campgrounds[image]" id="image" class="form-control" required>
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">Price </label>
                     <div class="input-group">
                         <span class="input-group-text">$</span>
                         <input type="text" class="form-control" id="price" name="campgrounds[price]"
-                            aria-label="Amount (to the nearest dollar)">
+                            aria-label="Amount (to the nearest dollar)" required>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description </label>
-                    <textarea type="text" name="campgrounds[description]" id="description"
-                        class="form-control"></textarea>
+                    <textarea type="text" name="campgrounds[description]" id="description" class="form-control"
+                        required></textarea>
                 </div>
                 <div class="my-2 text-center">
                     <button class="btn btn-dark">New</button>

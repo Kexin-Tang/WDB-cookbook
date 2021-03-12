@@ -5,6 +5,9 @@ const method = require('method-override');
 const mongoose = require("mongoose");
 const Campground = require('./models/campground');
 const ejsMate = require("ejs-mate");
+const errorHandler = require('./utils/errorHandler');
+const expressError = require('./utils/ExpressError');
+const { campgroundSchema } = require("./joiSchema");
 
 app.use(express.urlencoded({ extended: true }));    // 用于解析POST的报文
 app.use(method('_method'));                         // 使用POST去模拟PUT, PATCH, DELETE等
@@ -24,54 +27,75 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.engine('ejs', ejsMate);
 
+const validCampgrounds = (req, res, next) => {
+    const { error } = campgroundSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new expressError(msg, 400);
+    }
+    else {
+        next();
+    }
+};
 
+// 访问主界面
 app.get('/', (req, res) => {
     res.render('home');
 });
 
-app.get('/campgrounds', async (req, res) => {
+// 列出所有campgrounds
+app.get('/campgrounds', errorHandler(async (req, res, next) => {
     const campgrounds = await Campground.find({});
     res.render('campgrounds/index', { campgrounds });
-});
+}));
 
-app.get('/campgrounds/new', (req, res) => {
+// 创建新的campgrounds
+app.get('/campgrounds/new', (req, res, next) => {
     res.render('campgrounds/new');
 });
-app.post('/campgrounds', async (req, res) => {
-    const { location, title } = req.body.campgrounds;
-    const newCamp = new Campground({ title: title, location: location });
+app.post('/campgrounds', validCampgrounds, errorHandler(async (req, res, next) => {
+    const newCamp = new Campground(req.body.campgrounds);
     await newCamp.save();
     res.redirect(`/campgrounds/${newCamp._id}`);
-});
+}));
 
-
-app.get('/campgrounds/:id', async (req, res) => {
+// 访问id的详细信息
+app.get('/campgrounds/:id', errorHandler(async (req, res, next) => {
     const { id } = req.params;
     const camp = await Campground.findById(id);
     res.render('campgrounds/show', { camp });
-});
+}));
 
-app.get('/campgrounds/:id/edit', async (req, res) => {
+// 编辑id对应记录
+app.get('/campgrounds/:id/edit', errorHandler(async (req, res, next) => {
     const { id } = req.params;
     const camp = await Campground.findById(id);
     res.render('campgrounds/edit', { camp });
-});
-
-app.put('/campgrounds/:id', async (req, res) => {
+}));
+app.put('/campgrounds/:id', errorHandler(async (req, res, next) => {
     const { id } = req.params;
     await Campground.findByIdAndUpdate(id, { ...req.body.campgrounds }, { new: true });
     res.redirect(`/campgrounds/${id}`);
-});
+}));
 
-app.delete('/campgrounds/:id', async (req, res) => {
+// 删除id对应记录
+app.delete('/campgrounds/:id', errorHandler(async (req, res, next) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
     res.redirect('/campgrounds');
-});
+}));
 
-app.use((req, res) => {
-    res.status(404).send("404 NOT FOUND!");
-});
+// 针对各种类型的HTTP请求，请求各种网页时，如果不符合上述所有条件，则报错404
+app.all('*', (req, res, next) => {
+    return next(new expressError("404 Page Not Found!", 404));
+})
+
+// 针对各种类型的HTTP请求，请求各种网页时，如果访问上述条件出错时，报错
+app.use((err, req, res, next) => {
+    const { status = 500 } = err;
+    if (!err.message) err.message = "Something went wrong...";
+    res.status(status).render('error', { err });
+})
 
 // 添加监听
 app.listen(8080, function () {

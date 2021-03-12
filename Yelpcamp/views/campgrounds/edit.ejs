@@ -2,34 +2,35 @@
     <div class="row">
         <h1 class="text-center">Edit Campground</h1>
         <div class="col-6 offset-3">
-            <form action="/campgrounds/<%= camp._id %>?_method=PUT" method="POST">
+            <form action="/campgrounds/<%= camp._id %>?_method=PUT" method="POST" novalidate class="needs-validation">
                 <div class="mb-3">
                     <label for="title" class="form-label">Title </label>
                     <input type="text" name="campgrounds[title]" id="title" value="<%= camp.title %> "
-                        class="form-control">
+                        class="form-control" required>
+
                 </div>
                 <div class="mb-3">
                     <label for="location" class="form-label">Location </label>
                     <input type="text" name="campgrounds[location]" id="location" value="<%= camp.location %> "
-                        class="form-control">
+                        class="form-control" required>
                 </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Image URL </label>
                     <input type="text" name="campgrounds[image]" id="image" value="<%= camp.image %> "
-                        class="form-control">
+                        class="form-control" required>
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">Price </label>
                     <div class="input-group">
                         <span class="input-group-text">$</span>
                         <input type="text" class="form-control" id="price" name="campgrounds[price]"
-                            aria-label="Amount (to the nearest dollar)" value="<%= camp.price %> ">
+                            aria-label="Amount (to the nearest dollar)" value="<%= camp.price %> " required>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description </label>
-                    <textarea type="text" name="campgrounds[description]" id="description"
-                        class="form-control"><%= camp.description %> </textarea>
+                    <textarea type="text" name="campgrounds[description]" id="description" class="form-control"
+                        required><%= camp.description %> </textarea>
                 </div>
                 <div class="my-2 text-center">
                     <button class="btn btn-dark">Edit</button>
