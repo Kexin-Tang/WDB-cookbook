@@ -2000,3 +2000,94 @@ const delete = async (id) => {
 
 ---
 
+## S47: Router &amp; Cookie
+
+### Router
+
+在之前的代码中，每次都是将所有的router写在一个文件之中，当遇到大型项目时，这会非常令人头疼：比如要设计一个动物园的网页，每个动物都有 *列表*， *详情*， *修改* 等操作，如果全部堆积在一个文件中，会非常难以管理。
+
+在 *Express* 中，我们可以使用`express.Router()`来管理这些routers。
+
+```
+- project
+  - app.js
+  - routers
+    - tiger.js
+    - lion.js
+    - horse.js
+```
+
+比如可以新建一个文件夹，里面的代码是关于各种动物的router，如上所示，假设`tiger.js`中包含了`get('/tiger')`，`get('/tiger/:id')`，`post('/tiger')`等操作；在`lion.js`中同样包含这些操作，那么如何在`index.js`中操控这些routers呢？
+
+* index.js
+```js
+const express = require("express");
+const tigerRouter = require("./routers/tiger");
+// 由于访问tigerRouter时每个路由的前缀都应该是`/tiger`，所以第一个参数表明
+// 只要是访问了前缀包含`/tiger`的，都将跳转由tigerRouter处理
+app.use('/tiger', tigerRouter); 
+```
+
+* tiger.js
+```js
+// 在该路由中，如果想访问`/tiger/:id`，只需要写成`/:id`
+// 因为在index.js中会设置固定的前缀为`/tiger`
+// 相当于已经在`/tiger`的前缀基础上进行访问
+const router = require("express").Router();
+router.get('/', (req, res) => {
+    res.send("List all tigers");
+});
+router.get('/:id', (req, res) => {
+    res.send("View tiger's info");
+});
+module.exports = router;
+```
+
+将各种不同的router划分层级分散到到不同文件，在index中做最高层次的路由，选择相应的文件，再在该文件中做下一级路由。这样不仅逻辑清晰，更重要的是，可以根据不同的第二级路由做不同的 *Middleware*，如对动物都是类似的功能，但是一旦路由到 *admin* 时，希望加入特殊的权限和 *Middleware*，只需在`admin.js`中设置相应的 *Middleware* 即可。
+
+### Cookie
+
+#### 普通cookie
+
+*cookie* 是一种存储在浏览器中的小型数据。比如A用户访问B网站，那么B网站可能保存一些A的信息，如`{主体:深色, 用户名:A, 地理位置:CA-USA}`等，那么当A关闭网页后再次访问B，这些信息会被加载，不需要A再次选择或发送。
+
+```js
+const cookieParser = require("cookie-parser");
+app.use(cookieParser())
+
+app.get('/animal', (req, res) => {
+    res.cookie('name', 'tom');  // 使用res发送cookie
+    res.cookie('type', 'cat');
+    res.send("Tom cat");
+});
+
+app.get('/animal/detail', (req, res) => {
+    const {name = 'jerry'} = req.cookies(); // 使用req获取cookies
+    res.send(`Hello, ${name}`);
+})
+```
+
+#### signed cookie
+有时候，用户希望将某些信息进行加密，以防止被人从浏览器直接截取或篡改，这样经过加密处理的cookie被称为 *signed cookie*。
+
+> HMAC: Hash-based Message Authentication Code，被常用于加密某些信息，此处便是使用了该种加密算法。
+
+```js
+const cookieParser = require("cookie-parser");
+app.use(cookieParser("signedCookies")); // 字符串内容任意，加密算法会利用这些字符串内容进行加密
+
+app.get("/encode", (req, res) => {
+    res.cookie("pwd", "123456", {signed: true});    // 在设置时需要指定`signed: true`
+    res.send("Encode Successfully");
+});
+
+app.get("/decode", (req, res) => {
+    // req.cookies()并不会包含被加密的信息
+    // 在解码时需要指明signedCookies()才能获取加密信息
+    res.send(req.signedCookies());  
+})
+```
+
+---
+
+## S48: Session &amp; Flash
