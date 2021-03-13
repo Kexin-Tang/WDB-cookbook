@@ -7,7 +7,8 @@ const Campground = require('./models/campground');
 const ejsMate = require("ejs-mate");
 const errorHandler = require('./utils/errorHandler');
 const expressError = require('./utils/ExpressError');
-const { campgroundSchema } = require("./joiSchema");
+const { campgroundSchema, reviewSchema } = require("./joiSchema");
+const Review = require("./models/review");
 
 app.use(express.urlencoded({ extended: true }));    // 用于解析POST的报文
 app.use(method('_method'));                         // 使用POST去模拟PUT, PATCH, DELETE等
@@ -38,6 +39,17 @@ const validCampgrounds = (req, res, next) => {
     }
 };
 
+const validReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new expressError(msg, 400);
+    }
+    else {
+        next();
+    }
+}
+
 // 访问主界面
 app.get('/', (req, res) => {
     res.render('home');
@@ -62,7 +74,7 @@ app.post('/campgrounds', validCampgrounds, errorHandler(async (req, res, next) =
 // 访问id的详细信息
 app.get('/campgrounds/:id', errorHandler(async (req, res, next) => {
     const { id } = req.params;
-    const camp = await Campground.findById(id);
+    const camp = await Campground.findById(id).populate("reviews");
     res.render('campgrounds/show', { camp });
 }));
 
@@ -83,6 +95,24 @@ app.delete('/campgrounds/:id', errorHandler(async (req, res, next) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
     res.redirect('/campgrounds');
+}));
+
+// 添加review
+app.post('/campgrounds/:id/reviews', validReview, errorHandler(async (req, res, next) => {
+    const campground = await Campground.findById(req.params.id);
+    const review = new Review(req.body.review);
+    campground.reviews.push(review);
+    await review.save();
+    await campground.save();
+    res.redirect(`/campgrounds/${campground._id}`);
+}));
+
+
+app.delete('/campgrounds/:id/reviews/:reviewId', errorHandler(async (req, res, next) => {
+    const { reviewId, id } = req.params;
+    await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/campgrounds/${id}`);
 }));
 
 // 针对各种类型的HTTP请求，请求各种网页时，如果不符合上述所有条件，则报错404

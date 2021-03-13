@@ -1520,9 +1520,14 @@ stu.save()
 
 ### Mongoose 中间件
 * 中间件 (也称为pre and post hook) 是执行异步函数期间传递控制权的函数.
-* 前置中间件
+
+* 传递中间件的方法：
     * 当每个中间件调用 *next* 时，前置中间件函数会依次执行
     * 也可以选择返回 *Promise* 或者使用 `async`和`await`
+
+* 基本构造`schema.pre/post('operation', function)`，其中 *operation* 是MongoDB对应的操作，如`findById`, `findOneAndDelete`等。
+
+* 前置中间件 -- 在执行 *operation* 前被调用
 ```js
 let schema = new mongoose.Schema(...);
 schema.pre('save', function(..., next) {
@@ -1537,13 +1542,19 @@ schema.pre('save', async function() {
     await next();
 });
 ```
-* 后置中间件: 会在前置中间件和操作执行完毕后被调用
+
+* 后置中间件 -- 在执行 *operation* 后被调用
 ```js
 schema.post('save', function(doc) {
   console.log('%s has been saved', doc._id);
 });
 ```
+
 * `init`中间件是同步中间件, 所以不能使用 `async`和`await`
+
+* 中间件是定义给Schema的，必须在将Schema绑定到model之前进行设置。
+
+<span style="background-color: black; color: white;">> 更详细的Middleware内容, 请点击</span> <a href="https://mongoosejs.com/docs/middleware.html">此处</a>
 
 ---
 

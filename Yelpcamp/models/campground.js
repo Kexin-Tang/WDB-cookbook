@@ -2,24 +2,21 @@
     ! 该文件用于定义Schema
 */
 const mongoose = require("mongoose");
+const Review = require("./review");
 const Schema = mongoose.Schema;
 
 const CampgroundSchema = new Schema({
-    title: {
-        type: String
-    },
-    price: {
-        type: Number
-    },
-    image: {
-        type: String
-    },
+    title: String,
+    price: Number,
+    image: String,
+    description: String,
+    location: String,
+    reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }]
+});
 
-    description: {
-        type: String
-    },
-    location: {
-        type: String
+CampgroundSchema.post('findOneAndDelete', async function (campground) {
+    if (campground) {
+        await Review.deleteMany({ _id: { $in: campground.reviews } });
     }
 })
 
