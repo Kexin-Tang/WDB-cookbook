@@ -2047,6 +2047,8 @@ module.exports = router;
 
 ### Cookie
 
+> 比如说小王今天来参观XX公司，他携带了一张身份证，每次进出公司，只要和保安用身份证登记，即可进出，那么小王的身份证就相当于Cookies信息。
+
 #### 普通cookie
 
 *cookie* 是一种存储在浏览器中的小型数据。比如A用户访问B网站，那么B网站可能保存一些A的信息，如`{主体:深色, 用户名:A, 地理位置:CA-USA}`等，那么当A关闭网页后再次访问B，这些信息会被加载，不需要A再次选择或发送。
@@ -2090,4 +2092,32 @@ app.get("/decode", (req, res) => {
 
 ---
 
-## S48: Session &amp; Flash
+## S48: Session
+
+*Session* 是另一种记录客户状态的机制，**不同的是 *Cookie* 保存在客户端浏览器中，而 *Session* 保存在服务器上**。客户端浏览器访问服务器的时候，服务器会将一个`sessionId`发送给客户端，这样客户端下次访问时，服务器根据客户端发来的`sessionId`就能判断客户端是谁。**(注:`SessionId`是唯一会发送给客户端的 *Cookies*)**
+
+> 比如说小王今天来参观XX公司，该公司的员工可以直接刷卡进入，不用和保安登记。XX公司一开始给他发了一个“临时参观卡”，编号是`0001`，那么，在小王反复进出这家公司的时候，就不需要再次登记，只需要刷`0001`的卡，就能被识别。但是如果小王明天再来（有效期过了），就需要再次登记一次。
+
+如果说 *Cookie* 机制是通过检查客户身上的“通行证”来确定客户身份的话，那么 *Session* 机制就是通过检查服务器上的“客户明细表”来确认客户身份。 *Session* 相当于程序在服务器上建立的一份客户档案，客户来访的时候只需要查询客户档案表就可以了。
+
+```js
+const session = require("express-session");
+const express = require("express");
+const app = express();
+
+app.use(session({secret: "session"}));  // value of secret is casually
+// When request this page 3 times in Chrome, we will get "Viewed the page 3 times"
+// However, when we change to Firefox, it will show "Viewed the page 1 times"
+// Because different approaches will lead to different sessionId, which means these are different requests, just like 2 persons A and B
+app.get('/view', (req, res) => {
+    if(req.session.cnt){
+        req.session.cnt += 1;
+    } else {
+        req.session.cnt = 1;
+    }
+    res.send(`Viewed the page ${req.session.cnt} times`);
+});
+```
+
+---
+
