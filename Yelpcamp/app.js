@@ -8,9 +8,14 @@ const errorHandler = require('./utils/errorHandler');
 const expressError = require('./utils/ExpressError');
 const session = require("express-session");
 const flash = require('connect-flash');
+const User = require("./models/user");
+const password = require('passport');
+const passwordLocal = require('passport-local');
 
-const campgrounds = require('./routers/campgrounds');
-const reviews = require("./routers/reviews");
+
+const campgroundsRouter = require('./routers/campgrounds');
+const reviewsRouter = require("./routers/reviews");
+const usersRouter = require('./routers/users');
 
 // 设置session
 const sessionConfig = {
@@ -18,12 +23,19 @@ const sessionConfig = {
     secret: "YelpCamp",
     saveUninitialized: true,
     cookie: {
-        expires: Date.now() + 1000 * 60 * 60 * 24,
+        expires: Date.now() + 1000 * 60 * 60,
         maxAge: 1000 * 60 * 60 * 24,
         httpOnly: true
     }
 };
 app.use(session(sessionConfig));
+
+// 设置密码相关
+app.use(password.initialize());
+app.use(password.session());
+password.use(new passwordLocal(User.authenticate()));
+password.serializeUser(User.serializeUser());
+password.deserializeUser(User.deserializeUser());
 
 // 连接数据库
 mongoose.connect("mongodb://localhost:27017/yelp-camp", {
@@ -47,6 +59,7 @@ app.use(flash());
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    res.locals.user = req.user;
     next();
 })
 
@@ -54,11 +67,15 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }));    // 用于解析POST的报文
 app.use(method('_method'));                         // 使用POST去模拟PUT, PATCH, DELETE等
 
-// campgrounds的路由
-app.use('/campgrounds', campgrounds);
+// users的路由
+app.use('/', usersRouter);
 
-// review的路由
-app.use('/campgrounds/:id/reviews', reviews);
+// campgrounds的路由
+app.use('/campgrounds', campgroundsRouter);
+
+// reviews的路由
+app.use('/campgrounds/:id/reviews', reviewsRouter);
+
 
 // 访问主界面
 app.get('/', (req, res) => {

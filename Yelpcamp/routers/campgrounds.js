@@ -7,6 +7,7 @@ const Campground = require('../models/campground');
 const errorHandler = require('../utils/errorHandler');
 const expressError = require('../utils/ExpressError');
 const { campgroundSchema } = require("../joiSchema");
+const { isLoggedIn } = require('../middleware');
 
 
 // 错误处理middleware
@@ -28,10 +29,10 @@ router.get('/', errorHandler(async (req, res, next) => {
 }));
 
 // 创建新的campgrounds
-router.get('/new', (req, res, next) => {
+router.get('/new', isLoggedIn, (req, res, next) => {
     res.render('campgrounds/new');
 });
-router.post('/', validCampgrounds, errorHandler(async (req, res, next) => {
+router.post('/', isLoggedIn, validCampgrounds, errorHandler(async (req, res, next) => {
     const newCamp = new Campground(req.body.campgrounds);
     await newCamp.save();
     req.flash('success', "Successfully made a new campground!");
@@ -50,7 +51,7 @@ router.get('/:id', errorHandler(async (req, res, next) => {
 }));
 
 // 编辑id对应记录
-router.get('/:id/edit', errorHandler(async (req, res, next) => {
+router.get('/:id/edit', isLoggedIn, errorHandler(async (req, res, next) => {
     const { id } = req.params;
     const camp = await Campground.findById(id);
     if (!camp) {
@@ -61,7 +62,7 @@ router.get('/:id/edit', errorHandler(async (req, res, next) => {
 }));
 
 // 更新相应的编辑
-router.put('/:id', errorHandler(async (req, res, next) => {
+router.put('/:id', isLoggedIn, errorHandler(async (req, res, next) => {
     const { id } = req.params;
     await Campground.findByIdAndUpdate(id, { ...req.body.campgrounds }, { new: true });
     req.flash('success', "Successfully update the campground!");
@@ -69,7 +70,7 @@ router.put('/:id', errorHandler(async (req, res, next) => {
 }));
 
 // 删除id对应记录
-router.delete('/:id', errorHandler(async (req, res, next) => {
+router.delete('/:id', isLoggedIn, errorHandler(async (req, res, next) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
     req.flash('success', "Successfully delete the campground!");
