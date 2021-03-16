@@ -1,68 +1,28 @@
 /*
     ! 该文件用于设置campgrounds的路由
 */
-const express = require("express");
+const express = require("express");                     // ? Express
 const router = express.Router();
-const Campground = require('../models/campground');
-const errorHandler = require('../utils/errorHandler');
+
+const errorHandler = require('../utils/errorHandler');  // ? ErrorHandler
 const expressError = require('../utils/ExpressError');
-const { isLoggedIn, validCampgrounds, isAuthorized } = require('../middleware');
 
-// 列出所有campgrounds
-router.get('/', errorHandler(async (req, res, next) => {
-    const campgrounds = await Campground.find({});
-    res.render('campgrounds/index', { campgrounds });
-}));
+const { isLoggedIn, validCampgrounds, isAuthorized } = require('../middleware');    // ? Middleware
+const campgroundsControllers = require('../controllers/campgrounds');               // ? Controller
 
-// 创建新的campgrounds
-router.get('/new', isLoggedIn, (req, res, next) => {
-    res.render('campgrounds/new');
-});
-router.post('/', isLoggedIn, validCampgrounds, errorHandler(async (req, res, next) => {
-    const newCamp = new Campground(req.body.campgrounds);
-    newCamp.author = req.user._id;
-    await newCamp.save();
-    req.flash('success', "Successfully made a new campground!");
-    res.redirect(`/campgrounds/${newCamp._id}`);
-}));
+router.route('/')
+    .get(errorHandler(campgroundsControllers.index))                                   // 列出所有campgrounds
+    .post(isLoggedIn, validCampgrounds, errorHandler(campgroundsControllers.create));  // 将new的内容保存到数据库中并重定向
 
-// 访问id的详细信息
-router.get('/:id', errorHandler(async (req, res, next) => {
-    const { id } = req.params;
-    const camp = await Campground.findById(id).populate({
-        path: "reviews",
-        populate: {
-            path: "author"
-        }
-    }).populate("author");
-    if (!camp) {
-        req.flash("error", "Cannot found the campground!");
-        return res.redirect('/campgrounds');
-    }
-    res.render('campgrounds/show', { camp });
-}));
+// 定义新的campgrounds
+router.get('/new', isLoggedIn, campgroundsControllers.new);
+
+router.route('/:id')
+    .get(errorHandler(campgroundsControllers.campDetail))                           // 访问id的详细信息
+    .put(isLoggedIn, isAuthorized, errorHandler(campgroundsControllers.update))     // 更新相应的编辑
+    .delete(isLoggedIn, isAuthorized, errorHandler(campgroundsControllers.delete)); // 删除id对应记录
 
 // 编辑id对应记录
-router.get('/:id/edit', isLoggedIn, isAuthorized, errorHandler(async (req, res, next) => {
-    const { id } = req.params;
-    const camp = await Campground.findById(id);
-    res.render('campgrounds/edit', { camp });
-}));
-
-// 更新相应的编辑
-router.put('/:id', isLoggedIn, isAuthorized, errorHandler(async (req, res, next) => {
-    const { id } = req.params;
-    await Campground.findByIdAndUpdate(id, { ...req.body.campgrounds }, { new: true });
-    req.flash('success', "Successfully update the campground!");
-    res.redirect(`/campgrounds/${id}`);
-}));
-
-// 删除id对应记录
-router.delete('/:id', isLoggedIn, isAuthorized, errorHandler(async (req, res, next) => {
-    const { id } = req.params;
-    await Campground.findByIdAndDelete(id);
-    req.flash('success', "Successfully delete the campground!");
-    res.redirect('/campgrounds');
-}));
+router.get('/:id/edit', isLoggedIn, isAuthorized, errorHandler(campgroundsControllers.edit));
 
 module.exports = router;
