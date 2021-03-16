@@ -21,9 +21,9 @@ let sample = (array) => array[Math.floor(Math.random() * array.length)];
 
 // 生成数据
 const seedDB = async () => {
-    await Campground.deleteMany({});    // 先删除已有的数据
-    // 生成50个数据
-    for (let i = 0; i < 50; i++) {
+    // await Campground.deleteMany({});    // 先删除已有的数据
+    // 生成数据
+    for (let i = 0; i < 4; i++) {
         const random1000 = Math.floor(Math.random() * 1000);    // 随机选取一个城市信息
         const price = Math.floor(Math.random() * 20) + 20;
         const newCamp = new Campground({                        // 基于这个信息, 新建新的记录
@@ -31,7 +31,8 @@ const seedDB = async () => {
             title: `${sample(descriptors)} ${sample(places)}`,
             image: 'https://source.unsplash.com/collection/483251',
             description: 'Some descriptions...',
-            price: price
+            price: price,
+            author: "604f2055f205442c908eb241"
         })
         await newCamp.save();
     }

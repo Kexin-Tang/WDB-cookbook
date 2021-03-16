@@ -6,21 +6,7 @@ const router = express.Router();
 const Campground = require('../models/campground');
 const errorHandler = require('../utils/errorHandler');
 const expressError = require('../utils/ExpressError');
-const { campgroundSchema } = require("../joiSchema");
-const { isLoggedIn } = require('../middleware');
-
-
-// 错误处理middleware
-const validCampgrounds = (req, res, next) => {
-    const { error } = campgroundSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new expressError(msg, 400);
-    }
-    else {
-        next();
-    }
-};
+const { isLoggedIn, validCampgrounds, isAuthorized } = require('../middleware');
 
 // 列出所有campgrounds
 router.get('/', errorHandler(async (req, res, next) => {
@@ -34,6 +20,7 @@ router.get('/new', isLoggedIn, (req, res, next) => {
 });
 router.post('/', isLoggedIn, validCampgrounds, errorHandler(async (req, res, next) => {
     const newCamp = new Campground(req.body.campgrounds);
+    newCamp.author = req.user._id;
     await newCamp.save();
     req.flash('success', "Successfully made a new campground!");
     res.redirect(`/campgrounds/${newCamp._id}`);
@@ -42,7 +29,12 @@ router.post('/', isLoggedIn, validCampgrounds, errorHandler(async (req, res, nex
 // 访问id的详细信息
 router.get('/:id', errorHandler(async (req, res, next) => {
     const { id } = req.params;
-    const camp = await Campground.findById(id).populate("reviews");
+    const camp = await Campground.findById(id).populate({
+        path: "reviews",
+        populate: {
+            path: "author"
+        }
+    }).populate("author");
     if (!camp) {
         req.flash("error", "Cannot found the campground!");
         return res.redirect('/campgrounds');
@@ -51,18 +43,14 @@ router.get('/:id', errorHandler(async (req, res, next) => {
 }));
 
 // 编辑id对应记录
-router.get('/:id/edit', isLoggedIn, errorHandler(async (req, res, next) => {
+router.get('/:id/edit', isLoggedIn, isAuthorized, errorHandler(async (req, res, next) => {
     const { id } = req.params;
     const camp = await Campground.findById(id);
-    if (!camp) {
-        req.flash("error", "Cannot found the campground!");
-        return res.redirect('/campgrounds');
-    }
     res.render('campgrounds/edit', { camp });
 }));
 
 // 更新相应的编辑
-router.put('/:id', isLoggedIn, errorHandler(async (req, res, next) => {
+router.put('/:id', isLoggedIn, isAuthorized, errorHandler(async (req, res, next) => {
     const { id } = req.params;
     await Campground.findByIdAndUpdate(id, { ...req.body.campgrounds }, { new: true });
     req.flash('success', "Successfully update the campground!");
@@ -70,7 +58,7 @@ router.put('/:id', isLoggedIn, errorHandler(async (req, res, next) => {
 }));
 
 // 删除id对应记录
-router.delete('/:id', isLoggedIn, errorHandler(async (req, res, next) => {
+router.delete('/:id', isLoggedIn, isAuthorized, errorHandler(async (req, res, next) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
     req.flash('success', "Successfully delete the campground!");
