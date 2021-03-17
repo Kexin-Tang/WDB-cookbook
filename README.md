@@ -556,7 +556,7 @@ const [a, [b, c]] = alpha
 ### 方法
 * 在对象中, 除了可以定义属性, 还可以定义一些函数, 而这些函数就成为对象的方法.
 * **`this`指针**
-  1. 在调用的时候一定要使用`object.method()`, 因为方法中的`this`会指向调用它的对象
+    1. 在调用的时候一定要使用`object.method()`, 因为方法中的`this`会指向调用它的对象
     ```js
     function getAge(){
         let now = new Data().getFullYear()
@@ -572,7 +572,7 @@ const [a, [b, c]] = alpha
     person.getAge()     // 21, 因为this指向了调用对象, 即person
     getAge()            // NaN, 因为this指向了调用对象, 即window
     ```
-    1. 在函数中套一个函数, 那么嵌套函数的`this`仍然是指向`window`, 只有最外层的是指向object
+    2. 在函数中套一个函数, 那么嵌套函数的`this`仍然是指向`window`, 只有最外层的是指向object
     ```js
     let xiaoming = {
         name: '小明',
@@ -587,7 +587,7 @@ const [a, [b, c]] = alpha
     };
     xiaoming.age()  // NaN
     ```
-    1. 解决嵌套问题的方法就是在每个嵌套函数里都事先捕获`this`
+    3. 解决嵌套问题的方法就是在每个嵌套函数里都事先捕获`this`
     ```js
     let xiaoming = {
         name: '小明',
@@ -630,7 +630,7 @@ const [a, [b, c]] = alpha
    let data = [1,2,3]
    data.map(square)     // [1,4,9]
    ```
-   1. `reduce(function)`用于将结果继续和序列的下一个元素做累积计算, 最终将一个序列变为一个值, 具体的逻辑: `[x1, x2, x3, x4].reduce(f) = f(f(f(x1, x2), x3), x4)`
+   2. `reduce(function)`用于将结果继续和序列的下一个元素做累积计算, 最终将一个序列变为一个值, 具体的逻辑: `[x1, x2, x3, x4].reduce(f) = f(f(f(x1, x2), x3), x4)`
    ```js
    let data = [1,2,3,4]
    data.reduce((x, y) => {
