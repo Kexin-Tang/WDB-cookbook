@@ -1,6 +1,7 @@
 /*
     ! 该文件用于设置Campgrounds的控制器，实现访问特定网址时的逻辑 
  */
+const { cloudinary } = require('../cloudinary');
 const Campground = require('../models/campground');
 
 
@@ -20,6 +21,7 @@ module.exports.new = (req, res, next) => {
 // 将定义的新内容保存到数据库并重定向
 module.exports.create = async (req, res, next) => {
     const newCamp = new Campground(req.body.campgrounds);
+    newCamp.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     newCamp.author = req.user._id;
     await newCamp.save();
     req.flash('success', "Successfully made a new campground!");
@@ -54,7 +56,16 @@ module.exports.edit = async (req, res, next) => {
 // 将编辑的内容存储到数据库并重定向
 module.exports.update = async (req, res, next) => {
     const { id } = req.params;
-    await Campground.findByIdAndUpdate(id, { ...req.body.campgrounds }, { new: true });
+    const camp = await Campground.findByIdAndUpdate(id, { ...req.body.campgrounds });
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    camp.images.push(...imgs);
+    await camp.save();
+    if (req.body.deleteImages) {
+        for (let file of req.body.deleteImages) {
+            cloudinary.uploader.destroy(file);
+        }
+        await camp.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } });
+    }
     req.flash('success', "Successfully update the campground!");
     res.redirect(`/campgrounds/${id}`);
 };
